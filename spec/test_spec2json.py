@@ -95,6 +95,13 @@ class SpecToJsonTest(unittest.TestCase):
         self.assertEqual(['fill', 'id','opacity'], spec2json.find_attributes(ATTRIBUTES,'rect'))
         self.assertEqual([], spec2json.find_attributes(ATTRIBUTES,'invalid'))
 
+    def test_specific_attributes(self):
+        self.assertEqual({
+          'fill': {
+            'animate': { 'type': 'remove_freeze', 'default': 'remove'}
+          }
+        }, spec2json.specific_attributes(ELEMENTS))
+
     def test_generate_attributes(self):
         self.assertEqual([
             { 'name': 'fill', 'elements': [

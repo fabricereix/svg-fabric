@@ -87,6 +87,15 @@ def generate_attributes(attributes):
     return attrs2
 
 
+def specific_attributes(elements):
+    attributes = {}
+    for element_name, element in elements.items():
+        for attribute in element['attributes']:
+            if isinstance(attribute, dict):
+                attributes[attribute['name']] = {element_name: {'type': attribute['type'], 'default': attribute['default'] }}
+    return attributes
+
+
 def main():
     s = sys.stdin.read()
     spec = yaml.load(s, Loader=Loader)
