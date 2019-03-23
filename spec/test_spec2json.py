@@ -21,16 +21,6 @@ ELEMENT_GROUPS['all'] = [elem for elem in ELEMENTS]
 
 ATTRIBUTES = {
   'fill': { 'type': ['paint'], 'default': 'black', 'elements': ['rect']},
-  'id': {'type': ['string'], 'elements': ['@all']},
-  'opacity': {'type': ['opacity'], 'elements': ['@graphics']},
-  'width': {'type': ['auto', 'length', 'percentage'], 'default': 'auto'},
-  'r': {'type': ['length', 'percentage'], 'default': 0},
-  'x': {'type': ['length', 'percentage'], 'default': 0}
-}
-
-
-ATTRIBUTES2 = {
-  'fill': { 'type': ['paint'], 'default': 'black', 'elements': ['rect']},
   'id': {'type': ['string'], 'elements': ['circle', 'rect', 'svg']},
   'opacity': {'type': ['opacity'], 'elements': ['circle', 'rect']},
   'width': {'type': ['auto', 'length', 'percentage'], 'default': 'auto'},
@@ -38,7 +28,7 @@ ATTRIBUTES2 = {
   'x': {'type': ['length', 'percentage'], 'default': 0}
 }
 
-ATTRIBUTES1 = {
+ATTRIBUTES_INPUT = {
   'fill': { 'type': ['paint'], 'default': 'black', 'elements': ['rect']},
   'id': {'type': ['string'], 'elements': ['@all']},
   'opacity': {'type': ['opacity'], 'elements': ['@graphics']},
@@ -52,7 +42,7 @@ class SpecToJsonTest(unittest.TestCase):
 
 
     def test_eval_element_groups(self):
-        self.assertEqual(ATTRIBUTES2, spec2json.eval_element_groups(ATTRIBUTES1, ELEMENT_GROUPS))
+        self.assertEqual(ATTRIBUTES, spec2json.eval_element_groups(ATTRIBUTES_INPUT, ELEMENT_GROUPS))
 
     def test_get_attribute(self):
         self.assertEqual({'name': 'x', 'type': ['length', 'percentage'], 'default': 0},
@@ -86,12 +76,12 @@ class SpecToJsonTest(unittest.TestCase):
                   {'name': 'id', 'type':['string']}
               ]
             },
-        ], spec2json.generate_elements(ELEMENTS, ATTRIBUTES2, ELEMENT_GROUPS))
+        ], spec2json.generate_elements(ELEMENTS, ATTRIBUTES))
 
 
     def test_find_attribute(self):
-        self.assertEqual(['fill', 'id','opacity'], spec2json.find_attributes(ATTRIBUTES2,'rect'))
-        self.assertEqual([], spec2json.find_attributes(ATTRIBUTES2,'invalid'))
+        self.assertEqual(['fill', 'id','opacity'], spec2json.find_attributes(ATTRIBUTES,'rect'))
+        self.assertEqual([], spec2json.find_attributes(ATTRIBUTES,'invalid'))
 
     def test_generate_attributes(self):
         self.assertEqual([

@@ -5,7 +5,7 @@ from yaml import Loader
 import json
 
 
-def generate_elements(elements, attributes, element_groups):
+def generate_elements(elements, attributes):
     elems = []
     for (name, definition) in sorted(elements.items()):
         elem = {'name': name, 'attributes': []}
