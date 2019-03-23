@@ -20,12 +20,11 @@ def generate_elements(elements, attributes):
     return elems
 
 
-def eval_element_groups(attributes, groups):
+def eval_attributes(attributes, groups):
     new_attributes = {}
     for name, attribute in attributes.items():
         new_attribute = {'type': attribute['type']}
-        if 'default' in attribute:
-            new_attribute['default'] = attribute['default']
+        new_attribute['default'] = attribute['default'] if 'default' in attribute else None
         if 'elements' in attribute:
             new_elements = []
             for element in attribute['elements']:
@@ -39,7 +38,8 @@ def eval_element_groups(attributes, groups):
                 else:
                     new_elements.append(element)
             new_attribute['elements'] = sorted(new_elements)
-
+        else:
+            new_attribute['elements'] = []
         new_attributes[name] = new_attribute
     return new_attributes
 

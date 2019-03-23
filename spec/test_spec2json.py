@@ -26,11 +26,11 @@ ELEMENT_GROUPS['all'] = [elem for elem in ELEMENTS]
 
 ATTRIBUTES = {
   'fill': { 'type': ['paint'], 'default': 'black', 'elements': ['rect']},
-  'id': {'type': ['string'], 'elements': ['animate','circle', 'rect', 'svg']},
-  'opacity': {'type': ['opacity'], 'elements': ['circle', 'rect']},
-  'width': {'type': ['auto', 'length', 'percentage'], 'default': 'auto'},
-  'r': {'type': ['length', 'percentage'], 'default': 0},
-  'x': {'type': ['length', 'percentage'], 'default': 0}
+  'id': {'type': ['string'], 'default': None, 'elements': ['animate','circle', 'rect', 'svg']},
+  'opacity': {'type': ['opacity'], 'default': None, 'elements': ['circle', 'rect']},
+  'width': {'type': ['auto', 'length', 'percentage'], 'default': 'auto', 'elements':[]},
+  'r': {'type': ['length', 'percentage'], 'default': 0, 'elements':[]},
+  'x': {'type': ['length', 'percentage'], 'default': 0, 'elements':[]}
 }
 
 ATTRIBUTES_INPUT = {
@@ -46,8 +46,8 @@ ATTRIBUTES_INPUT = {
 class SpecToJsonTest(unittest.TestCase):
 
 
-    def test_eval_element_groups(self):
-        self.assertEqual(ATTRIBUTES, spec2json.eval_element_groups(ATTRIBUTES_INPUT, ELEMENT_GROUPS))
+    def test_eval_attributes(self):
+        self.assertEqual(ATTRIBUTES, spec2json.eval_attributes(ATTRIBUTES_INPUT, ELEMENT_GROUPS))
 
     def test_get_attribute(self):
         self.assertEqual({'name': 'x', 'type': ['length', 'percentage'], 'default': 0},
@@ -60,15 +60,15 @@ class SpecToJsonTest(unittest.TestCase):
               'name': 'animate',
               'attributes': [
                   {'name': 'fill', 'type':'remove_freeze', 'default':'remove'},
-                  {'name': 'id', 'type':['string']}
+                  {'name': 'id', 'type':['string'], 'default': None}
               ]
             },
             {
               'name': 'circle',
               'attributes': [
                   {'name': 'r', 'type':['length', 'percentage'], 'default':0},
-                  {'name': 'id', 'type':['string']},
-                  {'name': 'opacity', 'type':['opacity']}
+                  {'name': 'id', 'type':['string'], 'default': None},
+                  {'name': 'opacity', 'type':['opacity'], 'default': None}
               ]
             },
             {
@@ -77,15 +77,15 @@ class SpecToJsonTest(unittest.TestCase):
                   {'name': 'x', 'type':['length', 'percentage'], 'default':0},
                   {'name': 'width', 'type':['auto', 'length', 'percentage'], 'default':'auto'},
                   {'name': 'fill', 'type':['paint'], 'default':'black'},
-                  {'name': 'id', 'type':['string']},
-                  {'name': 'opacity', 'type':['opacity']}
+                  {'name': 'id', 'type':['string'], 'default': None},
+                  {'name': 'opacity', 'type':['opacity'], 'default': None}
               ]
             },
             {
               'name': 'svg',
               'attributes': [
                   {'name': 'width', 'type':['auto', 'length', 'percentage'], 'default':'auto'},
-                  {'name': 'id', 'type':['string']}
+                  {'name': 'id', 'type':['string'], 'default': None}
               ]
             },
         ], spec2json.generate_elements(ELEMENTS, ATTRIBUTES))
