@@ -60,7 +60,7 @@ def find_attributes(attributes, element_name):
     return attrs
 
 
-def generate_attributes(attributes):
+def generate_attributes(attributes, specific_attributes):
     attrs = {}
     for attribute_name, definition in attributes.items():
         attribute = {'type': definition['type']}
