@@ -3,14 +3,19 @@ import unittest
 import spec2json
 
 ELEMENTS = {
-  'svg': {
-    'attributes': ['width']
+  'animate': {
+    'attributes': [
+        {'name': 'fill', 'type': 'remove_freeze', 'default': 'remove'}
+    ]
+  },
+  'circle': {
+    'attributes': ['r']
   },
   'rect': {
     'attributes': ['x', 'width']
   },
-  'circle': {
-    'attributes': ['r']
+  'svg': {
+    'attributes': ['width']
   }
 }
 
@@ -21,7 +26,7 @@ ELEMENT_GROUPS['all'] = [elem for elem in ELEMENTS]
 
 ATTRIBUTES = {
   'fill': { 'type': ['paint'], 'default': 'black', 'elements': ['rect']},
-  'id': {'type': ['string'], 'elements': ['circle', 'rect', 'svg']},
+  'id': {'type': ['string'], 'elements': ['animate','circle', 'rect', 'svg']},
   'opacity': {'type': ['opacity'], 'elements': ['circle', 'rect']},
   'width': {'type': ['auto', 'length', 'percentage'], 'default': 'auto'},
   'r': {'type': ['length', 'percentage'], 'default': 0},
@@ -49,8 +54,15 @@ class SpecToJsonTest(unittest.TestCase):
                 spec2json.get_attribute(ATTRIBUTES, 'x'))
 
     def test_generate_elements(self):
-        #print(generate_elements(ELEMENTS, ATTRIBUTES))
+        # print(spec2json.generate_elements(ELEMENTS, ATTRIBUTES))
         self.assertEqual([
+            {
+              'name': 'animate',
+              'attributes': [
+                  {'name': 'fill', 'type':'remove_freeze', 'default':'remove'},
+                  {'name': 'id', 'type':['string']}
+              ]
+            },
             {
               'name': 'circle',
               'attributes': [
