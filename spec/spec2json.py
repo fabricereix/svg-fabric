@@ -47,10 +47,7 @@ def eval_attributes(attributes, groups):
 
 def get_attribute(attributes, name):
   if name in attributes:
-      attr = {'name': name, 'type': attributes[name]['type']}
-      if 'default' in attributes[name]:
-          attr['default'] = attributes[name]['default']
-      return attr
+      return {'name': name, 'type': attributes[name]['type'], 'default': attributes[name]['default']}
   return None
 
 
