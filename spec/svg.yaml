@@ -1,9 +1,9 @@
 elements:
-    #  animate:
-    #  attributes:
-    #      - {name: fill, type: remove_freeze, default: remove}
-    #  circle:
-    #      attributes: [cx, cy, r, pathLength]           
+  animate:
+      attributes:
+      - {name: fill, type: remove_freeze, default: remove}
+  circle:
+      attributes: [cx, cy, r, pathLength]
   rect:
       attributes: [x, y, width, height]
   svg:
@@ -19,15 +19,15 @@ element-groups:
         
 
 attributes:
-    #  cx:         {type: [length,percentage],      default: 0}
-    #  cy:         {type: [length,percentage],      default: 0}
-    #  fill:       {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text, 
-    #                                     textPath, tref, tspan]}
+  cx:         {type: [length,percentage],      default: 0}
+  cy:         {type: [length,percentage],      default: 0}
+  fill:       {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text,
+                                      textPath, tref, tspan]}
   height:     {type: [auto,length,percentage], default: auto}
   id:         {type: string, elements:[_all]}
-  #  opacity:    {type: opacity, elements:[_graphics]}
-  #  pathLength: {type: number}
-  #  r:          {type: [length,percentage],      default: 0}
+  opacity:    {type: opacity, elements:[_graphics]}
+  pathLength: {type: number}
+  r:          {type: [length,percentage],      default: 0}
   width:      {type: [auto,length,percentage], default: auto}
   x:          {type: [length,percentage],      default: 0}
   y:          {type: [length,percentage],      default: 0}

@@ -1,0 +1,324 @@
+{
+  "attributes": [
+    {
+      "elements": [
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "element": "circle"
+        }
+      ],
+      "name": "cx"
+    },
+    {
+      "elements": [
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "element": "circle"
+        }
+      ],
+      "name": "cy"
+    },
+    {
+      "elements": [
+        {
+          "type": "paint",
+          "default": null,
+          "element": "altGlyph"
+        },
+        {
+          "type": "remove_freeze",
+          "default": "remove",
+          "element": "animate"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "circle"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "ellipse"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "path"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "polygon"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "polyline"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "rect"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "text"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "textPath"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "tref"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "element": "tspan"
+        }
+      ],
+      "name": "fill"
+    },
+    {
+      "elements": [
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "default": "auto",
+          "element": "svg"
+        }
+      ],
+      "name": "height"
+    },
+    {
+      "elements": [
+        {
+          "type": "string",
+          "default": null,
+          "element": "_all"
+        }
+      ],
+      "name": "id"
+    },
+    {
+      "elements": [
+        {
+          "type": "opacity",
+          "default": null,
+          "element": "_graphics"
+        }
+      ],
+      "name": "opacity"
+    },
+    {
+      "elements": [
+        {
+          "type": "number",
+          "default": null,
+          "element": "circle"
+        }
+      ],
+      "name": "pathLength"
+    },
+    {
+      "elements": [
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "element": "circle"
+        }
+      ],
+      "name": "r"
+    },
+    {
+      "elements": [
+        {
+          "type": "viewport",
+          "default": null,
+          "element": "svg"
+        }
+      ],
+      "name": "viewport"
+    },
+    {
+      "elements": [
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "default": "auto",
+          "element": "svg"
+        }
+      ],
+      "name": "width"
+    },
+    {
+      "elements": [
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "element": "rect"
+        }
+      ],
+      "name": "x"
+    },
+    {
+      "elements": [
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "element": "rect"
+        }
+      ],
+      "name": "y"
+    }
+  ],
+  "elements": [
+    {
+      "attributes": [
+        {
+          "type": "remove_freeze",
+          "default": "remove",
+          "name": "fill"
+        }
+      ],
+      "name": "animate"
+    },
+    {
+      "attributes": [
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "name": "cx"
+        },
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "name": "cy"
+        },
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "name": "r"
+        },
+        {
+          "type": "number",
+          "default": null,
+          "name": "pathLength"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "name": "fill"
+        }
+      ],
+      "name": "circle"
+    },
+    {
+      "attributes": [
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "name": "x"
+        },
+        {
+          "type": [
+            "length",
+            "percentage"
+          ],
+          "default": 0,
+          "name": "y"
+        },
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "default": "auto",
+          "name": "width"
+        },
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "default": "auto",
+          "name": "height"
+        },
+        {
+          "type": "paint",
+          "default": null,
+          "name": "fill"
+        }
+      ],
+      "name": "rect"
+    },
+    {
+      "attributes": [
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "default": "auto",
+          "name": "width"
+        },
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "default": "auto",
+          "name": "height"
+        },
+        {
+          "type": "viewport",
+          "name": "viewport"
+        }
+      ],
+      "name": "svg"
+    }
+  ]
+}
