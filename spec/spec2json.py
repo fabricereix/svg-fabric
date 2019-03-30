@@ -15,7 +15,7 @@ def generate_elements(elements, attributes):
             else:
                 elem['attributes'].append(normalize_attribute(attr))
         for attr in find_attributes(attributes, name):
-            elem['attributes'].append(get_attribute(attributes, attr))
+            elem['attributes'].append(normalize_attribute(get_attribute(attributes, attr)))
         elems.append(elem)
     return elems
 
