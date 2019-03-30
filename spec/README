@@ -1,0 +1,22 @@
+Update Spec SVG
+---------------------------------------------------------------------------------------
+export PATH=$PWD/venv/bin:$PATH
+python spec2json.py <svg.yaml | jq . >svg.json
+
+
+
+# Extract info from spec
+---------------------------------------------------------------------------------------
+# List attributes for a specific element
+$ cat svg.json | jq '.elements[] | select(.name | contains("svg")) | .attributes[].name'
+"width"
+"height"
+"viewport"
+
+$ cat svg.json | jq '.elements[] | select(.name | contains("rect")) | .attributes[].name'
+"x"
+"y"
+"width"
+"height"
+"fill"
+
