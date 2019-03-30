@@ -11,13 +11,21 @@ def generate_elements(elements, attributes):
         elem = {'name': name, 'attributes': []}
         for attr in definition['attributes']:
             if isinstance(attr, str):
-                elem['attributes'].append(get_attribute(attributes, attr))
+                elem['attributes'].append(normalize_attribute(get_attribute(attributes, attr)))
             else:
-                elem['attributes'].append(attr)
+                elem['attributes'].append(normalize_attribute(attr))
         for attr in find_attributes(attributes, name):
             elem['attributes'].append(get_attribute(attributes, attr))
         elems.append(elem)
     return elems
+
+
+def normalize_attribute(attr):
+    return {
+        'name': attr['name'],
+        'type': attribute_type_as_list(attr['type']),
+        'default':  attr['default'] if 'default' in attr else None
+    }
 
 
 def eval_attributes(attributes, groups):
@@ -64,6 +72,13 @@ def find_attributes(attributes, element_name):
     return attrs
 
 
+def attribute_type_as_list(t):
+    if isinstance(t, str):
+        return [t]
+    else:
+        return t
+
+
 def generate_attributes(attributes, specific_attribs):
     attrs = {}
     for attribute_name, attribute in attributes.items():
@@ -92,15 +107,20 @@ def specific_attributes(elements, common_attributes):
     attributes = {}
     for element_name, element in elements.items():
         for attribute in element['attributes']:
+
             if isinstance(attribute, dict):
-                attributes[attribute['name']] = {element_name: {
-                    'type': attribute['type'],
+                if attribute['name'] not in attributes:
+                    attributes[attribute['name']] = {}
+                attributes[attribute['name']][element_name] = {
+                    'type': attribute_type_as_list(attribute['type']),
                     'default': attribute['default'] if 'default' in attribute else None
-                }}
+                }
             else:
-                attributes[attribute] = {element_name: {
+                if attribute not in attributes:
+                    attributes[attribute] = {}
+                attributes[attribute][element_name] = {
                     'type': common_attributes[attribute]['type'],
-                    'default': common_attributes[attribute]['default']}}
+                    'default': common_attributes[attribute]['default']}
     return attributes
 
 
@@ -114,8 +134,8 @@ def main():
 
     groups = spec['element-groups']
     groups['all'] = [elem for elem in sorted(spec['elements'])]
-    elements = generate_elements(spec['elements'], spec['attributes'])
     common_attrs = eval_attributes(spec['attributes'], groups)
+    elements = generate_elements(spec['elements'], common_attrs)
     specific_attrs = specific_attributes(spec['elements'], common_attrs)
     attributes = generate_attributes(common_attrs, specific_attrs)
 

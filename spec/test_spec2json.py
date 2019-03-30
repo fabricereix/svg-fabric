@@ -2,7 +2,7 @@
 import unittest
 import spec2json
 
-ELEMENTS = {
+ELEMENTS_INPUT = {
     'animate': {
         'attributes': [
             {'name': 'fill', 'type': 'remove_freeze', 'default': 'remove'}
@@ -21,7 +21,7 @@ ELEMENTS = {
 
 ELEMENT_GROUPS = {
     'graphics': ['rect', 'circle'],
-    'all': [elem for elem in ELEMENTS]
+    'all': [elem for elem in ELEMENTS_INPUT]
 }
 
 ATTRIBUTES = {
@@ -44,7 +44,7 @@ ATTRIBUTES_INPUT = {
 
 SPECIFIC_ATTRIBUTES = {
     'fill': {
-        'animate': {'type': 'remove_freeze', 'default': 'remove'}
+        'animate': {'type': ['remove_freeze'], 'default': 'remove'}
     },
     'r': {
         'circle': {'type': ['length', 'percentage'], 'default': 0}
@@ -53,8 +53,8 @@ SPECIFIC_ATTRIBUTES = {
         'rect': {'type': ['length', 'percentage'], 'default': 0}
     },
     'width': {
-        'rect': {'type': ['length', 'percentage'], 'default': 0},
-        'svg': {'type': ['length', 'percentage'], 'default': 0}
+        'rect': {'type': ['auto', 'length', 'percentage'], 'default': 'auto'},
+        'svg': {'type': ['auto', 'length', 'percentage'], 'default': 'auto'}
     },
 }
 
@@ -74,7 +74,7 @@ class SpecToJsonTest(unittest.TestCase):
             {
                 'name': 'animate',
                 'attributes': [
-                    {'name': 'fill', 'type': 'remove_freeze', 'default': 'remove'},
+                    {'name': 'fill', 'type': ['remove_freeze'], 'default': 'remove'},
                     {'name': 'id', 'type': ['string'], 'default': None}
                 ]
             },
@@ -103,21 +103,21 @@ class SpecToJsonTest(unittest.TestCase):
                     {'name': 'id', 'type': ['string'], 'default': None}
                 ]
             },
-        ], spec2json.generate_elements(ELEMENTS, ATTRIBUTES))
+        ], spec2json.generate_elements(ELEMENTS_INPUT, ATTRIBUTES))
 
     def test_find_attribute(self):
         self.assertEqual(['fill', 'id', 'opacity'], spec2json.find_attributes(ATTRIBUTES, 'rect'))
         self.assertEqual([], spec2json.find_attributes(ATTRIBUTES, 'invalid'))
 
     def test_specific_attributes(self):
-        self.assertEqual(SPECIFIC_ATTRIBUTES, spec2json.specific_attributes(ELEMENTS, ATTRIBUTES))
+        self.assertEqual(SPECIFIC_ATTRIBUTES, spec2json.specific_attributes(ELEMENTS_INPUT, ATTRIBUTES))
 
     def test_generate_attributes(self):
         self.assertEqual([
             {
                 'name': 'fill',
                 'elements': [
-                    {'element': 'animate', 'type': 'remove_freeze', 'default': 'remove'},
+                    {'element': 'animate', 'type': ['remove_freeze'], 'default': 'remove'},
                     {'element': 'rect', 'type': ['paint'], 'default': 'black'}
                 ]
             },
@@ -146,8 +146,8 @@ class SpecToJsonTest(unittest.TestCase):
             {
                 'name': 'width',
                 'elements': [
-                    {'element': 'rect', 'type': ['length', 'percentage'], 'default': 0},
-                    {'element': 'svg', 'type': ['length', 'percentage'], 'default': 0}
+                    {'element': 'rect', 'type': ['auto', 'length', 'percentage'], 'default': 'auto'},
+                    {'element': 'svg', 'type': ['auto', 'length', 'percentage'], 'default': 'auto'}
                 ]
             },
             {

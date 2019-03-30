@@ -1,97 +1,100 @@
 {
   "attributes": [
     {
+      "name": "cx",
       "elements": [
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "element": "circle"
+          "element": "circle",
+          "default": 0
         }
-      ],
-      "name": "cx"
+      ]
     },
     {
+      "name": "cy",
       "elements": [
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "element": "circle"
+          "element": "circle",
+          "default": 0
         }
-      ],
-      "name": "cy"
+      ]
     },
     {
+      "name": "fill",
       "elements": [
         {
           "type": "paint",
-          "default": null,
-          "element": "altGlyph"
+          "element": "altGlyph",
+          "default": null
         },
         {
-          "type": "remove_freeze",
-          "default": "remove",
-          "element": "animate"
-        },
-        {
-          "type": "paint",
-          "default": null,
-          "element": "circle"
+          "type": [
+            "remove_freeze"
+          ],
+          "element": "animate",
+          "default": "remove"
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "ellipse"
+          "element": "circle",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "path"
+          "element": "ellipse",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "polygon"
+          "element": "path",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "polyline"
+          "element": "polygon",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "rect"
+          "element": "polyline",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "text"
+          "element": "rect",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "textPath"
+          "element": "text",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "tref"
+          "element": "textPath",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "element": "tspan"
+          "element": "tref",
+          "default": null
+        },
+        {
+          "type": "paint",
+          "element": "tspan",
+          "default": null
         }
-      ],
-      "name": "fill"
+      ]
     },
     {
+      "name": "height",
       "elements": [
         {
           "type": [
@@ -99,66 +102,77 @@
             "length",
             "percentage"
           ],
-          "default": "auto",
-          "element": "svg"
+          "element": "rect",
+          "default": "auto"
+        },
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "element": "svg",
+          "default": "auto"
         }
-      ],
-      "name": "height"
+      ]
     },
     {
+      "name": "id",
       "elements": [
         {
           "type": "string",
-          "default": null,
-          "element": "_all"
+          "element": "_all",
+          "default": null
         }
-      ],
-      "name": "id"
+      ]
     },
     {
+      "name": "opacity",
       "elements": [
         {
           "type": "opacity",
-          "default": null,
-          "element": "_graphics"
+          "element": "_graphics",
+          "default": null
         }
-      ],
-      "name": "opacity"
+      ]
     },
     {
+      "name": "pathLength",
       "elements": [
         {
           "type": "number",
-          "default": null,
-          "element": "circle"
+          "element": "circle",
+          "default": null
         }
-      ],
-      "name": "pathLength"
+      ]
     },
     {
+      "name": "r",
       "elements": [
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "element": "circle"
+          "element": "circle",
+          "default": 0
         }
-      ],
-      "name": "r"
+      ]
     },
     {
+      "name": "viewport",
       "elements": [
         {
-          "type": "viewport",
-          "default": null,
-          "element": "svg"
+          "type": [
+            "viewport"
+          ],
+          "element": "svg",
+          "default": null
         }
-      ],
-      "name": "viewport"
+      ]
     },
     {
+      "name": "width",
       "elements": [
         {
           "type": [
@@ -166,46 +180,56 @@
             "length",
             "percentage"
           ],
-          "default": "auto",
-          "element": "svg"
+          "element": "rect",
+          "default": "auto"
+        },
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "element": "svg",
+          "default": "auto"
         }
-      ],
-      "name": "width"
+      ]
     },
     {
+      "name": "x",
       "elements": [
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "element": "rect"
+          "element": "rect",
+          "default": 0
         }
-      ],
-      "name": "x"
+      ]
     },
     {
+      "name": "y",
       "elements": [
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "element": "rect"
+          "element": "rect",
+          "default": 0
         }
-      ],
-      "name": "y"
+      ]
     }
   ],
   "elements": [
     {
       "attributes": [
         {
-          "type": "remove_freeze",
-          "default": "remove",
-          "name": "fill"
+          "type": [
+            "remove_freeze"
+          ],
+          "name": "fill",
+          "default": "remove"
         }
       ],
       "name": "animate"
@@ -217,34 +241,36 @@
             "length",
             "percentage"
           ],
-          "default": 0,
-          "name": "cx"
+          "name": "cx",
+          "default": 0
         },
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "name": "cy"
+          "name": "cy",
+          "default": 0
         },
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "name": "r"
+          "name": "r",
+          "default": 0
         },
         {
-          "type": "number",
-          "default": null,
-          "name": "pathLength"
+          "type": [
+            "number"
+          ],
+          "name": "pathLength",
+          "default": null
         },
         {
           "type": "paint",
-          "default": null,
-          "name": "fill"
+          "name": "fill",
+          "default": null
         }
       ],
       "name": "circle"
@@ -256,25 +282,16 @@
             "length",
             "percentage"
           ],
-          "default": 0,
-          "name": "x"
+          "name": "x",
+          "default": 0
         },
         {
           "type": [
             "length",
             "percentage"
           ],
-          "default": 0,
-          "name": "y"
-        },
-        {
-          "type": [
-            "auto",
-            "length",
-            "percentage"
-          ],
-          "default": "auto",
-          "name": "width"
+          "name": "y",
+          "default": 0
         },
         {
           "type": [
@@ -282,13 +299,22 @@
             "length",
             "percentage"
           ],
-          "default": "auto",
-          "name": "height"
+          "name": "width",
+          "default": "auto"
+        },
+        {
+          "type": [
+            "auto",
+            "length",
+            "percentage"
+          ],
+          "name": "height",
+          "default": "auto"
         },
         {
           "type": "paint",
-          "default": null,
-          "name": "fill"
+          "name": "fill",
+          "default": null
         }
       ],
       "name": "rect"
@@ -301,8 +327,8 @@
             "length",
             "percentage"
           ],
-          "default": "auto",
-          "name": "width"
+          "name": "width",
+          "default": "auto"
         },
         {
           "type": [
@@ -310,12 +336,15 @@
             "length",
             "percentage"
           ],
-          "default": "auto",
-          "name": "height"
+          "name": "height",
+          "default": "auto"
         },
         {
-          "type": "viewport",
-          "name": "viewport"
+          "type": [
+            "viewport"
+          ],
+          "name": "viewport",
+          "default": null
         }
       ],
       "name": "svg"
