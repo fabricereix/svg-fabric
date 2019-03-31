@@ -20,6 +20,7 @@ def main():
     environment.filters['camel_case'] = template_utils.camel_case
     environment.filters['size'] = template_utils.size
     environment.filters['max_attribute_name'] = lambda elem: max([len(attr['name']) for attr in elem['attributes']])
+    environment.filters['toWord'] = lambda i: "One" if i == 1 else ("Two" if i == 2 else ("Three" if i == 3 else "??"))
 
     for template_file in sys.argv[2:]:
 
