@@ -22,8 +22,9 @@ def main():
     environment.filters['max_attribute_name'] = lambda elem: max([len(attr['name']) for attr in elem['attributes']])
     environment.filters['toWord'] = lambda i: "One" if i == 1 else ("Two" if i == 2 else ("Three" if i == 3 else "??"))
 
-    for template_file in sys.argv[2:]:
+    environment.filters['default_attr'] = lambda x: "AUTO" if x == "auto" else ("ZERO" if x == 0 else ("REMOVE" if x == "remove" else "??"))
 
+    for template_file in sys.argv[2:]:
         template = environment.get_template(template_file)
         output_file = BUILD_DIR + '/' + template_file
         print('eval template to ' + output_file)
