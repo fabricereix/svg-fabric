@@ -18,6 +18,8 @@ def main():
 
     environment = Environment(loader=FileSystemLoader('templates/'))
     environment.filters['camel_case'] = template_utils.camel_case
+    environment.filters['size'] = template_utils.size
+    environment.filters['max_attribute_name'] = lambda elem: max([len(attr['name']) for attr in elem['attributes']])
 
     for template_file in sys.argv[2:]:
 
