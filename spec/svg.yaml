@@ -1,13 +1,14 @@
 elements:
   animate:
       attributes:
-      - {name: fill, type: remove_freeze, default: remove}
+      - {name: fill', type: remove_freeze, default: remove}
   circle:
       attributes: [cx, cy, r, pathLength]
   rect:
       attributes: [x, y, width, height]
   svg:
       attributes:
+        -
       - width
       - height
       - {name: viewport, type: viewport}

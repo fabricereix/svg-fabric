@@ -1,0 +1,17 @@
+-- Generated - do not edit!
+{-# LANGUAGE DuplicateRecordFields #-}
+module Svg.Combinators where
+
+--import Svg.Types
+import Svg.Elements
+
+
+type Combinator = Element -> String -> Either AttributeError Element
+
+
+
+{{#attributes}}
+{{name}} :: Combinator
+{{name}} element v = setAttribute element ("{{name}}", v)
+
+{{/attributes}}

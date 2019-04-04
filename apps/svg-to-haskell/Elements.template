@@ -1,0 +1,94 @@
+-- Generated - do not edit!
+{-# LANGUAGE DuplicateRecordFields #-}
+module Svg.Elements where
+import Data.Default
+import Data.Maybe
+import Svg.Types
+-- import Text.Parsec
+
+data OneOf1 a = OneOf1 a
+                deriving (Eq,Show)
+
+data OneOf2 a b = OneOf2 a | TwoOf2 b
+                  deriving (Eq,Show)
+
+data OneOf3 a b c = OneOf3 a | TwoOf3 b | ThreeOf3 c
+                  deriving (Eq,Show)
+
+instance (Formatable a) =>  Formatable (OneOf1 a) where
+   format settings (OneOf1 x) = format settings x
+
+instance (Formatable a, Formatable b) =>  Formatable (OneOf2 a b) where
+   format settings (OneOf2 x) = format settings x
+   format settings (TwoOf2 x) = format settings x
+
+instance (Formatable a, Formatable b, Formatable c) =>  Formatable (OneOf3 a b c) where
+   format settings (OneOf3 x) = format settings x
+   format settings (TwoOf3 x ) = format settings x
+   format settings (ThreeOf3 x) = format settings x
+
+
+
+data Element = 
+{{#elements}}
+  {{#first}}  {{/first}}{{^first}}| {{/first}}{{type_name}} {
+    {{#attributes}}
+      {{^comma}} {{/comma}}{{#comma}},{{/comma}} {{field}} :: {{#optional}}Maybe ({{/optional}}{{type}}{{#optional}}){{/optional}}
+    {{/attributes}}
+      , _children :: [Element]
+  }
+
+{{/elements}}
+  deriving (Eq,Show)
+
+
+{{#elements}}
+default{{type_name}} :: Element
+default{{type_name}} =  {{type_name}} {
+    {{#attributes}}
+      {{^comma}} {{/comma}}{{#comma}},{{/comma}} {{field}} = {{#optional}}Nothing{{/optional}}{{^optional}}{{default}}{{/optional}}
+    {{/attributes}}
+      , _children = []
+  }
+
+{{/elements}}
+
+
+type Attribute = (String, String)
+
+attributes :: FormatSettings -> Element -> [Attribute]
+{{#elements}}
+attributes settings {{type_name}} {
+    {{#attributes}}
+      {{^comma}} {{/comma}}{{#comma}},{{/comma}} {{field}} = {{name}}
+    {{/attributes}}
+  } = {{#attributes}}{{^comma}}{{/comma}}{{#comma}}   ++ {{/comma}} {{^optional}}(if _ignoreDefault settings && {{name}} == _{{name}} default{{type_name}} then [] else [("{{name}}", format settings {{name}})]){{/optional}}{{#optional}}(map (\x->("{{name}}", format settings x)) $ maybeToList $ {{name}}){{/optional}}
+  {{/attributes}}
+
+
+{{/elements}}
+
+
+name :: Element -> String
+{{#elements}}
+name ({{type_name}} {}) = "{{name}}"
+{{/elements}}
+
+
+children :: Element -> [Element]
+{{#elements}}
+children ({{type_name}} {_children=cs}) = cs
+{{/elements}}
+
+data AttributeError = AttributeError String
+                    | AttributeValueError String String
+                    deriving (Eq,Show)
+setAttribute :: Element -> Attribute -> Either AttributeError Element
+{{#elements}}
+{{#attributes}}
+setAttribute ({{type_name}} {}) ("{{name}}",_) = Left $ AttributeValueError "{{name}}" "??"
+{{/attributes}}
+setAttribute ({{type_name}} {}) (attrName,_) = Left $ AttributeError attrName
+{{/elements}}
+
+

@@ -1,0 +1,79 @@
+name: svg-fabric
+version: '0.1'
+ghc-options:
+  - -Werror
+  - -Wall
+  - -Wcompat
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wredundant-constraints
+  - -optP-Wno-nonportable-include-path
+dependencies:
+  - base >=4.8 && <5
+  - parsec >= 3.1.0
+  - containers
+
+library:
+  source-dirs: src
+  dependencies:
+    - text
+    - bytestring
+    - string-conversions
+    - xml-conduit
+    - containers
+    - data-default
+  ghc-options:
+    - -Wno-unused-do-bind
+
+
+executables:
+
+#  svg-to-haskell:
+#    main: Main.hs
+#    source-dirs: apps/svg-to-haskell
+#    dependencies:
+#      - svg-fabric
+#      - string-conversions
+#      - text
+#      - aeson
+#    ghc-options:
+#      - -fno-warn-orphans
+#
+#  svg-gallery:
+#    main: Main.hs
+#    source-dirs: apps/svg-gallery
+#    dependencies:
+#      - svg-fabric
+#      - string-conversions
+#      - text
+#    ghc-options:
+#      - -fno-warn-orphans
+#      - -Wno-incomplete-record-updates
+
+  svg-spec-parser:
+    main: Main.hs
+    source-dirs: apps/svg-spec-parser
+    dependencies:
+      - svg-fabric
+      - string-conversions
+      - text
+      - aeson
+    ghc-options:
+      - -fno-warn-orphans
+      - -Wno-incomplete-record-updates
+
+tests:
+  hurl-htf-tests:
+    main: TestMain.hs
+    source-dirs: test
+    dependencies:
+      - HTF
+      - string-conversions
+      - svg-fabric
+      - bytestring
+      - pretty-simple
+      - xml-conduit
+      - text
+    ghc-options:
+      - -Wno-missing-signatures
+

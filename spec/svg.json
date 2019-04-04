@@ -5,6 +5,7 @@
         {
           "default": "remove",
           "name": "fill",
+          ""
           "type": [
             "remove_freeze"
           ]
