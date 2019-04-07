@@ -1,0 +1,23 @@
+# Build starts faster without `sudo`
+sudo: false
+
+language: c
+compiler: gcc
+
+cache:
+  directories:
+  - $HOME/.stack
+  timeout: 300
+
+git:
+  depth: 100
+
+matrix:
+  include:
+    - env: &lts-fixed ARGS="--resolver lts-12.18"
+      dist: xenial
+
+script:
+  - stack test
+  - stack install
+  

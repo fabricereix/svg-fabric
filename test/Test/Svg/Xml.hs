@@ -11,6 +11,7 @@ import qualified Text.XML as XML
 import Text.XML hiding (Element)
 import qualified Data.Map as Map
 --import qualified Data.Text as Text
+--import Text.XML.Stream.Render
 
 rect0, rect1, rect2 :: Element
 rect0 = defaultRect
@@ -36,8 +37,10 @@ xmlRect2 = XML.Element {
 
 
 printXMLElement :: XML.Element -> IO()
-printXMLElement element = putStrLn $ cs $ renderText def $ doc element
-  where doc root = Document {
+printXMLElement element = putStrLn $ cs $ renderText (def {
+  rsAttrOrder= const (toOrderedList ["x", "fill"])
+  }) $ doc element
+    where doc root = Document {
                 documentPrologue = Prologue {
                     prologueBefore = []
                   , prologueDoctype = Nothing
@@ -48,7 +51,20 @@ printXMLElement element = putStrLn $ cs $ renderText def $ doc element
               }
 
 
+toOrderedList :: (Ord k) => [k] -> Map.Map k a -> [(k, a)]
+toOrderedList keys m = concatMap look keys
+    where look k = case (Map.lookup k m) of
+                        Nothing -> []
+                        Just v  -> [(k, v)]
 
 test_encode = do
 
   putStrLn $ show $ defaultRect
+
+
+
+--toList :: Map k a -> [(k, a)] Source#
+--toList (fromList [(5,"a"), (3,"b")]) == [(3,"b"), (5,"a")]
+
+
+
