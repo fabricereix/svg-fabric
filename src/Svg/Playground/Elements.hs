@@ -17,4 +17,20 @@ data Element = Rect
                  (Maybe (OneOf1 Paint))       -- fill
              | Animate
                  (OneOf1 RemoveFreeze)        -- fill
+             deriving (Show, Eq)
+
+
+defaultRect :: Element
+defaultRect = Rect (OneOf2 (Length 0)) Nothing
+
+defaultAnimate :: Element
+defaultAnimate = Animate (OneOf1 REMOVE)
+
+
+elementName :: Element -> String
+elementName (Rect {}) = "rect"
+elementName (Animate {}) = "animate"
+
+
+
 
