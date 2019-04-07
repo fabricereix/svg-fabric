@@ -1,0 +1,54 @@
+{-# OPTIONS_GHC -F -pgmF htfpp #-}
+{-# LANGUAGE OverloadedStrings     #-}
+module Test.Svg.Xml where
+
+import Test.Framework
+import Svg.Playground.Elements hiding(elementName)
+import qualified Svg.Playground.Combinator.Rect as Rect
+import Data.Either
+import Data.String.Conversions
+import qualified Text.XML as XML
+import Text.XML hiding (Element)
+import qualified Data.Map as Map
+--import qualified Data.Text as Text
+
+rect0, rect1, rect2 :: Element
+rect0 = defaultRect
+rect1 = fromRight defaultRect $ (Right defaultRect) >>= Rect.x "10"
+rect2 = fromRight defaultRect $ (Right defaultRect) >>= Rect.x "10"
+                                                    >>= Rect.fill "black"
+
+xmlRect0 = XML.Element {
+    elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
+  , elementAttributes = Map.fromList []
+  , elementNodes = []
+  }
+xmlRect1 = XML.Element {
+    elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
+  , elementAttributes = Map.fromList $ [("x", "10")]
+  , elementNodes = []
+  }
+xmlRect2 = XML.Element {
+    elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
+  , elementAttributes = Map.fromList $ [("x", "10"),("fill","black")]
+  , elementNodes = []
+  }
+
+
+printXMLElement :: XML.Element -> IO()
+printXMLElement element = putStrLn $ cs $ renderText def $ doc element
+  where doc root = Document {
+                documentPrologue = Prologue {
+                    prologueBefore = []
+                  , prologueDoctype = Nothing
+                  , prologueAfter = []
+                  }
+              , documentRoot = root
+              , documentEpilogue = []
+              }
+
+
+
+test_encode = do
+
+  putStrLn $ show $ defaultRect
