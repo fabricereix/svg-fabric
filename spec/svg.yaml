@@ -8,7 +8,6 @@ elements:
       attributes: [x, y, width, height]
   svg:
       attributes:
-        -
       - width
       - height
       - {name: viewport, type: viewport}
@@ -17,7 +16,7 @@ elements:
 element-groups:
   basic-shape: [circle, ellipse, line, polygon, polyline, rect]
   graphics: [circle, ellipse, image, line, mesh, path, polygon, polyline, rect, text, use]
-        
+
 
 attributes:
   cx:         {type: [length,percentage],      default: 0}

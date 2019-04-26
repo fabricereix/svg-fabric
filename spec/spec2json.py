@@ -85,7 +85,10 @@ def generate_attributes(attributes, specific_attribs):
         new_attribute = {}
         if len(attribute['elements']) > 0:
             for element in attribute['elements']:
-                new_attribute[element] = {'type': attribute['type'], 'default': attribute['default']}
+                new_attribute[element] = {
+                   'type': attribute['type'],
+                   'default': attribute['default']
+                }
             attrs[attribute_name] = new_attribute
 
     for attribute_name, attribute in specific_attribs.items():
@@ -98,7 +101,11 @@ def generate_attributes(attributes, specific_attribs):
     for attribute_name, attribute_elements in sorted(attrs.items()):
         elements = []
         for element_name, elem in sorted(attribute_elements.items()):
-            elements.append({'element': element_name, 'type': elem['type'], 'default': elem['default']})
+            elements.append({
+                'element': element_name,
+                'type': elem['type'],
+                'default': elem['default']
+            })
         attrs2.append({'name': attribute_name, 'elements': elements})
     return attrs2
 
