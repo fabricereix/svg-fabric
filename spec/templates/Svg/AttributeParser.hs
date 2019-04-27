@@ -2,6 +2,8 @@ module Svg.AttributeParser where
 
 import Svg.Elements
 import Svg.Types.Core
+{% for element in elements %}import qualified Svg.Attributes.{{element.name | capitalize}} as {{element.name | capitalize}}
+{% endfor %}
 
 type Attribute = (String, String)
 type Error = String

@@ -32,10 +32,21 @@ def main():
     for template_file in glob.glob(templates_dir + '/**/*.hs', recursive=True):
         template_id = template_file[len(templates_dir)+1:]
         output_file = generated_dir + '/' + template_id
-        print('eval %s to %s' % (template_file, output_file))
-        template = environment.get_template(template_id)
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        open(output_file, 'w').write(template.render(elements=spec['elements']))
+        if '{{element}}' in template_id:
+            for element in spec['elements']:
+                output_file = generated_dir + '/' + template_id.replace(
+                  '{{element}}',
+                  element['name'].capitalize())
+                print('eval %s to %s' % (template_file, output_file))
+                template = environment.get_template(template_id)
+                os.makedirs(os.path.dirname(output_file), exist_ok=True)
+                open(output_file, 'w').write(template.render(element))
+        else:
+            output_file = generated_dir + '/' + template_id
+            print('eval %s to %s' % (template_file, output_file))
+            template = environment.get_template(template_id)
+            os.makedirs(os.path.dirname(output_file), exist_ok=True)
+            open(output_file, 'w').write(template.render(elements=spec['elements']))
 
 
 if __name__ == '__main__':
