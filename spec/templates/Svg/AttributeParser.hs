@@ -1,7 +1,7 @@
-module AttributeParser where
+module Svg.AttributeParser where
 
-import Svg.Element
-import Svg.Types
+import Svg.Elements
+import Svg.Types.Core
 
 type Attribute = (String, String)
 type Error = String

@@ -1,6 +1,7 @@
 #!/bin/bash
-
 set -e
+cd $(dirname $0)
+
 pycodestyle --max-line-length 100 *.py
 pycodestyle --max-line-length 120 test/*.py
 python3 -m unittest discover test/
