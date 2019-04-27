@@ -27,12 +27,13 @@ def main():
     environment.filters['toWord'] = lambda i: "One" if i == 1 else (
         "Two" if i == 2 else ("Three" if i == 3 else "??"))
     environment.filters['default_attr'] = lambda x: "AUTO" if x == "auto" else (
-        "ZERO" if x == 0 else ("REMOVE" if x == "remove" else "??"))
+        "Length 0" if x == 0 else ("REMOVE" if x == "remove" else "??"))
 
     for template_file in glob.glob(templates_dir + '/**/*.hs', recursive=True):
-        output_file = generated_dir + '/' + template_file
+        template_id = template_file[len(templates_dir)+1:]
+        output_file = generated_dir + '/' + template_id
         print('eval %s to %s' % (template_file, output_file))
-        template = environment.get_template(template_file[len(templates_dir):])
+        template = environment.get_template(template_id)
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         open(output_file, 'w').write(template.render(elements=spec['elements']))
 

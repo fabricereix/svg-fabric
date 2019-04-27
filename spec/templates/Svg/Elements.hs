@@ -24,6 +24,6 @@ data Element =
 default{{element.name|capitalize}} :: Element
 default{{element.name|capitalize}} = {{element.name|capitalize}} {
    _children = []
- {% for attribute in element.attributes %}, _{{attribute.name}} = {% if attribute.default == None %}Nothing{% else %}{{attribute.default| default_attr}}{% endif %}
+ {% for attribute in element.attributes %}, _{{attribute.name}} = {% if attribute.default == None %}Nothing{% else %}OneOf{{attribute.type|length}} ({{attribute.default| default_attr}}){% endif %}
  {% endfor %}}
 {% endfor %}
