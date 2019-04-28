@@ -2,3 +2,5 @@
 .idea/
 svg-fabric.cabal
 .HTF/
+*.swp
+
