@@ -7,6 +7,23 @@ import os
 import glob
 
 
+def wordDigit(i):
+    if i == 1:
+        return "One"
+    elif i == 2:
+        return "Two"
+    elif i == 3:
+        return "Three"
+    else:
+        raise Exception('unsupported')
+
+
+def capitalize(s):
+    if s == '':
+        return ''
+    return s[0].upper() + s[1:]
+
+
 def main():
 
     if len(sys.argv) < 3:
@@ -21,13 +38,15 @@ def main():
     environment = Environment(loader=FileSystemLoader(templates_dir))
     environment.filters['camel_case'] = template_utils.camel_case
     environment.filters['size'] = template_utils.size
+    environment.filters['map_name'] = lambda items: [item['name'] for item in items]
+    environment.filters['map_length'] = lambda items: [len(item) for item in items]
     environment.filters['max_attribute_name'] = lambda elem: max([
         len(attr['name']) for attr in elem['attributes']
     ])
     environment.filters['toWord'] = lambda i: "One" if i == 1 else (
         "Two" if i == 2 else ("Three" if i == 3 else "??"))
     environment.filters['default_attr'] = lambda x: "AUTO" if x == "auto" else (
-        "Length 0" if x == 0 else ("REMOVE" if x == "remove" else "??"))
+        "(Length 0)" if x == 0 else ("REMOVE" if x == "remove" else "??"))
 
     for template_file in glob.glob(templates_dir + '/**/*.hs', recursive=True):
         template_id = template_file[len(templates_dir)+1:]
@@ -40,13 +59,25 @@ def main():
                 print('eval %s to %s' % (template_file, output_file))
                 template = environment.get_template(template_id)
                 os.makedirs(os.path.dirname(output_file), exist_ok=True)
-                open(output_file, 'w').write(template.render(element))
+                open(output_file, 'w').write(template.render(
+                  element=element,
+                  enumerate=enumerate,
+                  wordDigit=wordDigit,
+                  capitalize=capitalize
+                ))
         else:
             output_file = generated_dir + '/' + template_id
             print('eval %s to %s' % (template_file, output_file))
             template = environment.get_template(template_id)
             os.makedirs(os.path.dirname(output_file), exist_ok=True)
-            open(output_file, 'w').write(template.render(elements=spec['elements']))
+            open(output_file, 'w').write(template.render(
+                elements=spec['elements'],
+                name=lambda x: x['name'],
+                len=len,
+                max=max,
+                map=map,
+                enumerate=enumerate,
+                capitalize=capitalize))
 
 
 if __name__ == '__main__':

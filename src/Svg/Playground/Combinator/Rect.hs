@@ -7,7 +7,7 @@ import qualified Svg.Types.Parser as Parser
 
 x :: String -> Element -> Either String Element
 x value element@(Rect _ _) =
-    case Parser._length value of
+    case Parser.length value of
         Right v1 -> Right $ Rect.x element (OneOf2 v1)
         Left _ -> case Parser.percentage value of
             Right v2 -> Right $ Rect.x element (TwoOf2 v2)

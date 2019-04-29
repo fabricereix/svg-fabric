@@ -1,10 +1,16 @@
 module Svg.Parser where
 
 import Svg.Elements
--- import qualified Svg.Playground.Parser.Rect as Rect
+import qualified Svg.Parser.Animate as Animate
+import qualified Svg.Parser.Circle as Circle
+import qualified Svg.Parser.Rect as Rect
+import qualified Svg.Parser.Svg as Svg
+
 
 
 type Attribute = (String, String)
+
+
 
 
 -- paramters:
@@ -13,9 +19,14 @@ type Attribute = (String, String)
 -- return error or parsed elements
 -- (create another function if you can accept unused attributes)
 parse :: String -> [Attribute] -> Either String Element
-parse "animate" _ = undefined
-parse "circle" _ = undefined
-parse "rect" _ = undefined
-parse "svg" _ = undefined
-parse name _ = Left $ "Invalid element '" ++ name ++ "'"
+parse "animate" attrs = Animate.parse attrs
+parse "circle"  attrs = Circle.parse attrs
+parse "rect"    attrs = Rect.parse attrs
+parse "svg"     attrs = Svg.parse attrs
+parse name      _     = Left $ "Invalid element '" ++ name ++ "'"
 
+
+
+
+attribute :: Element -> (String,String) -> Either String Element
+attribute = undefined

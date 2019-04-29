@@ -1,7 +1,7 @@
 elements:
   animate:
       attributes:
-      - {name: fill, type: remove_freeze, default: remove}
+      - {name: fill, type: removeFreeze, default: remove}
   circle:
       attributes: [cx, cy, r, pathLength]
   rect:

@@ -12,11 +12,11 @@ import Text.Parsec
 
 -- Primitive Parser
 double :: Stream s m Char => ParsecT s u m Double
-double = rd <$> (plus <|> minus <|> number)
+double = rd <$> (plus <|> minus <|> n)
     where rd     = read :: String -> Double
-          plus   = char '+' *> number
-          minus  = (:) <$> char '-' <*> number
-          number = many1 digit
+          plus   = char '+' *> n
+          minus  = (:) <$> char '-' <*> n
+          n = many1 digit
 
 
 
@@ -27,11 +27,25 @@ paint s =  case parse (do {many1 anyChar}) "" s of
               Left e -> Left (show e)
               Right d -> Right $ Color d
 
-_length :: String -> Either String Length
-_length s = case parse (do {d<-double;eof;return d}) "" s of
+length :: String -> Either String Length
+length s = case parse (do {d<-double;eof;return d}) "" s of
     Left e -> Left (show e)
     Right d -> Right $ Length d
 
 
 percentage :: String -> Either Error Percentage
 percentage _ = Left "TODO"
+
+viewport :: String -> Either String Viewport
+viewport = undefined
+
+auto :: String -> Either Error Auto
+auto = undefined
+
+number :: String -> Either Error Number
+number = undefined
+
+removeFreeze :: String -> Either Error RemoveFreeze
+removeFreeze = undefined
+
+
