@@ -50,9 +50,9 @@ toXML element = XML.Element {
 
 
 printXMLElement :: XML.Element -> IO()
-printXMLElement element = putStrLn $ cs $ renderText (def {
-  rsAttrOrder= const (toOrderedList ["x", "fill"])
-  }) $ doc element
+printXMLElement element = putStrLn $ cs $ renderText def
+  -- def { rsAttrOrder= const (toOrderedList ["x", "fill"])}
+   $ doc element
     where doc root = Document {
                 documentPrologue = Prologue {
                     prologueBefore = []
