@@ -3,8 +3,11 @@
 module Test.Svg.Xml where
 
 import Test.Framework
-import Svg.Playground.Elements hiding(elementName)
-import qualified Svg.Playground.Combinator.Rect as Rect
+# import Svg.Playground.Elements hiding(elementName)
+import Svg.Elements
+import Svg.Attribute
+import qualified Svg.Combinator.Rect as Rect
+import qualified Svg.Combinator.Circle as Circle
 import Data.Either
 import Data.String.Conversions
 import qualified Text.XML as XML
@@ -19,6 +22,9 @@ rect1 = fromRight defaultRect $ (Right defaultRect) >>= Rect.x "10"
 rect2 = fromRight defaultRect $ (Right defaultRect) >>= Rect.x "10"
                                                     >>= Rect.fill "black"
 
+circle1 = fromRight defaultCircle $ (Right defaultCircle) >>= Circle.r "1"
+
+
 xmlRect0 = XML.Element {
     elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
   , elementAttributes = Map.fromList []
@@ -32,6 +38,13 @@ xmlRect1 = XML.Element {
 xmlRect2 = XML.Element {
     elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
   , elementAttributes = Map.fromList $ [("x", "10"),("fill","black")]
+  , elementNodes = []
+  }
+
+toXML :: Element -> XML.Element
+toXML element = XML.Element {
+    elementName=Name { nameLocalName = cs (name element), nameNamespace = Nothing, namePrefix = Nothing}
+  , elementAttributes = Map.fromList $ map (\(k,v)-> (Name (cs k) Nothing Nothing,cs v)) $ attributes element
   , elementNodes = []
   }
 

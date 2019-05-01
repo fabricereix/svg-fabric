@@ -17,7 +17,7 @@ type Attribute = (String, String)
 -- (create another function if you can accept unused attributes)
 parse :: String -> [Attribute] -> Either String Element
 {% for element in elements %}parse "{{element.name}}"{{' ' * (max_element_length - len(element.name))}} attrs = {{element.name | capitalize}}.parse attrs
-{% endfor %}parse name{{' '* (max_element_length - 2)}} _     = Left $ "Invalid element '" ++ name ++ "'"
+{% endfor %}parse elementName{{' '* (max_element_length - 2)}} _     = Left $ "Invalid element '" ++ elementName ++ "'"
 
 
 

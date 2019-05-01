@@ -17,5 +17,5 @@ parseAttribute element@(Circle _ _ _ _ _ _) ("cy", v) = cy v element
 parseAttribute element@(Circle _ _ _ _ _ _) ("r", v) = r v element
 parseAttribute element@(Circle _ _ _ _ _ _) ("pathLength", v) = pathLength v element
 parseAttribute element@(Circle _ _ _ _ _ _) ("fill", v) = fill v element
-parseAttribute (Circle _ _ _ _ _ _) (name, _) = Left $ "attribute " ++ name ++ " is not defined for circle"
+parseAttribute (Circle _ _ _ _ _ _) (attributeName, _) = Left $ "attribute " ++ attributeName ++ " is not defined for circle"
 parseAttribute _ _ = error "should have a Circle!"

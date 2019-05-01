@@ -43,6 +43,22 @@ data Element =
   deriving (Show, Eq)
 
 
+children :: Element -> [Element]
+children (Animate cs _) = cs
+children (Circle cs _ _ _ _ _) = cs
+children (Rect cs _ _ _ _ _) = cs
+children (Svg cs _ _ _) = cs
+
+
+
+name :: Element -> String
+name (Animate _ _) = "animate"
+name (Circle _ _ _ _ _ _) = "circle"
+name (Rect _ _ _ _ _ _) = "rect"
+name (Svg _ _ _ _) = "svg"
+
+
+
 defaultAnimate :: Element
 defaultAnimate = Animate
   [] -- children

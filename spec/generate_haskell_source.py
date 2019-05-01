@@ -2,7 +2,7 @@
 import sys
 import json
 from jinja2 import Template, Environment, FileSystemLoader
-import template_utils
+# import template_utils
 import os
 import glob
 
@@ -36,8 +36,8 @@ def main():
 
     spec = json.loads(open(spec_file).read())
     environment = Environment(loader=FileSystemLoader(templates_dir))
-    environment.filters['camel_case'] = template_utils.camel_case
-    environment.filters['size'] = template_utils.size
+    # environment.filters['camel_case'] = template_utils.camel_case
+    # environment.filters['size'] = template_utils.size
     environment.filters['map_name'] = lambda items: [item['name'] for item in items]
     environment.filters['map_length'] = lambda items: [len(item) for item in items]
     environment.filters['max_attribute_name'] = lambda elem: max([

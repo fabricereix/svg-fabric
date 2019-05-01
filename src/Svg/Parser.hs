@@ -23,7 +23,7 @@ parse "animate" attrs = Animate.parse attrs
 parse "circle"  attrs = Circle.parse attrs
 parse "rect"    attrs = Rect.parse attrs
 parse "svg"     attrs = Svg.parse attrs
-parse name      _     = Left $ "Invalid element '" ++ name ++ "'"
+parse elementName      _     = Left $ "Invalid element '" ++ elementName ++ "'"
 
 
 

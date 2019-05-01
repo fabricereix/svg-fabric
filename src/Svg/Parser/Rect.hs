@@ -17,5 +17,5 @@ parseAttribute element@(Rect _ _ _ _ _ _) ("y", v) = y v element
 parseAttribute element@(Rect _ _ _ _ _ _) ("width", v) = width v element
 parseAttribute element@(Rect _ _ _ _ _ _) ("height", v) = height v element
 parseAttribute element@(Rect _ _ _ _ _ _) ("fill", v) = fill v element
-parseAttribute (Rect _ _ _ _ _ _) (name, _) = Left $ "attribute " ++ name ++ " is not defined for rect"
+parseAttribute (Rect _ _ _ _ _ _) (attributeName, _) = Left $ "attribute " ++ attributeName ++ " is not defined for rect"
 parseAttribute _ _ = error "should have a Rect!"

@@ -13,6 +13,6 @@ parse (attr:attrs) = case parse attrs of
 
 parseAttribute :: Element -> (String,String) -> Either String Element
 {% for attribute in element.attributes %}parseAttribute element@({{element.name| capitalize}} _{% for _ in element.attributes %} _{% endfor %}) ("{{attribute.name}}", v) = {{attribute.name}} v element
-{% endfor %}parseAttribute ({{element.name| capitalize}} _{% for _ in element.attributes %} _{% endfor %}) (name, _) = Left $ "attribute " ++ name ++ " is not defined for {{element.name}}"
+{% endfor %}parseAttribute ({{element.name| capitalize}} _{% for _ in element.attributes %} _{% endfor %}) (attributeName, _) = Left $ "attribute " ++ attributeName ++ " is not defined for {{element.name}}"
 parseAttribute _ _ = error "should have a {{element.name | capitalize}}!"
 

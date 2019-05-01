@@ -21,6 +21,16 @@ data Element =
 {% endfor %}  deriving (Show, Eq)
 
 
+children :: Element -> [Element]
+{% for element in elements %}children ({{element.name|capitalize}} cs{{ ' _' * len(element.attributes)}}) = cs
+{% endfor %}
+
+
+name :: Element -> String
+{% for element in elements %}name ({{element.name|capitalize}} _{{ ' _' * len(element.attributes)}}) = "{{element.name}}"
+{% endfor %}
+
+
 {% for element in elements %}default{{element.name | capitalize}} :: Element
 default{{element.name | capitalize}} = {{element.name|capitalize}}
   [] -- children

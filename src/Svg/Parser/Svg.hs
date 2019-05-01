@@ -15,5 +15,5 @@ parseAttribute :: Element -> (String,String) -> Either String Element
 parseAttribute element@(Svg _ _ _ _) ("width", v) = width v element
 parseAttribute element@(Svg _ _ _ _) ("height", v) = height v element
 parseAttribute element@(Svg _ _ _ _) ("viewport", v) = viewport v element
-parseAttribute (Svg _ _ _ _) (name, _) = Left $ "attribute " ++ name ++ " is not defined for svg"
+parseAttribute (Svg _ _ _ _) (attributeName, _) = Left $ "attribute " ++ attributeName ++ " is not defined for svg"
 parseAttribute _ _ = error "should have a Svg!"

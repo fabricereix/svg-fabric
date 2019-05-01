@@ -13,5 +13,5 @@ parse (attr:attrs) = case parse attrs of
 
 parseAttribute :: Element -> (String,String) -> Either String Element
 parseAttribute element@(Animate _ _) ("fill", v) = fill v element
-parseAttribute (Animate _ _) (name, _) = Left $ "attribute " ++ name ++ " is not defined for animate"
+parseAttribute (Animate _ _) (attributeName, _) = Left $ "attribute " ++ attributeName ++ " is not defined for animate"
 parseAttribute _ _ = error "should have a Animate!"
