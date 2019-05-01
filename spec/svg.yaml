@@ -8,8 +8,8 @@ elements:
       attributes: [x, y, width, height]
   svg:
       attributes:
-      - width
-      - height
+      - {name: width, type: length, default:0}
+      - {name: height, type: length, default:0}
       - {name: viewport, type: viewport}
 
 

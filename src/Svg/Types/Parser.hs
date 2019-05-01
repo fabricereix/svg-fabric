@@ -40,7 +40,8 @@ viewport :: String -> Either String Viewport
 viewport = undefined
 
 auto :: String -> Either Error Auto
-auto = undefined
+auto "auto" = Right AUTO
+auto _      = Left "invalid auto"
 
 number :: String -> Either Error Number
 number = undefined

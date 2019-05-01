@@ -3,11 +3,11 @@
 module Test.Svg.Xml where
 
 import Test.Framework
-# import Svg.Playground.Elements hiding(elementName)
 import Svg.Elements
 import Svg.Attribute
 import qualified Svg.Combinator.Rect as Rect
 import qualified Svg.Combinator.Circle as Circle
+import qualified Svg.Combinator.Svg as Svg
 import Data.Either
 import Data.String.Conversions
 import qualified Text.XML as XML
@@ -23,6 +23,14 @@ rect2 = fromRight defaultRect $ (Right defaultRect) >>= Rect.x "10"
                                                     >>= Rect.fill "black"
 
 circle1 = fromRight defaultCircle $ (Right defaultCircle) >>= Circle.r "1"
+
+
+svg0 :: Element
+svg0 = fromRight defaultSvg $ (Right defaultSvg) >>= Svg.width "100"
+                                                 >>= Svg.height "100"
+-- <svg width="100" height="100">
+--   <circle cx="50" cy="50" r="40" fill="yellow" />
+-- </svg>
 
 
 xmlRect0 = XML.Element {
@@ -45,7 +53,7 @@ toXML :: Element -> XML.Element
 toXML element = XML.Element {
     elementName=Name { nameLocalName = cs (name element), nameNamespace = Nothing, namePrefix = Nothing}
   , elementAttributes = Map.fromList $ map (\(k,v)-> (Name (cs k) Nothing Nothing,cs v)) $ attributes element
-  , elementNodes = []
+  , elementNodes = map (NodeElement . toXML) $ children element
   }
 
 

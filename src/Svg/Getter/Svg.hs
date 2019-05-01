@@ -3,11 +3,11 @@ import Svg.Elements
 import Svg.Types.Core
 
 
-width :: Element -> OneOf3 Auto Length Percentage
+width :: Element -> Maybe (OneOf1 Length)
 width (Svg _ v _ _) = v
 width _  = error "Element should be Svg!"
 
-height :: Element -> OneOf3 Auto Length Percentage
+height :: Element -> Maybe (OneOf1 Length)
 height (Svg _ _ v _) = v
 height _  = error "Element should be Svg!"
 

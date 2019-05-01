@@ -36,8 +36,8 @@ data Element =
 
   | Svg
       [Element]  -- children
-      (OneOf3 Auto Length Percentage) -- width
-      (OneOf3 Auto Length Percentage) -- height
+      (Maybe (OneOf1 Length)) -- width
+      (Maybe (OneOf1 Length)) -- height
       (Maybe (OneOf1 Viewport)) -- viewport
 
   deriving (Show, Eq)
@@ -85,7 +85,7 @@ defaultRect = Rect
 defaultSvg :: Element
 defaultSvg = Svg
   [] -- children
-  (OneOf3 AUTO) -- width
-  (OneOf3 AUTO) -- height
+  Nothing  -- width
+  Nothing  -- height
   Nothing  -- viewport
 

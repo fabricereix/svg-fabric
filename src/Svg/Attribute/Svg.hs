@@ -4,19 +4,15 @@ import Svg.Types.Format
 import qualified Svg.Getter.Svg as Svg
 
 
-width :: Element -> String
+width :: Element -> Maybe String
 width element = case Svg.width element of
-    OneOf3 value ->  formatAuto value
-    TwoOf3 value ->  formatLength value
-    ThreeOf3 value ->  formatPercentage value
+    Just (OneOf1 value) -> Just $ formatLength value
+    Nothing -> Nothing
 
-
-height :: Element -> String
+height :: Element -> Maybe String
 height element = case Svg.height element of
-    OneOf3 value ->  formatAuto value
-    TwoOf3 value ->  formatLength value
-    ThreeOf3 value ->  formatPercentage value
-
+    Just (OneOf1 value) -> Just $ formatLength value
+    Nothing -> Nothing
 
 viewport :: Element -> Maybe String
 viewport element = case Svg.viewport element of

@@ -28,8 +28,8 @@ attributes element@(Rect _ _ _ _ _ _) =
   ++ map (\v->("fill",v)) (maybeToList $ Rect.fill element)
 
 attributes element@(Svg _ _ _ _) =
-     case Svg.width element of "auto" -> []; value -> [("width", value)]
-  ++ case Svg.height element of "auto" -> []; value -> [("height", value)]
+     map (\v->("width",v)) (maybeToList $ Svg.width element)
+  ++ map (\v->("height",v)) (maybeToList $ Svg.height element)
   ++ map (\v->("viewport",v)) (maybeToList $ Svg.viewport element)
 
 
