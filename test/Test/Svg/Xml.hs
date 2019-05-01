@@ -8,7 +8,8 @@ import Svg.Attribute
 import qualified Svg.Combinator.Rect as Rect
 import qualified Svg.Combinator.Circle as Circle
 import qualified Svg.Combinator.Svg as Svg
-import Data.Either
+-- in fact don't like the default fromRight
+-- import Data.Either
 import Data.String.Conversions
 import qualified Text.XML as XML
 import Text.XML hiding (Element)
@@ -16,18 +17,31 @@ import qualified Data.Map as Map
 --import qualified Data.Text as Text
 --import Text.XML.Stream.Render
 
+-- default prevent explicit failure
+fromRight :: Show l => Either l r -> r
+fromRight (Left e) = error $ show e
+fromRight (Right x) = x
+
+
 rect0, rect1, rect2 :: Element
 rect0 = defaultRect
-rect1 = fromRight defaultRect $ (Right defaultRect) >>= Rect.x "10"
-rect2 = fromRight defaultRect $ (Right defaultRect) >>= Rect.x "10"
-                                                    >>= Rect.fill "black"
+rect1 = fromRight $ Right defaultRect >>= Rect.x "10"
+rect2 = fromRight $ Right defaultRect >>= Rect.x "10" >>= Rect.fill "black"
 
-circle1 = fromRight defaultCircle $ (Right defaultCircle) >>= Circle.r "1"
+circle1 = fromRight $ Right defaultCircle >>= Circle.r "1"
 
 
 svg0 :: Element
-svg0 = fromRight defaultSvg $ (Right defaultSvg) >>= Svg.width "100"
-                                                 >>= Svg.height "100"
+svg0 = (fromRight $ Right defaultSvg
+           >>= Svg.width "100"
+           >>= Svg.height "100")
+       `addChildren` [
+           fromRight $ Right defaultCircle
+               >>= Circle.cx "50"
+               >>= Circle.cy "50"
+               >>= Circle.r "40"
+               >>= Circle.fill "yellow"
+       ]
 -- <svg width="100" height="100">
 --   <circle cx="50" cy="50" r="40" fill="yellow" />
 -- </svg>

@@ -50,6 +50,14 @@ children (Rect cs _ _ _ _ _) = cs
 children (Svg cs _ _ _) = cs
 
 
+addChildren :: Element -> [Element] -> Element
+addChildren (Animate _ a0) cs  = (Animate cs a0)
+addChildren (Circle _ a0 a1 a2 a3 a4) cs  = (Circle cs a0 a1 a2 a3 a4)
+addChildren (Rect _ a0 a1 a2 a3 a4) cs  = (Rect cs a0 a1 a2 a3 a4)
+addChildren (Svg _ a0 a1 a2) cs  = (Svg cs a0 a1 a2)
+
+
+
 
 name :: Element -> String
 name (Animate _ _) = "animate"

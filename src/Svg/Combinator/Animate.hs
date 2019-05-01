@@ -9,6 +9,6 @@ fill :: String -> Element -> Either String Element
 fill v element@(Animate _ _) =
   case Parser.removeFreeze v of
       Right parsed -> Right $ Animate.fill element $ OneOf1 parsed
-      Left _ -> Left $ "Can not parse value " ++ v
+      Left _ -> Left $ "Can not parse value \"" ++ v ++ "\" for attribute fill"
 fill _ _ = error "should have a Animate element!"
 

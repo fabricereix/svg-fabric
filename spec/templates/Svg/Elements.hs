@@ -25,6 +25,11 @@ children :: Element -> [Element]
 {% for element in elements %}children ({{element.name|capitalize}} cs{{ ' _' * len(element.attributes)}}) = cs
 {% endfor %}
 
+addChildren :: Element -> [Element] -> Element
+{% for element in elements %}addChildren ({{element.name| capitalize}} _{% for i,attribute in enumerate(element.attributes) %} a{{i}}{% endfor %}) cs  = ({{element.name| capitalize}} cs{% for i,attribute in enumerate(element.attributes) %} a{{i}}{% endfor %})
+{% endfor %}
+
+
 
 name :: Element -> String
 {% for element in elements %}name ({{element.name|capitalize}} _{{ ' _' * len(element.attributes)}}) = "{{element.name}}"
