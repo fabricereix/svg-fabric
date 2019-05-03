@@ -16,6 +16,7 @@ import Text.XML hiding (Element)
 import qualified Data.Map as Map
 --import qualified Data.Text as Text
 --import Text.XML.Stream.Render
+import Svg.Parser
 
 -- default prevent explicit failure
 fromRight :: Show l => Either l r -> r
@@ -63,12 +64,27 @@ xmlRect2 = XML.Element {
   , elementNodes = []
   }
 
+xmlRectInvalid = XML.Element {
+    elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
+  , elementAttributes = Map.fromList $ [("x", "10"),("cx","0")]
+  , elementNodes = []
+  }
+
 toXML :: Element -> XML.Element
 toXML element = XML.Element {
     elementName=Name { nameLocalName = cs (name element), nameNamespace = Nothing, namePrefix = Nothing}
   , elementAttributes = Map.fromList $ map (\(k,v)-> (Name (cs k) Nothing Nothing,cs v)) $ attributes element
   , elementNodes = map (NodeElement . toXML) $ children element
   }
+
+fromXML :: XML.Element -> Either String Element
+fromXML (XML.Element {
+    elementName=Name { nameLocalName = n}
+  , elementAttributes = attrs
+  , elementNodes = []
+  }) = parse (cs n) $ map (\(k, v)->(cs (nameLocalName k), cs v)) $  Map.toList attrs
+fromXML _ = undefined
+
 
 
 printXMLElement :: XML.Element -> IO()
