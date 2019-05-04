@@ -25,8 +25,10 @@ check Document {documentRoot=root} = do
    mapM_ (putStrLn . formatError) errors
 
 formatError :: Error -> String
-formatError (InvalidAttribute element (Name {nameLocalName=attribute})) = "Invalid Attribute \"" ++ (cs attribute) ++ "\" for element \"" ++ element ++ "\""
-formatError (InvalidAttributeValue element attribute s) = "attribute value \"" ++ (cs s) ++ "\" is not valid for attribute " ++ attribute ++ " for element " ++ element
+formatError (InvalidAttribute element Name {nameLocalName=attribute}) = "Invalid Attribute \"" ++ cs attribute ++ "\" for element \"" ++ element ++ "\""
+formatError (InvalidAttributeValue element attribute s) = "attribute value \"" ++ cs s ++ "\" is not valid for attribute " ++ attribute ++ " for element " ++ element
+formatError (AttributeFormat element attribute s) = "attribute value \"" ++ cs s ++ "\" is not formatted for attribute " ++ attribute ++ " for element " ++ element
+
 formatError e = error $ show e
 
 
@@ -46,7 +48,7 @@ main = do
    args <- getArgs
    case getOpt Permute options args of
      (flags, args2, [])   -> run args2 flags
-     (_,     _,    _) -> error $ "error usage"
+     (_,     _,    _) -> error "error usage"
 
 
 options :: [OptDescr Flag]
