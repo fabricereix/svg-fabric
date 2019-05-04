@@ -117,7 +117,7 @@ test_validate_children = do
     ]}
 
 
-test_validate_svg = do
+-- test_validate_svg = do
 
 
 

@@ -23,6 +23,8 @@ attributes:
   cy:         {type: [length,percentage],      default: 0}
   fill:       {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text,
                                       textPath, tref, tspan]}
+  stroke:     {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text,
+                                      textPath, tref, tspan]}
   height:     {type: [auto,length,percentage], default: auto}
   id:         {type: string, elements:[_all]}
   opacity:    {type: opacity, elements:[_graphics]}

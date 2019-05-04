@@ -4,22 +4,26 @@ import Svg.Types.Core
 
 
 x :: Element -> OneOf2 Length Percentage -> Element
-x (Rect a0 _ a2 a3 a4 a5) v  = (Rect a0 v a2 a3 a4 a5)
+x (Rect a0 _ a2 a3 a4 a5 a6) v  = (Rect a0 v a2 a3 a4 a5 a6)
 x _ _  = error "Element should be Rect!"
 
 y :: Element -> OneOf2 Length Percentage -> Element
-y (Rect a0 a1 _ a3 a4 a5) v  = (Rect a0 a1 v a3 a4 a5)
+y (Rect a0 a1 _ a3 a4 a5 a6) v  = (Rect a0 a1 v a3 a4 a5 a6)
 y _ _  = error "Element should be Rect!"
 
 width :: Element -> OneOf3 Auto Length Percentage -> Element
-width (Rect a0 a1 a2 _ a4 a5) v  = (Rect a0 a1 a2 v a4 a5)
+width (Rect a0 a1 a2 _ a4 a5 a6) v  = (Rect a0 a1 a2 v a4 a5 a6)
 width _ _  = error "Element should be Rect!"
 
 height :: Element -> OneOf3 Auto Length Percentage -> Element
-height (Rect a0 a1 a2 a3 _ a5) v  = (Rect a0 a1 a2 a3 v a5)
+height (Rect a0 a1 a2 a3 _ a5 a6) v  = (Rect a0 a1 a2 a3 v a5 a6)
 height _ _  = error "Element should be Rect!"
 
 fill :: Element -> Maybe (OneOf1 Paint) -> Element
-fill (Rect a0 a1 a2 a3 a4 _) v  = (Rect a0 a1 a2 a3 a4 v)
+fill (Rect a0 a1 a2 a3 a4 _ a6) v  = (Rect a0 a1 a2 a3 a4 v a6)
 fill _ _  = error "Element should be Rect!"
+
+stroke :: Element -> Maybe (OneOf1 Paint) -> Element
+stroke (Rect a0 a1 a2 a3 a4 a5 _) v  = (Rect a0 a1 a2 a3 a4 a5 v)
+stroke _ _  = error "Element should be Rect!"
 

@@ -35,3 +35,8 @@ fill element = case Rect.fill element of
     Just (OneOf1 value) -> Just $ formatPaint value
     Nothing -> Nothing
 
+stroke :: Element -> Maybe String
+stroke element = case Rect.stroke element of
+    Just (OneOf1 value) -> Just $ formatPaint value
+    Nothing -> Nothing
+

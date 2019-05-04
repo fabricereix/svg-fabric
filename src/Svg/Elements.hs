@@ -25,6 +25,7 @@ data Element =
       (OneOf2 Length Percentage) -- r
       (Maybe (OneOf1 Number)) -- pathLength
       (Maybe (OneOf1 Paint)) -- fill
+      (Maybe (OneOf1 Paint)) -- stroke
 
   | Rect
       [Element]  -- children
@@ -33,6 +34,7 @@ data Element =
       (OneOf3 Auto Length Percentage) -- width
       (OneOf3 Auto Length Percentage) -- height
       (Maybe (OneOf1 Paint)) -- fill
+      (Maybe (OneOf1 Paint)) -- stroke
 
   | Svg
       [Element]  -- children
@@ -45,15 +47,15 @@ data Element =
 
 children :: Element -> [Element]
 children (Animate cs _) = cs
-children (Circle cs _ _ _ _ _) = cs
-children (Rect cs _ _ _ _ _) = cs
+children (Circle cs _ _ _ _ _ _) = cs
+children (Rect cs _ _ _ _ _ _) = cs
 children (Svg cs _ _ _) = cs
 
 
 addChildren :: Element -> [Element] -> Element
 addChildren (Animate _ a0) cs  = (Animate cs a0)
-addChildren (Circle _ a0 a1 a2 a3 a4) cs  = (Circle cs a0 a1 a2 a3 a4)
-addChildren (Rect _ a0 a1 a2 a3 a4) cs  = (Rect cs a0 a1 a2 a3 a4)
+addChildren (Circle _ a0 a1 a2 a3 a4 a5) cs  = (Circle cs a0 a1 a2 a3 a4 a5)
+addChildren (Rect _ a0 a1 a2 a3 a4 a5) cs  = (Rect cs a0 a1 a2 a3 a4 a5)
 addChildren (Svg _ a0 a1 a2) cs  = (Svg cs a0 a1 a2)
 
 
@@ -61,8 +63,8 @@ addChildren (Svg _ a0 a1 a2) cs  = (Svg cs a0 a1 a2)
 
 name :: Element -> String
 name (Animate _ _) = "animate"
-name (Circle _ _ _ _ _ _) = "circle"
-name (Rect _ _ _ _ _ _) = "rect"
+name (Circle _ _ _ _ _ _ _) = "circle"
+name (Rect _ _ _ _ _ _ _) = "rect"
 name (Svg _ _ _ _) = "svg"
 
 
@@ -80,6 +82,7 @@ defaultCircle = Circle
   (OneOf2 (Length 0)) -- r
   Nothing  -- pathLength
   Nothing  -- fill
+  Nothing  -- stroke
 
 defaultRect :: Element
 defaultRect = Rect
@@ -89,6 +92,7 @@ defaultRect = Rect
   (OneOf3 AUTO) -- width
   (OneOf3 AUTO) -- height
   Nothing  -- fill
+  Nothing  -- stroke
 
 defaultSvg :: Element
 defaultSvg = Svg

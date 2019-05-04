@@ -12,10 +12,11 @@ parse (attr:attrs) = case parse attrs of
 
 
 parseAttribute :: Element -> (String,String) -> Either String Element
-parseAttribute element@(Circle _ _ _ _ _ _) ("cx", v) = cx v element
-parseAttribute element@(Circle _ _ _ _ _ _) ("cy", v) = cy v element
-parseAttribute element@(Circle _ _ _ _ _ _) ("r", v) = r v element
-parseAttribute element@(Circle _ _ _ _ _ _) ("pathLength", v) = pathLength v element
-parseAttribute element@(Circle _ _ _ _ _ _) ("fill", v) = fill v element
-parseAttribute (Circle _ _ _ _ _ _) (attributeName, _) = Left $ "attribute " ++ attributeName ++ " is not defined for circle"
+parseAttribute element@(Circle _ _ _ _ _ _ _) ("cx", v) = cx v element
+parseAttribute element@(Circle _ _ _ _ _ _ _) ("cy", v) = cy v element
+parseAttribute element@(Circle _ _ _ _ _ _ _) ("r", v) = r v element
+parseAttribute element@(Circle _ _ _ _ _ _ _) ("pathLength", v) = pathLength v element
+parseAttribute element@(Circle _ _ _ _ _ _ _) ("fill", v) = fill v element
+parseAttribute element@(Circle _ _ _ _ _ _ _) ("stroke", v) = stroke v element
+parseAttribute (Circle _ _ _ _ _ _ _) (attributeName, _) = Left $ "attribute " ++ attributeName ++ " is not defined for circle"
 parseAttribute _ _ = error "should have a Circle!"

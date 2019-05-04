@@ -32,3 +32,8 @@ fill element = case Circle.fill element of
     Just (OneOf1 value) -> Just $ formatPaint value
     Nothing -> Nothing
 
+stroke :: Element -> Maybe String
+stroke element = case Circle.stroke element of
+    Just (OneOf1 value) -> Just $ formatPaint value
+    Nothing -> Nothing
+
