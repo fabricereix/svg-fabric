@@ -22,6 +22,7 @@ library:
     - xml-conduit
     - containers
     - data-default
+    - xml-types
   ghc-options:
     - -Wno-unused-do-bind
 
