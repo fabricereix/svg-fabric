@@ -51,14 +51,14 @@ executables:
 #      - -fno-warn-orphans
 #      - -Wno-incomplete-record-updates
 
-  svg-spec-parser:
+  svgcheck:
     main: Main.hs
-    source-dirs: apps/svg-spec-parser
+    source-dirs: apps/svgcheck
     dependencies:
       - svg-fabric
       - string-conversions
       - text
-      - aeson
+      - xml-conduit
     ghc-options:
       - -fno-warn-orphans
       - -Wno-incomplete-record-updates
