@@ -76,7 +76,10 @@ number :: String -> Either Error Number
 number _ = Left "TODO"
 
 percentage :: String -> Either Error Percentage
-percentage _ = Left "TODO"
+percentage s = case parse (do{d<-double;char '%';eof; return d}) "" s of
+  Left _ -> Left $ "Can not parse \"" ++ s ++ "\" to percentage"
+  Right p -> Right $ Percentage p
+
 
 viewport :: String -> Either String Viewport
 viewport s = case parse viewportParser "" s of
