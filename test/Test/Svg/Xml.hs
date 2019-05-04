@@ -33,7 +33,7 @@ circle1 = fromRight $ Right defaultCircle >>= Circle.r "1"
 
 
 svg0 :: Element
-svg0 = (fromRight $ Right defaultSvg
+svg0 = fromRight (Right defaultSvg
            >>= Svg.width "100"
            >>= Svg.height "100")
        `addChildren` [
@@ -47,26 +47,39 @@ svg0 = (fromRight $ Right defaultSvg
 --   <circle cx="50" cy="50" r="40" fill="yellow" />
 -- </svg>
 
+xmlSvg0 = XML.Element {
+    elementName=Name { nameLocalName = "svg", nameNamespace = Nothing, namePrefix = Nothing}
+  , elementAttributes = Map.fromList [("width","100"),("height","100")]
+  , elementNodes = [
+      NodeElement $ XML.Element {
+          elementName=Name { nameLocalName = "circle", nameNamespace = Nothing, namePrefix = Nothing}
+        , elementAttributes = Map.fromList [("cx", "50"),("cy","50"),("fill","yellow")]
+        , elementNodes = []
+      }
+    ]
+  }
 
 xmlRect0 = XML.Element {
     elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
   , elementAttributes = Map.fromList []
-  , elementNodes = []
+  , elementNodes = [
+    ]
   }
+
 xmlRect1 = XML.Element {
     elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
-  , elementAttributes = Map.fromList $ [("x", "10")]
+  , elementAttributes = Map.fromList [("x", "10")]
   , elementNodes = []
   }
 xmlRect2 = XML.Element {
     elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
-  , elementAttributes = Map.fromList $ [("x", "10"),("fill","black")]
+  , elementAttributes = Map.fromList [("x", "10"),("fill","black")]
   , elementNodes = []
   }
 
 xmlRectInvalid = XML.Element {
     elementName=Name { nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}
-  , elementAttributes = Map.fromList $ [("x", "10"),("cx","0")]
+  , elementAttributes = Map.fromList [("x", "10"),("cx","0")]
   , elementNodes = []
   }
 
@@ -78,13 +91,33 @@ toXML element = XML.Element {
   }
 
 fromXML :: XML.Element -> Either String Element
-fromXML (XML.Element {
+fromXML XML.Element {
     elementName=Name { nameLocalName = n}
-  , elementAttributes = attrs
-  , elementNodes = []
-  }) = parse (cs n) $ map (\(k, v)->(cs (nameLocalName k), cs v)) $  Map.toList attrs
-fromXML _ = undefined
+  , elementAttributes = attribs
+  , elementNodes = nodes
+  } = case parse (cs n) attrs of
+         Left e -> Left e
+         Right element -> case getChildrenElement nodes of
+             Left e -> Left e
+             Right elems -> Right $ addChildren element elems
+     where attrs = map (\(k, v)->(cs (nameLocalName k), cs v)) $ Map.toList attribs
 
+
+
+getElement :: Node -> Either String [Element]
+getElement node = case node of
+    NodeElement nodeElement -> case fromXML nodeElement of
+          Left e -> Left e
+          Right element -> Right [element]
+    _ -> Right []
+
+getChildrenElement :: [Node] -> Either String [Element]
+getChildrenElement [] = Right []
+getChildrenElement (node:nodes) = case getElement node of
+    Left e -> Left e
+    Right element -> case getChildrenElement nodes of
+       Left e -> Left e
+       Right elems -> Right $ element ++ elems
 
 
 printXMLElement :: XML.Element -> IO()
@@ -104,13 +137,13 @@ printXMLElement element = putStrLn $ cs $ renderText def
 
 toOrderedList :: (Ord k) => [k] -> Map.Map k a -> [(k, a)]
 toOrderedList keys m = concatMap look keys
-    where look k = case (Map.lookup k m) of
+    where look k = case Map.lookup k m of
                         Nothing -> []
                         Just v  -> [(k, v)]
 
 test_encode = do
-
-  putStrLn $ show $ defaultRect
+  print defaultRect
+  print defaultRect
 
 
 

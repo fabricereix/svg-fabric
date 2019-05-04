@@ -63,7 +63,7 @@ executables:
       - -Wno-incomplete-record-updates
 
 tests:
-  hurl-htf-tests:
+  svg-fabric-htf-tests:
     main: TestMain.hs
     source-dirs: test
     dependencies:
