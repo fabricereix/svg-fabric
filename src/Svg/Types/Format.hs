@@ -16,6 +16,10 @@ formatRemoveFreeze :: RemoveFreeze -> String
 formatRemoveFreeze REMOVE = "remove"
 formatRemoveFreeze FREEZE = "freeze"
 
+formatRemovefreeze :: RemoveFreeze -> String
+formatRemovefreeze REMOVE = "remove"
+formatRemovefreeze FREEZE = "freeze"
+
 formatDouble :: Int -> Double -> String
 formatDouble n x = show integer ++ if decimal == "0" then "" else "." ++ (stripSuffix '0' $ replicate (n-length decimal) '0' ++ decimal)
    where (integer,dec) = properFraction x :: (Int,Double)

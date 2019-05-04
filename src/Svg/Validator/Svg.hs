@@ -1,11 +1,13 @@
 {-# LANGUAGE OverloadedStrings     #-}
 module Svg.Validator.Svg where
 
-import Svg.Validator.Core
-import Text.XML
--- import Data.XML.Types
+import           Data.String.Conversions
 import qualified Data.Text as Text
 import qualified Data.Map as Map
+import           Svg.Validator.Core
+import qualified Svg.Types.Parser as Parser
+import           Svg.Types.Format
+import           Text.XML
 
 validateAttributes :: Map.Map Name Text.Text -> [Error]
 validateAttributes attributes = concatMap validateAttribute $ Map.toList attributes
@@ -18,15 +20,23 @@ validateAttribute (name, _) = [InvalidAttribute "svg" name]
 
 
 width :: Text.Text -> [Error]
-width "None" = [AttributeDefault "svg" "width"]
-width _ = []
+width v =
+  case Parser.length (cs v) of
+      Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "svg" "width" v]
+      Left _ -> [InvalidAttributeValue "svg" "width" v]
 
 height :: Text.Text -> [Error]
-height "None" = [AttributeDefault "svg" "height"]
-height _ = []
+height v =
+  case Parser.length (cs v) of
+      Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "svg" "height" v]
+      Left _ -> [InvalidAttributeValue "svg" "height" v]
 
 viewport :: Text.Text -> [Error]
-viewport "None" = [AttributeDefault "svg" "viewport"]
-viewport _ = []
+viewport v =
+  case Parser.viewport (cs v) of
+      Right parsed -> if formatViewport parsed == (cs v) then [] else [AttributeFormat "svg" "viewport" v]
+      Left _ -> [InvalidAttributeValue "svg" "viewport" v]
+
+
 
 

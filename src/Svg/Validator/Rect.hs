@@ -1,11 +1,13 @@
 {-# LANGUAGE OverloadedStrings     #-}
 module Svg.Validator.Rect where
 
-import Svg.Validator.Core
-import Text.XML
--- import Data.XML.Types
+import           Data.String.Conversions
 import qualified Data.Text as Text
 import qualified Data.Map as Map
+import           Svg.Validator.Core
+import qualified Svg.Types.Parser as Parser
+import           Svg.Types.Format
+import           Text.XML
 
 validateAttributes :: Map.Map Name Text.Text -> [Error]
 validateAttributes attributes = concatMap validateAttribute $ Map.toList attributes
@@ -21,22 +23,50 @@ validateAttribute (name, _) = [InvalidAttribute "rect" name]
 
 x :: Text.Text -> [Error]
 x "0" = [AttributeDefault "rect" "x"]
-x _ = []
+x v =
+  case Parser.length (cs v) of
+      Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "x" v]
+      Left _ -> case Parser.percentage (cs v) of
+          Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "x" v]
+          Left _ -> [InvalidAttributeValue "rect" "x" v]
 
 y :: Text.Text -> [Error]
 y "0" = [AttributeDefault "rect" "y"]
-y _ = []
+y v =
+  case Parser.length (cs v) of
+      Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "y" v]
+      Left _ -> case Parser.percentage (cs v) of
+          Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "y" v]
+          Left _ -> [InvalidAttributeValue "rect" "y" v]
 
 width :: Text.Text -> [Error]
 width "auto" = [AttributeDefault "rect" "width"]
-width _ = []
+width v =
+  case Parser.auto (cs v) of
+      Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+      Left _ -> case Parser.length (cs v) of
+          Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+          Left _ -> case Parser.percentage (cs v) of
+              Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+              Left _ -> [InvalidAttributeValue "rect" "width" v]
 
 height :: Text.Text -> [Error]
 height "auto" = [AttributeDefault "rect" "height"]
-height _ = []
+height v =
+  case Parser.auto (cs v) of
+      Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
+      Left _ -> case Parser.length (cs v) of
+          Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
+          Left _ -> case Parser.percentage (cs v) of
+              Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
+              Left _ -> [InvalidAttributeValue "rect" "height" v]
 
 fill :: Text.Text -> [Error]
-fill "None" = [AttributeDefault "rect" "fill"]
-fill _ = []
+fill v =
+  case Parser.paint (cs v) of
+      Right parsed -> if formatPaint parsed == (cs v) then [] else [AttributeFormat "rect" "fill" v]
+      Left _ -> [InvalidAttributeValue "rect" "fill" v]
+
+
 
 

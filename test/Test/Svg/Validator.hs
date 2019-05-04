@@ -95,6 +95,8 @@ test_validate_attributes = do
 
    assertEqual [InvalidAttribute "rect" name1] $ Rect.validateAttribute ("xxx","1")
    assertEqual [AttributeDefault "rect" "x"] $ Rect.validateAttribute ("x","0")
+   assertEqual [InvalidAttributeValue "rect" "x" "a"] $ Rect.validateAttribute ("x","a")
+   assertEqual [AttributeFormat "rect" "x" "01"] $ Rect.validateAttribute ("x","01")
    assertEqual [] $ Rect.validateAttribute ("x","1")
 
    assertEqual [] $ Rect.validateAttributes $ Map.fromList [("x","1")]
