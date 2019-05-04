@@ -23,7 +23,7 @@ double = rd <$> (plus <|> minus <|> n)
 type Error = String
 
 paint :: String -> Either Error Paint
-paint s =  case parse (do {many1 anyChar}) "" s of
+paint s =  case parse (many1 anyChar) "" s of
               Left e -> Left (show e)
               Right d -> Right $ Color d
 
@@ -41,12 +41,14 @@ viewport = undefined
 
 auto :: String -> Either Error Auto
 auto "auto" = Right AUTO
-auto _      = Left "invalid auto"
+auto s      = Left $ "Can not parse \"" ++ s ++ "\" to auto"
 
 number :: String -> Either Error Number
 number = undefined
 
 removeFreeze :: String -> Either Error RemoveFreeze
-removeFreeze = undefined
+removeFreeze "remove" = Right REMOVE
+removeFreeze "freeze" = Right FREEZE
+removeFreeze s = Left $ "Can not parse \"" ++ s ++ "\" to RemoveFreeze"
 
 
