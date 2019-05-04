@@ -75,9 +75,6 @@ toOrderedList keys m = concatMap look keys
                         Just v  -> [(k, v)]
 
 test_validate_elementName = do
-   print $ validate xmlRect0
-   print $ validate xmlRect0
-
 
    let name1 = Name { nameLocalName = "xxx", nameNamespace =     Nothing, namePrefix = Nothing}
    assertEqual [InvalidElement name1] $ validate $ Element {
@@ -103,5 +100,20 @@ test_validate_attributes = do
    assertEqual [InvalidAttribute "rect" name1] $ Rect.validateAttributes $ Map.fromList [("x","1"),("xxx","xxx")]
 
 
+
+
+test_validate_children = do
+
+   let name1 = Name { nameLocalName = "xxx", nameNamespace =     Nothing, namePrefix = Nothing}
+   assertEqual [InvalidElement name1] $ validate $ Element {
+       elementName=Name { nameLocalName = "svg", nameNamespace =     Nothing, namePrefix = Nothing}
+     , elementAttributes=Map.fromList []
+     , elementNodes = [
+         NodeElement $ Element {
+             elementName=name1
+           , elementAttributes = Map.fromList []
+          , elementNodes = []
+          }
+    ]}
 
 

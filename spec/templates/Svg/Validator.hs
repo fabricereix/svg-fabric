@@ -15,6 +15,20 @@ validate :: Element -> [Error]
         nameLocalName="{{element.name}}"
     }
   , elementAttributes=attributes
-  } = {{element.name|capitalize}}.validateAttributes attributes
+  , elementNodes=children
+  } = {{element.name|capitalize}}.validateAttributes attributes ++ validateChildren children
+
 {% endfor %}
 validate Element {elementName=elemName }  = [InvalidElement elemName]
+
+
+validateChildren :: [Node] -> [Error]
+validateChildren [] = []
+validateChildren (x:xs) = case x of
+    NodeElement element -> validate element
+    _  -> []
+  ++ validateChildren xs
+
+
+
+

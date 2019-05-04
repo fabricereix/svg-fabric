@@ -18,24 +18,43 @@ validate Element {
         nameLocalName="animate"
     }
   , elementAttributes=attributes
-  } = Animate.validateAttributes attributes
+  , elementNodes=children
+  } = Animate.validateAttributes attributes ++ validateChildren children
+
 validate Element {
     elementName=Name {
         nameLocalName="circle"
     }
   , elementAttributes=attributes
-  } = Circle.validateAttributes attributes
+  , elementNodes=children
+  } = Circle.validateAttributes attributes ++ validateChildren children
+
 validate Element {
     elementName=Name {
         nameLocalName="rect"
     }
   , elementAttributes=attributes
-  } = Rect.validateAttributes attributes
+  , elementNodes=children
+  } = Rect.validateAttributes attributes ++ validateChildren children
+
 validate Element {
     elementName=Name {
         nameLocalName="svg"
     }
   , elementAttributes=attributes
-  } = Svg.validateAttributes attributes
+  , elementNodes=children
+  } = Svg.validateAttributes attributes ++ validateChildren children
+
 
 validate Element {elementName=elemName }  = [InvalidElement elemName]
+
+
+validateChildren :: [Node] -> [Error]
+validateChildren [] = []
+validateChildren (x:xs) = case x of
+    NodeElement element -> validate element
+    _  -> []
+  ++ validateChildren xs
+
+
+
