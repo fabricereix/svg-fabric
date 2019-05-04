@@ -26,7 +26,8 @@ check Document {documentRoot=root} = do
 
 formatError :: Error -> String
 formatError (InvalidAttribute element (Name {nameLocalName=attribute})) = "Invalid Attribute \"" ++ (cs attribute) ++ "\" for element \"" ++ element ++ "\""
-formatError _ = error "tbd"
+formatError (InvalidAttributeValue element attribute s) = "attribute value \"" ++ (cs s) ++ "\" is not valid for attribute " ++ attribute ++ " for element " ++ element
+formatError e = error $ show e
 
 
 run :: [String] -> [Flag] -> IO ()
