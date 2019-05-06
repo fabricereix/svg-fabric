@@ -2,12 +2,13 @@
 module Svg.Combinator.Rect where
 import Text.XML
 import Data.String.Conversions
+import qualified Svg.DefaultElements as Default
 
 
 x :: String -> Element -> Either String Element
 x _ Element {
     elementName=Name { nameLocalName="rect" }
-  } = undefined
+  } = Right Default.rect
 x _ Element {
     elementName=Name { nameLocalName=name }
   } = error $ (cs name) ++ " element - should be a rect element"
@@ -15,7 +16,7 @@ x _ Element {
 y :: String -> Element -> Either String Element
 y _ Element {
     elementName=Name { nameLocalName="rect" }
-  } = undefined
+  } = Right Default.rect
 y _ Element {
     elementName=Name { nameLocalName=name }
   } = error $ (cs name) ++ " element - should be a rect element"
@@ -23,7 +24,7 @@ y _ Element {
 width :: String -> Element -> Either String Element
 width _ Element {
     elementName=Name { nameLocalName="rect" }
-  } = undefined
+  } = Right Default.rect
 width _ Element {
     elementName=Name { nameLocalName=name }
   } = error $ (cs name) ++ " element - should be a rect element"
@@ -31,7 +32,7 @@ width _ Element {
 height :: String -> Element -> Either String Element
 height _ Element {
     elementName=Name { nameLocalName="rect" }
-  } = undefined
+  } = Right Default.rect
 height _ Element {
     elementName=Name { nameLocalName=name }
   } = error $ (cs name) ++ " element - should be a rect element"
@@ -39,7 +40,7 @@ height _ Element {
 fill :: String -> Element -> Either String Element
 fill _ Element {
     elementName=Name { nameLocalName="rect" }
-  } = undefined
+  } = Right Default.rect
 fill _ Element {
     elementName=Name { nameLocalName=name }
   } = error $ (cs name) ++ " element - should be a rect element"
@@ -47,7 +48,7 @@ fill _ Element {
 stroke :: String -> Element -> Either String Element
 stroke _ Element {
     elementName=Name { nameLocalName="rect" }
-  } = undefined
+  } = Right Default.rect
 stroke _ Element {
     elementName=Name { nameLocalName=name }
   } = error $ (cs name) ++ " element - should be a rect element"
