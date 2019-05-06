@@ -11,7 +11,7 @@ fill _ Element {
   } = Right Default.animate
 fill _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a animate element"
+  } = Left $ (cs name) ++ " element - should be a animate element"
 
 
 

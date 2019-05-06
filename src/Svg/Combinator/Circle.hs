@@ -11,7 +11,7 @@ cx _ Element {
   } = Right Default.circle
 cx _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a circle element"
+  } = Left $ (cs name) ++ " element - should be a circle element"
 
 cy :: String -> Element -> Either String Element
 cy _ Element {
@@ -19,7 +19,7 @@ cy _ Element {
   } = Right Default.circle
 cy _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a circle element"
+  } = Left $ (cs name) ++ " element - should be a circle element"
 
 r :: String -> Element -> Either String Element
 r _ Element {
@@ -27,7 +27,7 @@ r _ Element {
   } = Right Default.circle
 r _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a circle element"
+  } = Left $ (cs name) ++ " element - should be a circle element"
 
 pathLength :: String -> Element -> Either String Element
 pathLength _ Element {
@@ -35,7 +35,7 @@ pathLength _ Element {
   } = Right Default.circle
 pathLength _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a circle element"
+  } = Left $ (cs name) ++ " element - should be a circle element"
 
 fill :: String -> Element -> Either String Element
 fill _ Element {
@@ -43,7 +43,7 @@ fill _ Element {
   } = Right Default.circle
 fill _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a circle element"
+  } = Left $ (cs name) ++ " element - should be a circle element"
 
 stroke :: String -> Element -> Either String Element
 stroke _ Element {
@@ -51,7 +51,7 @@ stroke _ Element {
   } = Right Default.circle
 stroke _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a circle element"
+  } = Left $ (cs name) ++ " element - should be a circle element"
 
 
 

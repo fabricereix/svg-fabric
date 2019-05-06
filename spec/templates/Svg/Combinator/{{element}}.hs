@@ -11,7 +11,7 @@ import qualified Svg.DefaultElements as Default
   } = Right Default.{{element.name}}
 {{attribute.name}} _ Element {
     elementName=Name { nameLocalName=name }
-  } = error $ (cs name) ++ " element - should be a {{element.name}} element"
+  } = Left $ (cs name) ++ " element - should be a {{element.name}} element"
 {% endfor %}
 
 
