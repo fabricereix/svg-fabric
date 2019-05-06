@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Svg.Combinator.Rect where
+module Svg.Combinator2.Rect where
 import Text.XML
 import Data.String.Conversions
 

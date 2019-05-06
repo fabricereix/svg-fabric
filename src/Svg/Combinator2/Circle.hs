@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Svg.Combinator.Circle where
+module Svg.Combinator2.Circle where
 import Text.XML
 import Data.String.Conversions
 

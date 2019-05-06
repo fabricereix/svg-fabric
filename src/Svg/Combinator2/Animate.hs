@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Svg.Combinator.Animate where
+module Svg.Combinator2.Animate where
 import Text.XML
 import Data.String.Conversions
 
