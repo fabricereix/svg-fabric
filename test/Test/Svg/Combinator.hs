@@ -25,9 +25,11 @@ test_1 = do
   print Default.rect
   printXMLElement Default.rect
   assertEqual (Left "circle element - should be a rect element") $ Right Default.circle >>= Rect.x "1"
+  assertEqual (Left "Attribute x already set")                   $ Right Default.rect >>= Rect.x "1" >>= Rect.x "1"
 
   printXMLElement $fromRight $ (Right Default.rect) >>= Rect.x "1"
-  printXMLElement $fromRight $ (Right Default.circle) >>= Circle.r "1"
+  printXMLElement $fromRight $ (Right Default.rect) >>= Rect.x "1"
+  printXMLElement $fromRight $ (Right Default.circle) >>= Circle.r "1" >>= Circle.r "2"
 --  printXMLElement $fromRight $ (Right Default.circle) >>= Circle.x "1"
 --                                                      >>= Rect.x "x"
   -- assertEqual "1" ("1"::String)
