@@ -24,12 +24,14 @@ test_1 = do
   putStrLn "HELLO"
   print Default.rect
   printXMLElement Default.rect
-  assertEqual (Left "circle element - should be a rect element") $ Right Default.circle >>= Rect.x "1"
-  assertEqual (Left "Attribute x already set")                   $ Right Default.rect >>= Rect.x "1" >>= Rect.x "1"
+  assertEqual (Left "circle element - should be a rect element")              $ Right Default.circle >>= Rect.x "1"
+  assertEqual (Left "Attribute x already set")                                $ Right Default.rect >>= Rect.x "1" >>= Rect.x "1"
+  assertEqual (Left "Invalid value \"a\" for attribute x")                    $ Right Default.rect >>= Rect.x "a"
+  assertEqual (Left "Value \"0.10\" not properly formatted - should be 0.1")  $ Right Default.rect >>= Rect.x "0.10"
 
   printXMLElement $fromRight $ (Right Default.rect) >>= Rect.x "1"
   printXMLElement $fromRight $ (Right Default.rect) >>= Rect.x "1"
-  printXMLElement $fromRight $ (Right Default.circle) >>= Circle.r "1" >>= Circle.r "2"
+  printXMLElement $fromRight $ (Right Default.circle) >>= Circle.r "1" >>= Circle.cx "2"
 --  printXMLElement $fromRight $ (Right Default.circle) >>= Circle.x "1"
 --                                                      >>= Rect.x "x"
   -- assertEqual "1" ("1"::String)
