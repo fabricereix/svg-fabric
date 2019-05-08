@@ -28,7 +28,7 @@ def type_arguments(t):
     arguments = {
       'length': ['Length Double'],
       'percentage': ['Percentage Double'],
-      'number': 'Number',
+      'number': ['Number Double'],
       'paint': ['Color String'],
       'viewport': ['Viewport Double Double Double Double'],
       'auto': ['AUTO'],

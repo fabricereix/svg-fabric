@@ -6,6 +6,7 @@ import Test.Framework
 -- import Svg.Elements
 -- import Svg.Combinator.Rect
 -- import Svg.Types.Core
+import qualified Data.Map as Map
 import           Data.String.Conversions
 import           Text.XML
 import qualified Svg.DefaultElements as Default
@@ -29,9 +30,10 @@ test_1 = do
   print $ Right Default.rect >>= Circle.fill "black"
   assertEqual (Left "should be a circle instead of rect")
               (Right Default.rect >>= Circle.fill "black")
-  assertEqual (Left "should be a circle instead of rect")
+  assertEqual (Left "Attribute fill already set")
               (Right Default.rect >>= Rect.fill "black" >>= Rect.fill "red")
 
+  assertEqual (Right (Element {elementName = Name {nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}, elementAttributes = Map.fromList [(Name {nameLocalName = "fill", nameNamespace = Nothing, namePrefix = Nothing},"black"),(Name {nameLocalName = "x", nameNamespace = Nothing, namePrefix = Nothing},"1")], elementNodes = []})) $ Right Default.rect >>= Rect.xLength 1 >>= Rect.fill "black"
 
 
 printXMLElement :: Element -> IO()
