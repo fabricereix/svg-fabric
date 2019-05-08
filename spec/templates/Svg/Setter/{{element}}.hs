@@ -1,16 +1,26 @@
+{-# LANGUAGE OverloadedStrings     #-}
 module Svg.Setter.{{element.name|capitalize}} where
 --import Svg.Elements
 --import Svg.Types.Core
 -- import Svg.Types.Core
-import Text.XML
+import qualified Data.Map as Map
+import           Data.String.Conversions
+import qualified Data.Text as Text
+import           Text.XML
 
-{% for attribute in element.attributes %}{% for type in attribute.type %}{% for constructor in type_arguments(type) %}{% set setter = attribute.name + ("" if len(attribute.type) == 1 and len(type_arguments(attribute.type[0])) == 1 else capitalize(constructor.split(' ')[0])) %}
-{{setter}} :: Element ->{%for arg in constructor.split(' ')[1:]%} {{arg}} ->{% endfor%} Element
-{{setter}} = undefined
---{{setter}} element@Element {
---    elementName=Name { nameLocalName="{{element.name}}" }
---  } = undefined
---Element = undefined
+{% for attribute in element.attributes %}{% for type in attribute.type %}{% for constructor in type_arguments(type) %}{% set setter = attribute.name + ("" if len(attribute.type) == 1 and len(type_arguments(attribute.type[0])) == 1 else capitalize(constructor.split(' ')[0])) %}{% set arguments = constructor.split(' ')[1:]%}
+{{setter}} :: {%for arg in arguments%} {{arg}} ->{% endfor%} Element -> Either String Element
+{{setter}}{%for i in range(len(arguments))%} _{%endfor%} element@Element {
+    elementName=Name { nameLocalName="{{element.name}}" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="{{attribute.name}}", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute {{attribute.name}} already set"
+      else Right element
+{{setter}}{%for i in range(len(arguments))%} _{%endfor%} Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a {{element.name}} instead of " ++ cs name
 {%endfor%}{% endfor%}{%endfor%}
 
+hasAttribute :: Map.Map Name Text.Text -> Name -> Bool
+hasAttribute attrs name  = not $ null $ filter (\n->n==name) $ Map.keys attrs
 
