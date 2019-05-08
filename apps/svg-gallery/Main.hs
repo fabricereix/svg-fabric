@@ -1,42 +1,38 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
+
+import Text.XML hiding (writeFile)
+import Hilbert
 -- import System.IO.Unsafe
 -- import Text.Pretty.Simple
 -- import Control.Monad.Catch
 -- import Data.Either
 -- import Data.Map
 -- import qualified Data.Text as T
--- import Data.String.Conversions
-import Svg.Elements
-import Svg.Types
-import Svg.Xml.Formatter
+import Data.String.Conversions
+--import Svg.Elements
+--import Svg.Types
+--import Svg.Xml.Formatter
 
-cell :: Element
-cell = defaultRect {
-    _x = OneOf2 (Length 0)
-  , _y = OneOf2 (Length 0)
-  , _width = TwoOf3 (Length 1)
-  , _height = TwoOf3 (Length 1)
-  , _fill = OneOf1 (ColorRgb 219 59 33)
-  }
-
-svg :: Element
-svg = defaultSvg {
-    _width = TwoOf3 (Length 200)
-  , _height = TwoOf3 (Length 200.3333)
-  , _children = [
-      cell
-    ]
-  }
 
 main :: IO()
 main = do
-  let settings = FormatSettings { _doubleDigits=3, _ignoreDefault=True}
-  print svg
-  print $ attributes settings cell
-  print $ attributes settings svg
+  mapM_ writeDiagram Hilbert.diagrams
 
-  putStrLn $ toXmlString settings svg
+
+writeDiagram :: (String, Element) -> IO()
+writeDiagram (filename, root) = do
+  let outputFile = "/tmp/" ++ filename
+  putStrLn $ "writing to " ++ outputFile
+  writeFile outputFile $ cs $ renderText def $ Document {
+                documentPrologue = Prologue {
+                    prologueBefore = []
+                  , prologueDoctype = Nothing
+                  , prologueAfter = []
+                  }
+              , documentRoot = root
+              , documentEpilogue = []
+              }
 
 --
 --   pPrint $ unsafePerformIO $ runX $ readString [] s

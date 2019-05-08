@@ -40,16 +40,17 @@ executables:
 #    ghc-options:
 #      - -fno-warn-orphans
 #
-#  svg-gallery:
-#    main: Main.hs
-#    source-dirs: apps/svg-gallery
-#    dependencies:
-#      - svg-fabric
-#      - string-conversions
-#      - text
-#    ghc-options:
-#      - -fno-warn-orphans
-#      - -Wno-incomplete-record-updates
+  svg-gallery:
+    main: Main.hs
+    source-dirs: apps/svg-gallery
+    dependencies:
+      - xml-conduit
+      - svg-fabric
+      - string-conversions
+      - text
+    ghc-options:
+      - -fno-warn-orphans
+      - -Wno-incomplete-record-updates
 
   svgcheck:
     main: Main.hs
