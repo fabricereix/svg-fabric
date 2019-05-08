@@ -11,14 +11,14 @@ import           Svg.Types.Format
 import           Text.XML
 
 
-fillREMOVE ::  Element -> Either String Element
-fillREMOVE element@Element {
+fill ::  Element -> Either String Element
+fill element@Element {
     elementName=Name { nameLocalName="animate" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="fill", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute fill already set"
       else Right $ addAttribute element ("fill",cs $ formatRemovefreeze (REMOVE))
-fillREMOVE Element {
+fill Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a animate instead of " ++ cs name
 

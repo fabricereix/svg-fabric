@@ -28,7 +28,7 @@ test_1 = do
   print Default.rect
   printXMLElement Default.rect
   --assertEqual (Left "circle element - should be a rect element")              $ Right Default.circle >>= Rect.x "1"
-  print $ Right Default.rect >>= Rect.xLength 1
+  print $ Right Default.rect >>= Rect.x 1
   print $ Right Default.rect >>= Circle.fill "black"
   assertEqual (Left "should be a circle instead of rect")
               (Right Default.rect >>= Circle.fill "black")
@@ -41,10 +41,10 @@ test_1 = do
       >>= Svg.height 100
       >>= addChildren [
         fromRight $ Right Default.circle
-                      >>= Circle.cxLength 50
-                      >>= Circle.cyLength 50
+                      >>= Circle.cx 50
+                      >>= Circle.cy 50
                       >>= Circle.stroke "green"
-                      >>= Circle.strokewidthLength 4
+                      >>= Circle.strokewidth 4
                       >>= Circle.fill "yellow"
       ]
 

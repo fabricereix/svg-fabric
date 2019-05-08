@@ -11,14 +11,14 @@ import           Svg.Types.Format
 import           Text.XML
 
 
-cxLength ::  Double -> Element -> Either String Element
-cxLength a0 element@Element {
+cx ::  Double -> Element -> Either String Element
+cx a0 element@Element {
     elementName=Name { nameLocalName="circle" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="cx", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute cx already set"
       else Right $ addAttribute element ("cx",cs $ formatLength (Length a0))
-cxLength _ Element {
+cx _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a circle instead of " ++ cs name
 
@@ -33,14 +33,14 @@ cxPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a circle instead of " ++ cs name
 
-cyLength ::  Double -> Element -> Either String Element
-cyLength a0 element@Element {
+cy ::  Double -> Element -> Either String Element
+cy a0 element@Element {
     elementName=Name { nameLocalName="circle" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="cy", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute cy already set"
       else Right $ addAttribute element ("cy",cs $ formatLength (Length a0))
-cyLength _ Element {
+cy _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a circle instead of " ++ cs name
 
@@ -55,14 +55,14 @@ cyPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a circle instead of " ++ cs name
 
-rLength ::  Double -> Element -> Either String Element
-rLength a0 element@Element {
+r ::  Double -> Element -> Either String Element
+r a0 element@Element {
     elementName=Name { nameLocalName="circle" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="r", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute r already set"
       else Right $ addAttribute element ("r",cs $ formatLength (Length a0))
-rLength _ Element {
+r _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a circle instead of " ++ cs name
 
@@ -110,14 +110,14 @@ stroke _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a circle instead of " ++ cs name
 
-strokewidthLength ::  Double -> Element -> Either String Element
-strokewidthLength a0 element@Element {
+strokewidth ::  Double -> Element -> Either String Element
+strokewidth a0 element@Element {
     elementName=Name { nameLocalName="circle" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="stroke-width", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute stroke-width already set"
       else Right $ addAttribute element ("stroke-width",cs $ formatLength (Length a0))
-strokewidthLength _ Element {
+strokewidth _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a circle instead of " ++ cs name
 

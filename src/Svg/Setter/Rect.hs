@@ -11,14 +11,14 @@ import           Svg.Types.Format
 import           Text.XML
 
 
-xLength ::  Double -> Element -> Either String Element
-xLength a0 element@Element {
+x ::  Double -> Element -> Either String Element
+x a0 element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="x", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute x already set"
       else Right $ addAttribute element ("x",cs $ formatLength (Length a0))
-xLength _ Element {
+x _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
@@ -33,14 +33,14 @@ xPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
-yLength ::  Double -> Element -> Either String Element
-yLength a0 element@Element {
+y ::  Double -> Element -> Either String Element
+y a0 element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="y", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute y already set"
       else Right $ addAttribute element ("y",cs $ formatLength (Length a0))
-yLength _ Element {
+y _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
@@ -55,14 +55,14 @@ yPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
-widthAUTO ::  Element -> Either String Element
-widthAUTO element@Element {
+width ::  Element -> Either String Element
+width element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="width", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute width already set"
       else Right $ addAttribute element ("width",cs $ formatAuto (AUTO))
-widthAUTO Element {
+width Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
@@ -88,14 +88,14 @@ widthPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
-heightAUTO ::  Element -> Either String Element
-heightAUTO element@Element {
+height ::  Element -> Either String Element
+height element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="height", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute height already set"
       else Right $ addAttribute element ("height",cs $ formatAuto (AUTO))
-heightAUTO Element {
+height Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
@@ -143,14 +143,14 @@ stroke _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
-strokewidthLength ::  Double -> Element -> Either String Element
-strokewidthLength a0 element@Element {
+strokewidth ::  Double -> Element -> Either String Element
+strokewidth a0 element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="stroke-width", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute stroke-width already set"
       else Right $ addAttribute element ("stroke-width",cs $ formatLength (Length a0))
-strokewidthLength _ Element {
+strokewidth _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
