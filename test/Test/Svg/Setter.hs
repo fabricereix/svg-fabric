@@ -6,12 +6,12 @@ import Test.Framework
 -- import Svg.Elements
 -- import Svg.Combinator.Rect
 -- import Svg.Types.Core
-import qualified Data.Map as Map
 import           Data.String.Conversions
 import           Text.XML
 import qualified Svg.DefaultElements as Default
 import qualified Svg.Setter.Rect as Rect
 import qualified Svg.Setter.Circle as Circle
+import qualified Test.Svg.Sample as Sample
 
 -- default prevent explicit failure
 fromRight :: Show l => Either l r -> r
@@ -33,7 +33,7 @@ test_1 = do
   assertEqual (Left "Attribute fill already set")
               (Right Default.rect >>= Rect.fill "black" >>= Rect.fill "red")
 
-  assertEqual (Right (Element {elementName = Name {nameLocalName = "rect", nameNamespace = Nothing, namePrefix = Nothing}, elementAttributes = Map.fromList [(Name {nameLocalName = "fill", nameNamespace = Nothing, namePrefix = Nothing},"black"),(Name {nameLocalName = "x", nameNamespace = Nothing, namePrefix = Nothing},"1")], elementNodes = []})) $ Right Default.rect >>= Rect.xLength 1 >>= Rect.fill "black"
+  assertEqual Sample.w3c $ fromRight $ Right Default.rect >>= Rect.xLength 1 >>= Rect.fill "black"
 
 
 printXMLElement :: Element -> IO()
