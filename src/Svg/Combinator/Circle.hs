@@ -145,6 +145,30 @@ stroke _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a circle element"
 
+strokewidth :: Text.Text -> Element -> Either String Element
+strokewidth v element@Element {
+    elementName=Name { nameLocalName="circle" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke-width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke-width already set"
+      else case Parser.length (cs v) of
+          Right parsed -> if formatLength parsed == (cs v)
+                          then Right (addAttribute element ("stroke-width",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatLength parsed)))
+          Left _ -> case Parser.percentage (cs v) of
+              Right parsed -> if formatPercentage parsed == (cs v)
+                              then Right (addAttribute element ("stroke-width",v))
+                              else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPercentage parsed)))
+              Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute stroke-width")
+
+
+--Right element {
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("stroke-width", "1")]
+--      }
+strokewidth _ Element {
+    elementName=Name { nameLocalName=name }
+  } = Left $ (cs name) ++ " element - should be a circle element"
+
 
 
 hasAttribute :: Map.Map Name Text.Text -> Name -> Bool

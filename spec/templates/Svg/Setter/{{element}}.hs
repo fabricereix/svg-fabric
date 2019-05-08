@@ -10,7 +10,7 @@ import           Svg.Types.Core
 import           Svg.Types.Format
 import           Text.XML
 
-{% for attribute in element.attributes %}{% for type in attribute.type %}{% for constructor in type_arguments(type) %}{% set setter = attribute.name + ("" if len(attribute.type) == 1 and len(type_arguments(attribute.type[0])) == 1 else capitalize(constructor.split(' ')[0])) %}{% set arguments = constructor.split(' ')[1:]%}
+{% for attribute in element.attributes %}{% for type in attribute.type %}{% for constructor in type_arguments(type) %}{% set setter = attribute.name.replace('-','') + ("" if len(attribute.type) == 1 and len(type_arguments(attribute.type[0])) == 1 else capitalize(constructor.split(' ')[0])) %}{% set arguments = constructor.split(' ')[1:]%}
 {{setter}} :: {%for arg in arguments%} {{arg}} ->{% endfor%} Element -> Either String Element
 {{setter}}{%for i in range(len(arguments))%} a{{i}}{%endfor%} element@Element {
     elementName=Name { nameLocalName="{{element.name}}" }

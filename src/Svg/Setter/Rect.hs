@@ -143,6 +143,28 @@ stroke _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
+strokewidthLength ::  Double -> Element -> Either String Element
+strokewidthLength a0 element@Element {
+    elementName=Name { nameLocalName="rect" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke-width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke-width already set"
+      else Right $ addAttribute element ("stroke-width",cs $ formatLength (Length a0))
+strokewidthLength _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a rect instead of " ++ cs name
+
+strokewidthPercentage ::  Double -> Element -> Either String Element
+strokewidthPercentage a0 element@Element {
+    elementName=Name { nameLocalName="rect" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke-width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke-width already set"
+      else Right $ addAttribute element ("stroke-width",cs $ formatPercentage (Percentage a0))
+strokewidthPercentage _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a rect instead of " ++ cs name
+
 
 hasAttribute :: Map.Map Name Text.Text -> Name -> Bool
 hasAttribute attrs name  = not $ null $ filter (\n->n==name) $ Map.keys attrs

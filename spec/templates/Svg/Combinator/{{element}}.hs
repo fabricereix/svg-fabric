@@ -13,8 +13,8 @@ import           Svg.Types.Format
 
 
 {% for attribute in element.attributes %}
-{{attribute.name}} :: Text.Text -> Element -> Either String Element
-{{attribute.name}} v element@Element {
+{{attribute.name.replace('-','')}} :: Text.Text -> Element -> Either String Element
+{{attribute.name.replace('-','')}} v element@Element {
     elementName=Name { nameLocalName="{{element.name}}" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="{{attribute.name}}", nameNamespace=Nothing, namePrefix=Nothing}
@@ -29,7 +29,7 @@ import           Svg.Types.Format
 --Right element {
 --          elementAttributes=Map.fromList $ Map.toList attributes ++ [("{{attribute.name}}", "1")]
 --      }
-{{attribute.name}} _ Element {
+{{attribute.name.replace('-','')}} _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a {{element.name}} element"
 {% endfor %}

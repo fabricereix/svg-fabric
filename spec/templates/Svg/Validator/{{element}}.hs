@@ -13,13 +13,13 @@ validateAttributes :: Map.Map Name Text.Text -> [Error]
 validateAttributes attributes = concatMap validateAttribute $ Map.toList attributes
 
 validateAttribute :: (Name, Text.Text) -> [Error]
-{% for attribute in element.attributes %}validateAttribute (Name { nameLocalName="{{attribute.name}}" }, value) = {{attribute.name}} value
+{% for attribute in element.attributes %}validateAttribute (Name { nameLocalName="{{attribute.name}}" }, value) = {{attribute.name.replace('-','')}} value
 {% endfor %}validateAttribute (name, _) = [InvalidAttribute "{{element.name}}" name]
 
 
-{% for attribute in element.attributes %}{{attribute.name}} :: Text.Text -> [Error]
-{% if attribute.default != None %}{{attribute.name}} "{{attribute.default}}" = [AttributeDefault "{{element.name}}" "{{attribute.name}}"]
-{% endif %}{{attribute.name}} v =
+{% for attribute in element.attributes %}{{attribute.name.replace('-','')}} :: Text.Text -> [Error]
+{% if attribute.default != None %}{{attribute.name.replace('-','')}} "{{attribute.default}}" = [AttributeDefault "{{element.name}}" "{{attribute.name}}"]
+{% endif %}{{attribute.name.replace('-','')}} v =
   {% for i,type in enumerate(attribute.type) %}case Parser.{{type}} (cs v) of
       {{' '*4*i}}Right parsed -> if format{{type|capitalize}} parsed == (cs v) then [] else [AttributeFormat "{{element.name}}" "{{attribute.name}}" v]
       {{' '*4*i}}Left _ -> {% endfor %}[InvalidAttributeValue "{{element.name}}" "{{attribute.name}}" v]
