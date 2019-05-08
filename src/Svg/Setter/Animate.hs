@@ -1,9 +1,22 @@
 module Svg.Setter.Animate where
-import Svg.Elements
-import Svg.Types.Core
+--import Svg.Elements
+--import Svg.Types.Core
+-- import Svg.Types.Core
+import Text.XML
 
 
-fill :: Element -> OneOf1 RemoveFreeze -> Element
-fill (Animate a0 _) v  = (Animate a0 v)
-fill _ _  = error "Element should be Animate!"
+fillREMOVE :: Element -> Element
+fillREMOVE = undefined
+--fillREMOVE element@Element {
+--    elementName=Name { nameLocalName="animate" }
+--  } = undefined
+--Element = undefined
+
+fillFREEZE :: Element -> Element
+fillFREEZE = undefined
+--fillFREEZE element@Element {
+--    elementName=Name { nameLocalName="animate" }
+--  } = undefined
+--Element = undefined
+
 

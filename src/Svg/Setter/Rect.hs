@@ -1,29 +1,92 @@
 module Svg.Setter.Rect where
-import Svg.Elements
-import Svg.Types.Core
+--import Svg.Elements
+--import Svg.Types.Core
+-- import Svg.Types.Core
+import Text.XML
 
 
-x :: Element -> OneOf2 Length Percentage -> Element
-x (Rect a0 _ a2 a3 a4 a5 a6) v  = (Rect a0 v a2 a3 a4 a5 a6)
-x _ _  = error "Element should be Rect!"
+xLength :: Element -> Double -> Element
+xLength = undefined
+--xLength element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
 
-y :: Element -> OneOf2 Length Percentage -> Element
-y (Rect a0 a1 _ a3 a4 a5 a6) v  = (Rect a0 a1 v a3 a4 a5 a6)
-y _ _  = error "Element should be Rect!"
+xPercentage :: Element -> Double -> Element
+xPercentage = undefined
+--xPercentage element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
 
-width :: Element -> OneOf3 Auto Length Percentage -> Element
-width (Rect a0 a1 a2 _ a4 a5 a6) v  = (Rect a0 a1 a2 v a4 a5 a6)
-width _ _  = error "Element should be Rect!"
+yLength :: Element -> Double -> Element
+yLength = undefined
+--yLength element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
 
-height :: Element -> OneOf3 Auto Length Percentage -> Element
-height (Rect a0 a1 a2 a3 _ a5 a6) v  = (Rect a0 a1 a2 a3 v a5 a6)
-height _ _  = error "Element should be Rect!"
+yPercentage :: Element -> Double -> Element
+yPercentage = undefined
+--yPercentage element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
 
-fill :: Element -> Maybe (OneOf1 Paint) -> Element
-fill (Rect a0 a1 a2 a3 a4 _ a6) v  = (Rect a0 a1 a2 a3 a4 v a6)
-fill _ _  = error "Element should be Rect!"
+widthAUTO :: Element -> Element
+widthAUTO = undefined
+--widthAUTO element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
 
-stroke :: Element -> Maybe (OneOf1 Paint) -> Element
-stroke (Rect a0 a1 a2 a3 a4 a5 _) v  = (Rect a0 a1 a2 a3 a4 a5 v)
-stroke _ _  = error "Element should be Rect!"
+widthLength :: Element -> Double -> Element
+widthLength = undefined
+--widthLength element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
+
+widthPercentage :: Element -> Double -> Element
+widthPercentage = undefined
+--widthPercentage element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
+
+heightAUTO :: Element -> Element
+heightAUTO = undefined
+--heightAUTO element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
+
+heightLength :: Element -> Double -> Element
+heightLength = undefined
+--heightLength element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
+
+heightPercentage :: Element -> Double -> Element
+heightPercentage = undefined
+--heightPercentage element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
+
+fill :: Element -> String -> Element
+fill = undefined
+--fill element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
+
+stroke :: Element -> String -> Element
+stroke = undefined
+--stroke element@Element {
+--    elementName=Name { nameLocalName="rect" }
+--  } = undefined
+--Element = undefined
+
 

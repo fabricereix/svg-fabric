@@ -24,6 +24,37 @@ def capitalize(s):
     return s[0].upper() + s[1:]
 
 
+def type_arguments(t):
+    arguments = {
+      'length': ['Length Double'],
+      'percentage': ['Percentage Double'],
+      'number': 'Number',
+      'paint': ['Color String'],
+      'viewport': ['Viewport Double Double Double Double'],
+      'auto': ['AUTO'],
+      'removeFreeze': ['REMOVE', 'FREEZE']
+    }
+    if t not in arguments:
+        raise Exception('type %s not defined' % t)
+    return arguments[t]
+
+
+def flatMap(x):
+    flatten = []
+    for x in a:
+        for y in x:
+            flatten.append(y)
+    return flatten
+
+
+def concatMap(f, xs):
+    flatten = []
+    for x in xs:
+        for y in f(x):
+            flatten.append(y)
+    return flatten
+
+
 def main():
 
     if len(sys.argv) < 3:
@@ -63,7 +94,11 @@ def main():
                   element=element,
                   enumerate=enumerate,
                   wordDigit=wordDigit,
-                  capitalize=capitalize
+                  capitalize=capitalize,
+                  type_arguments=type_arguments,
+                  len=len,
+                  flatMap=flatMap,
+                  concatMap=concatMap
                 ))
         else:
             output_file = generated_dir + '/' + template_id

@@ -1,17 +1,29 @@
 module Svg.Setter.Svg where
-import Svg.Elements
-import Svg.Types.Core
+--import Svg.Elements
+--import Svg.Types.Core
+-- import Svg.Types.Core
+import Text.XML
 
 
-width :: Element -> Maybe (OneOf1 Length) -> Element
-width (Svg a0 _ a2 a3) v  = (Svg a0 v a2 a3)
-width _ _  = error "Element should be Svg!"
+width :: Element -> Double -> Element
+width = undefined
+--width element@Element {
+--    elementName=Name { nameLocalName="svg" }
+--  } = undefined
+--Element = undefined
 
-height :: Element -> Maybe (OneOf1 Length) -> Element
-height (Svg a0 a1 _ a3) v  = (Svg a0 a1 v a3)
-height _ _  = error "Element should be Svg!"
+height :: Element -> Double -> Element
+height = undefined
+--height element@Element {
+--    elementName=Name { nameLocalName="svg" }
+--  } = undefined
+--Element = undefined
 
-viewport :: Element -> Maybe (OneOf1 Viewport) -> Element
-viewport (Svg a0 a1 a2 _) v  = (Svg a0 a1 a2 v)
-viewport _ _  = error "Element should be Svg!"
+viewport :: Element -> Double -> Double -> Double -> Double -> Element
+viewport = undefined
+--viewport element@Element {
+--    elementName=Name { nameLocalName="svg" }
+--  } = undefined
+--Element = undefined
+
 

@@ -1,29 +1,106 @@
 module Svg.Setter.Circle where
-import Svg.Elements
-import Svg.Types.Core
+--import Svg.Elements
+--import Svg.Types.Core
+-- import Svg.Types.Core
+import Text.XML
 
 
-cx :: Element -> OneOf2 Length Percentage -> Element
-cx (Circle a0 _ a2 a3 a4 a5 a6) v  = (Circle a0 v a2 a3 a4 a5 a6)
-cx _ _  = error "Element should be Circle!"
+cxLength :: Element -> Double -> Element
+cxLength = undefined
+--cxLength element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
 
-cy :: Element -> OneOf2 Length Percentage -> Element
-cy (Circle a0 a1 _ a3 a4 a5 a6) v  = (Circle a0 a1 v a3 a4 a5 a6)
-cy _ _  = error "Element should be Circle!"
+cxPercentage :: Element -> Double -> Element
+cxPercentage = undefined
+--cxPercentage element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
 
-r :: Element -> OneOf2 Length Percentage -> Element
-r (Circle a0 a1 a2 _ a4 a5 a6) v  = (Circle a0 a1 a2 v a4 a5 a6)
-r _ _  = error "Element should be Circle!"
+cyLength :: Element -> Double -> Element
+cyLength = undefined
+--cyLength element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
 
-pathLength :: Element -> Maybe (OneOf1 Number) -> Element
-pathLength (Circle a0 a1 a2 a3 _ a5 a6) v  = (Circle a0 a1 a2 a3 v a5 a6)
-pathLength _ _  = error "Element should be Circle!"
+cyPercentage :: Element -> Double -> Element
+cyPercentage = undefined
+--cyPercentage element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
 
-fill :: Element -> Maybe (OneOf1 Paint) -> Element
-fill (Circle a0 a1 a2 a3 a4 _ a6) v  = (Circle a0 a1 a2 a3 a4 v a6)
-fill _ _  = error "Element should be Circle!"
+rLength :: Element -> Double -> Element
+rLength = undefined
+--rLength element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
 
-stroke :: Element -> Maybe (OneOf1 Paint) -> Element
-stroke (Circle a0 a1 a2 a3 a4 a5 _) v  = (Circle a0 a1 a2 a3 a4 a5 v)
-stroke _ _  = error "Element should be Circle!"
+rPercentage :: Element -> Double -> Element
+rPercentage = undefined
+--rPercentage element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+pathLengthN :: Element -> Element
+pathLengthN = undefined
+--pathLengthN element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+pathLengthU :: Element -> Element
+pathLengthU = undefined
+--pathLengthU element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+pathLengthM :: Element -> Element
+pathLengthM = undefined
+--pathLengthM element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+pathLengthB :: Element -> Element
+pathLengthB = undefined
+--pathLengthB element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+pathLengthE :: Element -> Element
+pathLengthE = undefined
+--pathLengthE element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+pathLengthR :: Element -> Element
+pathLengthR = undefined
+--pathLengthR element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+fill :: Element -> String -> Element
+fill = undefined
+--fill element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
+stroke :: Element -> String -> Element
+stroke = undefined
+--stroke element@Element {
+--    elementName=Name { nameLocalName="circle" }
+--  } = undefined
+--Element = undefined
+
 
