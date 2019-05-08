@@ -9,6 +9,7 @@ import Test.Framework
 import           Data.String.Conversions
 import           Text.XML
 import qualified Svg.DefaultElements as Default
+import           Svg.Setter
 import qualified Svg.Setter.Svg as Svg
 import qualified Svg.Setter.Rect as Rect
 import qualified Svg.Setter.Circle as Circle
@@ -38,7 +39,14 @@ test_1 = do
     Right Default.svg
       >>= Svg.width 100
       >>= Svg.height 100
-
+      >>= addChildren [
+        fromRight $ Right Default.circle
+                      >>= Circle.cxLength 50
+                      >>= Circle.cyLength 50
+                      >>= Circle.stroke "green"
+                  --    >>= Circle.strokeWidth 4
+                      >>= Circle.fill "yellow"
+      ]
 
 printXMLElement :: Element -> IO()
 printXMLElement element = putStrLn $ cs $ renderText def

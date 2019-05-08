@@ -14,6 +14,18 @@ w3c = Element {
       (Name {nameLocalName = "width", nameNamespace = Nothing, namePrefix = Nothing},"100")
     , (Name {nameLocalName = "height", nameNamespace = Nothing, namePrefix = Nothing},"100")
     ]
-  , elementNodes = []
+  , elementNodes = [
+      NodeElement $ Element {
+        elementName = Name {nameLocalName = "circle", nameNamespace = Nothing, namePrefix = Nothing}
+      , elementAttributes = Map.fromList [
+          (Name {nameLocalName = "cx", nameNamespace = Nothing, namePrefix = Nothing},"50")
+        , (Name {nameLocalName = "cy", nameNamespace = Nothing, namePrefix = Nothing},"50")
+        , (Name {nameLocalName = "stroke", nameNamespace = Nothing, namePrefix = Nothing},"green")
+     --   , (Name {nameLocalName = "stoke-width", nameNamespace = Nothing, namePrefix = Nothing},"4")
+        , (Name {nameLocalName = "fill", nameNamespace = Nothing, namePrefix = Nothing},"yellow")
+        ]
+      , elementNodes = []
+      }
+    ]
   }
 
