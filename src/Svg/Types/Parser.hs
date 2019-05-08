@@ -55,6 +55,10 @@ double' = rd <$> (plus <|> minus <|> n)
 
 type Error = String
 
+
+points :: String -> Either Error Points
+points = undefined
+
 paint :: String -> Either Error Paint
 paint s =  case parse (many1 anyChar) "" s of
               Left e -> Left (show e)
@@ -81,14 +85,14 @@ percentage s = case parse (do{d<-double;char '%';eof; return d}) "" s of
   Right p -> Right $ Percentage p
 
 
-viewport :: String -> Either String Viewport
-viewport s = case parse viewportParser "" s of
+viewbox :: String -> Either String Viewbox
+viewbox s = case parse viewboxParser "" s of
   Left _ -> Left $ "Can not parse \"" ++ s ++ "\" to viewport"
   Right v -> Right v
 
 
-viewportParser :: Stream s m Char => ParsecT s u m Viewport
-viewportParser = do
+viewboxParser :: Stream s m Char => ParsecT s u m Viewbox
+viewboxParser = do
       minx <- double
       spaces
       miny <- double
@@ -97,7 +101,7 @@ viewportParser = do
       spaces
       h <- double
       eof
-      return $ Viewport minx miny w h
+      return $ Viewbox minx miny w h
 
 
 auto :: String -> Either Error Auto

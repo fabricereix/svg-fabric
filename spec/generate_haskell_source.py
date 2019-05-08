@@ -30,7 +30,8 @@ def type_arguments(t):
       'percentage': ['Percentage Double'],
       'number': ['Number Double'],
       'paint': ['Color String'],
-      'viewport': ['Viewport Double Double Double Double'],
+      'points': ['Points [(Double,Double)]'],
+      'viewbox': ['Viewbox Double Double Double Double'],
       'auto': ['AUTO'],
       'removeFreeze': ['REMOVE', 'FREEZE']
     }

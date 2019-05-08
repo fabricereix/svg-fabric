@@ -1,6 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
+import qualified Data.Map as Map
+import qualified Data.Text as Text
 import Text.XML hiding (writeFile)
 import Hilbert
 -- import System.IO.Unsafe
@@ -17,6 +19,7 @@ import Data.String.Conversions
 
 main :: IO()
 main = do
+  putStrLn "SVG Gallery"
   mapM_ writeDiagram Hilbert.diagrams
 
 
@@ -30,9 +33,16 @@ writeDiagram (filename, root) = do
                   , prologueDoctype = Nothing
                   , prologueAfter = []
                   }
-              , documentRoot = root
+              , documentRoot = addAttribute root ("xmlns","http://www.w3.org/2000/svg")
               , documentEpilogue = []
               }
+
+addAttribute :: Element -> (String,Text.Text) -> Element
+addAttribute element (attributeName,v) = element {
+          elementAttributes=Map.fromList $
+             Map.toList (elementAttributes element)
+            ++ [(Name {nameLocalName=cs attributeName, nameNamespace=Nothing, namePrefix=Nothing}, v)]
+      }
 
 --
 --   pPrint $ unsafePerformIO $ runX $ readString [] s

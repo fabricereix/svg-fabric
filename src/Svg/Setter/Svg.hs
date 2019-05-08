@@ -33,14 +33,14 @@ height _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a svg instead of " ++ cs name
 
-viewport ::  Double -> Double -> Double -> Double -> Element -> Either String Element
-viewport a0 a1 a2 a3 element@Element {
+viewBox ::  Double -> Double -> Double -> Double -> Element -> Either String Element
+viewBox a0 a1 a2 a3 element@Element {
     elementName=Name { nameLocalName="svg" }
   , elementAttributes=attributes
-  } = if hasAttribute attributes Name {nameLocalName="viewport", nameNamespace=Nothing, namePrefix=Nothing}
-      then Left "Attribute viewport already set"
-      else Right $ addAttribute element ("viewport",cs $ formatViewport (Viewport a0 a1 a2 a3))
-viewport _ _ _ _ Element {
+  } = if hasAttribute attributes Name {nameLocalName="viewBox", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute viewBox already set"
+      else Right $ addAttribute element ("viewBox",cs $ formatViewbox (Viewbox a0 a1 a2 a3))
+viewBox _ _ _ _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a svg instead of " ++ cs name
 

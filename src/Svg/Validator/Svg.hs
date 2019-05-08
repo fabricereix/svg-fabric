@@ -15,7 +15,7 @@ validateAttributes attributes = concatMap validateAttribute $ Map.toList attribu
 validateAttribute :: (Name, Text.Text) -> [Error]
 validateAttribute (Name { nameLocalName="width" }, value) = width value
 validateAttribute (Name { nameLocalName="height" }, value) = height value
-validateAttribute (Name { nameLocalName="viewport" }, value) = viewport value
+validateAttribute (Name { nameLocalName="viewBox" }, value) = viewBox value
 validateAttribute (name, _) = [InvalidAttribute "svg" name]
 
 
@@ -31,11 +31,11 @@ height v =
       Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "svg" "height" v]
       Left _ -> [InvalidAttributeValue "svg" "height" v]
 
-viewport :: Text.Text -> [Error]
-viewport v =
-  case Parser.viewport (cs v) of
-      Right parsed -> if formatViewport parsed == (cs v) then [] else [AttributeFormat "svg" "viewport" v]
-      Left _ -> [InvalidAttributeValue "svg" "viewport" v]
+viewBox :: Text.Text -> [Error]
+viewBox v =
+  case Parser.viewbox (cs v) of
+      Right parsed -> if formatViewbox parsed == (cs v) then [] else [AttributeFormat "svg" "viewBox" v]
+      Left _ -> [InvalidAttributeValue "svg" "viewBox" v]
 
 
 

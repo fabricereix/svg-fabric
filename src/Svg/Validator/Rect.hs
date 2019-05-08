@@ -44,23 +44,23 @@ y v =
 width :: Text.Text -> [Error]
 width "auto" = [AttributeDefault "rect" "width"]
 width v =
-  case Parser.auto (cs v) of
-      Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
-      Left _ -> case Parser.length (cs v) of
-          Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
-          Left _ -> case Parser.percentage (cs v) of
-              Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+  case Parser.length (cs v) of
+      Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+      Left _ -> case Parser.percentage (cs v) of
+          Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+          Left _ -> case Parser.auto (cs v) of
+              Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
               Left _ -> [InvalidAttributeValue "rect" "width" v]
 
 height :: Text.Text -> [Error]
 height "auto" = [AttributeDefault "rect" "height"]
 height v =
-  case Parser.auto (cs v) of
-      Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
-      Left _ -> case Parser.length (cs v) of
-          Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
-          Left _ -> case Parser.percentage (cs v) of
-              Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
+  case Parser.length (cs v) of
+      Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
+      Left _ -> case Parser.percentage (cs v) of
+          Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
+          Left _ -> case Parser.auto (cs v) of
+              Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "height" v]
               Left _ -> [InvalidAttributeValue "rect" "height" v]
 
 fill :: Text.Text -> [Error]

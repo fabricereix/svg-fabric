@@ -18,6 +18,13 @@ circle = Element {
     , elementNodes=[]
     }
 
+polyline :: Element
+polyline = Element {
+      elementName=Name { nameLocalName="polyline", nameNamespace = Nothing, namePrefix = Nothing}
+    , elementAttributes=Map.fromList []
+    , elementNodes=[]
+    }
+
 rect :: Element
 rect = Element {
       elementName=Name { nameLocalName="rect", nameNamespace = Nothing, namePrefix = Nothing}

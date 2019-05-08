@@ -55,25 +55,14 @@ yPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
-width ::  Element -> Either String Element
-width element@Element {
-    elementName=Name { nameLocalName="rect" }
-  , elementAttributes=attributes
-  } = if hasAttribute attributes Name {nameLocalName="width", nameNamespace=Nothing, namePrefix=Nothing}
-      then Left "Attribute width already set"
-      else Right $ addAttribute element ("width",cs $ formatAuto (AUTO))
-width Element {
-  elementName=Name { nameLocalName=name }
-  } = Left $ "should be a rect instead of " ++ cs name
-
-widthLength ::  Double -> Element -> Either String Element
-widthLength a0 element@Element {
+width ::  Double -> Element -> Either String Element
+width a0 element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="width", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute width already set"
       else Right $ addAttribute element ("width",cs $ formatLength (Length a0))
-widthLength _ Element {
+width _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
@@ -88,25 +77,25 @@ widthPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
-height ::  Element -> Either String Element
-height element@Element {
+widthAUTO ::  Element -> Either String Element
+widthAUTO element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
-  } = if hasAttribute attributes Name {nameLocalName="height", nameNamespace=Nothing, namePrefix=Nothing}
-      then Left "Attribute height already set"
-      else Right $ addAttribute element ("height",cs $ formatAuto (AUTO))
-height Element {
+  } = if hasAttribute attributes Name {nameLocalName="width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute width already set"
+      else Right $ addAttribute element ("width",cs $ formatAuto (AUTO))
+widthAUTO Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
-heightLength ::  Double -> Element -> Either String Element
-heightLength a0 element@Element {
+height ::  Double -> Element -> Either String Element
+height a0 element@Element {
     elementName=Name { nameLocalName="rect" }
   , elementAttributes=attributes
   } = if hasAttribute attributes Name {nameLocalName="height", nameNamespace=Nothing, namePrefix=Nothing}
       then Left "Attribute height already set"
       else Right $ addAttribute element ("height",cs $ formatLength (Length a0))
-heightLength _ Element {
+height _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
@@ -118,6 +107,17 @@ heightPercentage a0 element@Element {
       then Left "Attribute height already set"
       else Right $ addAttribute element ("height",cs $ formatPercentage (Percentage a0))
 heightPercentage _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a rect instead of " ++ cs name
+
+heightAUTO ::  Element -> Either String Element
+heightAUTO element@Element {
+    elementName=Name { nameLocalName="rect" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="height", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute height already set"
+      else Right $ addAttribute element ("height",cs $ formatAuto (AUTO))
+heightAUTO Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 

@@ -53,23 +53,23 @@ height _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a svg element"
 
-viewport :: Text.Text -> Element -> Either String Element
-viewport v element@Element {
+viewBox :: Text.Text -> Element -> Either String Element
+viewBox v element@Element {
     elementName=Name { nameLocalName="svg" }
   , elementAttributes=attributes
-  } = if hasAttribute attributes Name {nameLocalName="viewport", nameNamespace=Nothing, namePrefix=Nothing}
-      then Left "Attribute viewport already set"
-      else case Parser.viewport (cs v) of
-          Right parsed -> if formatViewport parsed == (cs v)
-                          then Right (addAttribute element ("viewport",v))
-                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatViewport parsed)))
-          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute viewport")
+  } = if hasAttribute attributes Name {nameLocalName="viewBox", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute viewBox already set"
+      else case Parser.viewbox (cs v) of
+          Right parsed -> if formatViewbox parsed == (cs v)
+                          then Right (addAttribute element ("viewBox",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatViewbox parsed)))
+          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute viewBox")
 
 
 --Right element {
---          elementAttributes=Map.fromList $ Map.toList attributes ++ [("viewport", "1")]
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("viewBox", "1")]
 --      }
-viewport _ Element {
+viewBox _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a svg element"
 
