@@ -9,15 +9,29 @@ import Test.Framework
 import           Data.String.Conversions
 import           Text.XML
 import qualified Svg.DefaultElements as Default
+import           Svg.Setter
+import qualified Svg.Combinator.Svg as Svg
 import qualified Svg.Combinator.Rect as Rect
 import qualified Svg.Combinator.Circle as Circle
-
+import qualified Test.Svg.Sample as Sample
 -- default prevent explicit failure
 fromRight :: Show l => Either l r -> r
 fromRight (Left e) = error $ show e
 fromRight (Right x) = x
 
-
+test_sample =
+  assertEqual Sample.w3c $ fromRight $
+    Right Default.svg
+      >>= Svg.width "100"
+      >>= Svg.height "100"
+      >>= addChildren [
+        fromRight $ Right Default.circle
+                      >>= Circle.cx "50"
+                      >>= Circle.cy "50"
+                      >>= Circle.stroke "green"
+                      >>= Circle.strokewidth "4"
+                      >>= Circle.fill "yellow"
+       ]
 
 test_1 = do
   putStrLn "HELLO"
