@@ -9,6 +9,7 @@ import Test.Framework
 import           Data.String.Conversions
 import           Text.XML
 import qualified Svg.DefaultElements as Default
+import qualified Svg.Setter.Svg as Svg
 import qualified Svg.Setter.Rect as Rect
 import qualified Svg.Setter.Circle as Circle
 import qualified Test.Svg.Sample as Sample
@@ -33,7 +34,10 @@ test_1 = do
   assertEqual (Left "Attribute fill already set")
               (Right Default.rect >>= Rect.fill "black" >>= Rect.fill "red")
 
-  assertEqual Sample.w3c $ fromRight $ Right Default.rect >>= Rect.xLength 1 >>= Rect.fill "black"
+  assertEqual Sample.w3c $ fromRight $
+    Right Default.svg
+      >>= Svg.width 100
+      >>= Svg.height 100
 
 
 printXMLElement :: Element -> IO()
