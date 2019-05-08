@@ -3,7 +3,6 @@ import Text.XML
 import qualified Svg.DefaultElements as Default
 import qualified Svg.Setter.Svg as Svg
 import qualified Svg.Setter.Polyline as Polyline
-import qualified Svg.Setter.Rect as Rect
 import           Svg.Setter
 
 
@@ -16,11 +15,10 @@ diagrams = [("hilbert.svg",
                 >>= Svg.height 300
                 >>= Svg.viewBox 0 0 1 1
                 >>= addChildren [
-                      fromRight $ Right Default.rect
-                                   >>= Rect.fill "yellow"
-                                   >>= Rect.width 1
-                                   >>= Rect.height 1
-                    , fromRight $ Right Default.polyline
+                      fromRight $ Right Default.polyline
+                                   >>= Polyline.fill "white"
+                                   >>= Polyline.strokewidth 0.01
+                                   >>= Polyline.stroke "red"
                                    >>= Polyline.points (map toDoublePoint $ hilbert 1)
                     ]
   )
