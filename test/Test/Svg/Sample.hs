@@ -21,7 +21,7 @@ w3c = Element {
           (Name {nameLocalName = "cx", nameNamespace = Nothing, namePrefix = Nothing},"50")
         , (Name {nameLocalName = "cy", nameNamespace = Nothing, namePrefix = Nothing},"50")
         , (Name {nameLocalName = "stroke", nameNamespace = Nothing, namePrefix = Nothing},"green")
-     --   , (Name {nameLocalName = "stoke-width", nameNamespace = Nothing, namePrefix = Nothing},"4")
+        , (Name {nameLocalName = "stroke-width", nameNamespace = Nothing, namePrefix = Nothing},"4")
         , (Name {nameLocalName = "fill", nameNamespace = Nothing, namePrefix = Nothing},"yellow")
         ]
       , elementNodes = []

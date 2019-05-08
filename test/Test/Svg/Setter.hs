@@ -44,7 +44,7 @@ test_1 = do
                       >>= Circle.cxLength 50
                       >>= Circle.cyLength 50
                       >>= Circle.stroke "green"
-                  --    >>= Circle.strokeWidth 4
+                      >>= Circle.strokewidthLength 4
                       >>= Circle.fill "yellow"
       ]
 
