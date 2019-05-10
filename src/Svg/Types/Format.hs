@@ -47,3 +47,12 @@ formatPoint :: (Double,Double) -> String
 formatPoint (x,y) = formatDouble 3 x ++ "," ++ formatDouble 3 y
 
 
+
+
+formatSegment :: Segment -> String
+formatSegment (M relative x y) = let command = if relative then "m" else "M"
+                                 in command ++ formatDouble 6 x ++ " " ++ formatDouble 6 y
+formatSegment (L relative x y) = let command = if relative then "l" else "L"
+                                 in command ++ formatDouble 6 x ++ " " ++ formatDouble 6 y
+formatSegment _ = undefined
+

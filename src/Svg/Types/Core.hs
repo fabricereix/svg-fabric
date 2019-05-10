@@ -17,3 +17,17 @@ newtype Points = Points [(Double,Double)] deriving (Show,Eq)
 
 
 
+data Segment
+  = M Bool Double Double
+  | L Bool Double Double
+  | H Bool Double
+  | V Bool Double
+  | Z Bool
+  | C Bool Double Double Double Double Double Double
+  | S Bool Double Double Double Double
+  | Q Bool Double Double Double Double
+  | T Bool Double Double
+  | A Bool Double Double Double Double Double Double Double Double
+  deriving (Show,Eq)
+
+

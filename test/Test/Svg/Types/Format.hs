@@ -14,3 +14,10 @@ test_formatLength = do
   assertEqual "1.1"      $ formatLength (Length 1.1)
   assertEqual "0.333333" $ formatLength (Length (1/3))
   assertEqual "0.666667" $ formatLength (Length (2/3))
+
+
+test_formatSegment = do
+  assertEqual "M10 10"   $ formatSegment (M False 10 10)
+  assertEqual "m1.1 2"   $ formatSegment (M True 1.10 2)
+  assertEqual "L0 -1"    $ formatSegment (L False 0 (-1))
+
