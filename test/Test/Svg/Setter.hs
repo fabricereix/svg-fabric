@@ -13,7 +13,9 @@ import           Svg.Setter
 import qualified Svg.Setter.Svg as Svg
 import qualified Svg.Setter.Rect as Rect
 import qualified Svg.Setter.Circle as Circle
+import qualified Svg.Setter.Path as Path
 import qualified Test.Svg.Sample as Sample
+import           Svg.Types.Core
 
 -- default prevent explicit failure
 fromRight :: Show l => Either l r -> r
@@ -48,6 +50,7 @@ test_1 = do
                       >>= Circle.fill "yellow"
       ]
 
+
 printXMLElement :: Element -> IO()
 printXMLElement element = putStrLn $ cs $ renderText def
   -- def { rsAttrOrder= const (toOrderedList ["x", "fill"])}
@@ -63,4 +66,19 @@ printXMLElement element = putStrLn $ cs $ renderText def
               }
 
 
-
+test_heart = assertEqual Sample.heart $ fromRight $
+    Right Default.svg
+      >>= Svg.viewBox 0 0 100 100
+      >>= addChildren [
+        fromRight $ Right Default.path
+                      >>= Path.fill "none"
+                      >>= Path.stroke "red"
+                      >>= Path.d [
+                              M False 10 30
+                            , A False 20 20 0 0 1 50 30
+                            , A False 20 20 0 0 1 90 30
+                            , Q False 90 60 50 90
+                            , Q False 10 60 10 30
+                            , Z True
+                            ]
+        ]

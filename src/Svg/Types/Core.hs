@@ -28,7 +28,7 @@ data Command
   | S Bool Double Double Double Double
   | Q Bool Double Double Double Double
   | T Bool Double Double
-  | A Bool Double Double Double Double Double Double Double Double
+  | A Bool Double Double Double Double Double Double Double
   deriving (Show,Eq)
 
 

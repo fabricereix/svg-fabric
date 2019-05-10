@@ -53,8 +53,31 @@ formatPath (Path cs) = unwords $ map formatCommand cs
 
 formatCommand :: Command -> String
 formatCommand (M relative x y) = let command = if relative then "m" else "M"
-                                 in command ++ formatDouble 6 x ++ " " ++ formatDouble 6 y
+                                 in command ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
 formatCommand (L relative x y) = let command = if relative then "l" else "L"
-                                 in command ++ formatDouble 6 x ++ " " ++ formatDouble 6 y
-formatCommand _ = undefined
+                                 in command ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
+formatCommand (H relative x) = let command = if relative then "h" else "H"
+                               in command ++ formatDouble 6 x
+formatCommand (V relative y) = let command = if relative then "v" else "V"
+                               in command ++ formatDouble 6 y
+formatCommand (Z relative) = if relative then "z" else "Z"
+formatCommand (C relative x1 y1 x2 y2 x y) = let command = if relative then "c" else "C"
+                               in command ++ formatDouble 6 x1 ++ "," ++ formatDouble 6 y1
+                                   ++ " " ++ formatDouble 6 x2 ++ "," ++ formatDouble 6 y2
+                                   ++ " " ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
+formatCommand (S relative x2 y2 x y) = let command = if relative then "s" else "S"
+                                       in command ++ formatDouble 6 x2 ++ "," ++ formatDouble 6 y2
+                                           ++ " " ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
+formatCommand (Q relative x1 y1 x y) = let command = if relative then "q" else "Q"
+                                       in command ++ formatDouble 6 x1 ++ "," ++ formatDouble 6 y1
+                                           ++ " " ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
+formatCommand (T relative x y) = let command = if relative then "s" else "T"
+                                 in command ++ " " ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
+formatCommand (A relative rx ry xAxisRotation largeArcFlag sweepFlag x y) =
+                                 let command = if relative then "a" else "A"
+                                 in command ++ formatDouble 6 rx ++ "," ++ formatDouble 6 ry
+                                         ++ " " ++ formatDouble 6 xAxisRotation
+                                         ++ "," ++ formatDouble 6 largeArcFlag
+                                         ++ "," ++ formatDouble 6 sweepFlag
+                                         ++ " " ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
 

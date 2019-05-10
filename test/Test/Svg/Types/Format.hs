@@ -17,11 +17,11 @@ test_formatLength = do
 
 
 test_formatSegment = do
-  assertEqual "M10 10"   $ formatCommand (M False 10 10)
-  assertEqual "m1.1 2"   $ formatCommand (M True 1.10 2)
-  assertEqual "L0 -1"    $ formatCommand (L False 0 (-1))
+  assertEqual "M10,10"   $ formatCommand (M False 10 10)
+  assertEqual "m1.1,2"   $ formatCommand (M True 1.10 2)
+  assertEqual "L0,-1"    $ formatCommand (L False 0 (-1))
 
 
 test_formatPath = do
-  assertEqual "M10 10"   $ formatPath $ Path [M False 10 10]
-  assertEqual "m1.1 2"   $ formatPath $ Path [M True 1.10 2]
+  assertEqual "M10,10"   $ formatPath $ Path [M False 10 10]
+  assertEqual "m1.1,2"   $ formatPath $ Path [M True 1.10 2]
