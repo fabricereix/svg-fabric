@@ -15,9 +15,10 @@ data RemoveFreeze = REMOVE | FREEZE deriving (Show, Eq)
 
 newtype Points = Points [(Double,Double)] deriving (Show,Eq)
 
+newtype Path = Path [Command]
 
 
-data Segment
+data Command
   = M Bool Double Double
   | L Bool Double Double
   | H Bool Double

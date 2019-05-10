@@ -6,6 +6,9 @@ elements:
       attributes: [cx, cy, r, pathLength]
   polyline:
       attributes: [points]
+  path:
+      attributes:
+      - {name: d, type: path}
   rect:
       attributes: [x, y, width, height]
   svg:

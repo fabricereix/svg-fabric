@@ -11,6 +11,7 @@ import           Svg.Types.Format
 import           Text.XML
 
 
+
 cx ::  Double -> Element -> Either String Element
 cx a0 element@Element {
     elementName=Name { nameLocalName="circle" }

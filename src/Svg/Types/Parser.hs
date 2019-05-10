@@ -75,6 +75,8 @@ lengthParser = do
     eof
     return $ Length d
 
+path :: String -> Either String Path
+path = undefined
 
 number :: String -> Either Error Number
 number _ = Left "TODO"

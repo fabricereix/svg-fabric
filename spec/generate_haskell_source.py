@@ -33,7 +33,8 @@ def type_arguments(t):
       'points': ['Points [(Double,Double)]'],
       'viewbox': ['Viewbox Double Double Double Double'],
       'auto': ['AUTO'],
-      'removeFreeze': ['REMOVE', 'FREEZE']
+      'removeFreeze': ['REMOVE', 'FREEZE'],
+      'path': ['Path [Command]']
     }
     if t not in arguments:
         raise Exception('type %s not defined' % t)

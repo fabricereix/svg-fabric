@@ -9,6 +9,7 @@ import qualified Data.Text as Text
 import           Svg.Types.Core
 import           Svg.Types.Format
 import           Text.XML
+{% if element.name == 'path'%}import Svg.Types.Core (Command){% endif %}
 
 {% for attribute in element.attributes %}{% for i,type in enumerate(attribute.type) %}{% for j, constructor in enumerate(type_arguments(type)) %}{% set setter = attribute.name.replace('-','') + ("" if i==0 and j==0  else capitalize(constructor.split(' ')[0])) %}{% set arguments = constructor.split(' ')[1:]%}
 {{setter}} :: {%for arg in arguments%} {{arg}} ->{% endfor%} Element -> Either String Element

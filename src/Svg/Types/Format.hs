@@ -48,11 +48,13 @@ formatPoint (x,y) = formatDouble 3 x ++ "," ++ formatDouble 3 y
 
 
 
+formatPath :: Path -> String
+formatPath (Path cs) = unwords $ map formatCommand cs
 
-formatSegment :: Segment -> String
-formatSegment (M relative x y) = let command = if relative then "m" else "M"
+formatCommand :: Command -> String
+formatCommand (M relative x y) = let command = if relative then "m" else "M"
                                  in command ++ formatDouble 6 x ++ " " ++ formatDouble 6 y
-formatSegment (L relative x y) = let command = if relative then "l" else "L"
+formatCommand (L relative x y) = let command = if relative then "l" else "L"
                                  in command ++ formatDouble 6 x ++ " " ++ formatDouble 6 y
-formatSegment _ = undefined
+formatCommand _ = undefined
 
