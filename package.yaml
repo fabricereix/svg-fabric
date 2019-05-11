@@ -64,6 +64,17 @@ executables:
       - -fno-warn-orphans
       - -Wno-incomplete-record-updates
 
+  xmldump:
+    main: Main.hs
+    source-dirs: apps/xml-dump
+    dependencies:
+      - string-conversions
+      - pretty-simple
+      - xml-conduit
+    ghc-options:
+      - -fno-warn-orphans
+      - -Wno-incomplete-record-updates
+
 tests:
   svg-fabric-htf-tests:
     main: TestMain.hs
