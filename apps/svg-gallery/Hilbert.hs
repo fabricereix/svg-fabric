@@ -20,25 +20,25 @@ diagrams = concatMap (\n->[
 
 diagramPolyline :: Int -> Element
 diagramPolyline n = fromRight $ Right Default.svg
-                >>= Svg.width 300
-                >>= Svg.height 300
-                >>= Svg.viewBox 0 0 (2^n-1) (2^n-1)
+                >>= Svg.width 500
+                >>= Svg.height 500
+                >>= Svg.viewBox (-1) (-1) (2^n+1) (2^n+1)
                 >>= addChildren [
                       fromRight $ Right Default.polyline
                                    >>= Polyline.fill "white"
-                                   >>= Polyline.strokewidth 0.05
-                                   >>= Polyline.stroke "red"
+                                   >>= Polyline.strokewidth 0.1
+                                   >>= Polyline.stroke "darkred"
                                    >>= Polyline.points (map toDoublePoint $ hilbert n)
                       ]
 diagramPath :: Int -> Element
 diagramPath n = fromRight $ Right Default.svg
-                >>= Svg.width 300
-                >>= Svg.height 300
-                >>= Svg.viewBox 0 0 (2^n-1) (2^n-1)
+                >>= Svg.width 500
+                >>= Svg.height 500
+                >>= Svg.viewBox (-1) (-1) (2^n+1) (2^n+1)
                 >>= addChildren [
                       fromRight $ Right Default.path
-                                   >>= Path.strokewidth 0.05
-                                   >>= Path.stroke "red"
+                                   >>= Path.strokewidth 0.1
+                                   >>= Path.stroke "darkred"
                                    >>= Path.fill "none"
                                    >>= Path.d (optimizePath (M False 0 0:map toPathCommand (diffPoints $ hilbert n)))
                       ]
