@@ -11,6 +11,8 @@ import qualified Svg.Validator.Path as Path
 import qualified Svg.Validator.Polyline as Polyline
 import qualified Svg.Validator.Rect as Rect
 import qualified Svg.Validator.Svg as Svg
+import qualified Svg.Validator.Symbol as Symbol
+import qualified Svg.Validator.Use as Use
 
 
 
@@ -62,6 +64,22 @@ validate Element {
   , elementAttributes=attributes
   , elementNodes=children
   } = Svg.validateAttributes attributes ++ validateChildren children
+
+validate Element {
+    elementName=Name {
+        nameLocalName="symbol"
+    }
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = Symbol.validateAttributes attributes ++ validateChildren children
+
+validate Element {
+    elementName=Name {
+        nameLocalName="use"
+    }
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = Use.validateAttributes attributes ++ validateChildren children
 
 
 validate Element {elementName=elemName }  = [InvalidElement elemName]

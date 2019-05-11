@@ -9,6 +9,7 @@ data Viewbox = Viewbox Double Double Double Double deriving (Show, Eq)
 
 data Auto = AUTO deriving (Show, Eq)
 newtype Paint = Color String deriving (Show, Eq)
+newtype Id = Id String deriving (Show, Eq)
 newtype Number = Number Double deriving (Show, Eq)
 
 data RemoveFreeze = REMOVE | FREEZE deriving (Show, Eq)

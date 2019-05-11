@@ -66,6 +66,7 @@ printXMLElement element = putStrLn $ cs $ renderText def
               }
 
 
+
 test_heart = assertEqual Sample.heart $ fromRight $
     Right Default.svg
       >>= Svg.viewBox 0 0 100 100
@@ -82,3 +83,6 @@ test_heart = assertEqual Sample.heart $ fromRight $
                             , Z True
                             ]
         ]
+
+test_heartWithShade = printXMLElement  Sample.heartWithShade
+

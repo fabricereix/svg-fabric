@@ -46,7 +46,8 @@ formatPoints (Points points) = unwords $ map formatPoint points
 formatPoint :: (Double,Double) -> String
 formatPoint (x,y) = formatDouble 3 x ++ "," ++ formatDouble 3 y
 
-
+formatId :: Id -> String
+formatId (Id s) = s
 
 formatPath :: Path -> String
 formatPath (Path cs) = unwords $ map formatCommand cs

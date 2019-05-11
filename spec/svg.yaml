@@ -16,7 +16,16 @@ elements:
       - {name: width, type: length, default:0}
       - {name: height, type: length, default:0}
       - {name: viewBox, type: viewbox}
-
+  symbol:
+      attributes:
+      - {name: width, type: length, default:0}
+      - {name: height, type: length, default:0}
+      - {name: viewBox, type: viewbox}
+  use:
+      attributes:
+      - {name: href, type: id}
+      - {name: x, type: length, default:0}
+      - {name: y, type: length, default:0}
 
 element-groups:
   basic-shape: [circle, ellipse, line, polygon, polyline, rect]
@@ -33,7 +42,7 @@ attributes:
   stroke-width: {type: [length,percentage],      default: 1, elements:[altGlyph, circle, ellipse, path,
                                    polygon, polyline, rect, text, textPath, tref, tspan]}
   height:       {type: [length,percentage,auto], default: auto}
-  id:           {type: string, elements:[_all]}
+  id:           {type: id, elements:[symbol]}
   opacity:      {type: opacity, elements:[_graphics]}
   pathLength:   {type: number}
   points:       {type: points}

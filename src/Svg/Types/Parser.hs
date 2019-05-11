@@ -78,6 +78,9 @@ lengthParser = do
 path :: String -> Either String Path
 path = undefined
 
+id :: String -> Either String Id
+id = undefined
+
 number :: String -> Either Error Number
 number _ = Left "TODO"
 

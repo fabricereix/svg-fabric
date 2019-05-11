@@ -8,6 +8,7 @@ import           Svg.Validator.Core
 import qualified Svg.Types.Parser as Parser
 import           Svg.Types.Format
 import           Text.XML
+import           Prelude hiding (id)
 
 validateAttributes :: Map.Map Name Text.Text -> [Error]
 validateAttributes attributes = concatMap validateAttribute $ Map.toList attributes

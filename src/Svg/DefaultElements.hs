@@ -46,3 +46,17 @@ svg = Element {
     , elementNodes=[]
     }
 
+symbol :: Element
+symbol = Element {
+      elementName=Name { nameLocalName="symbol", nameNamespace = Nothing, namePrefix = Nothing}
+    , elementAttributes=Map.fromList []
+    , elementNodes=[]
+    }
+
+use :: Element
+use = Element {
+      elementName=Name { nameLocalName="use", nameNamespace = Nothing, namePrefix = Nothing}
+    , elementAttributes=Map.fromList []
+    , elementNodes=[]
+    }
+

@@ -34,7 +34,8 @@ def type_arguments(t):
       'viewbox': ['Viewbox Double Double Double Double'],
       'auto': ['AUTO'],
       'removeFreeze': ['REMOVE', 'FREEZE'],
-      'path': ['Path [Command]']
+      'path': ['Path [Command]'],
+      'id': ['Id String']
     }
     if t not in arguments:
         raise Exception('type %s not defined' % t)
