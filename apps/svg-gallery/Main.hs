@@ -5,6 +5,7 @@ import qualified Data.Map as Map
 import qualified Data.Text as Text
 import Text.XML hiding (writeFile)
 import Hilbert
+import KnightTour
 -- import System.IO.Unsafe
 -- import Text.Pretty.Simple
 -- import Control.Monad.Catch
@@ -21,6 +22,7 @@ main :: IO()
 main = do
   putStrLn "SVG Gallery"
   mapM_ writeDiagram Hilbert.diagrams
+  mapM_ writeDiagram KnightTour.diagrams
 
 
 writeDiagram :: (String, Element) -> IO()
