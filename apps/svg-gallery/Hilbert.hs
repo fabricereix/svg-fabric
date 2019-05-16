@@ -6,6 +6,7 @@ import qualified Svg.Setter.Polyline as Polyline
 import qualified Svg.Setter.Path as Path
 import           Svg.Setter
 import           Svg.Types.Core
+import Helper
 
 
 -- diagram
@@ -43,20 +44,6 @@ diagramPath n = fromRight $ Right Default.svg
                                    >>= Path.d (optimizePath (M False 0 0:map toPathCommand (diffPoints $ hilbert n)))
                       ]
 
--- Helpers
-type Point = (Int,Int)
-toDoublePoint :: Point -> (Double, Double)
-toDoublePoint (x,y) = (fromIntegral x, fromIntegral y)
-
-toPathCommand :: (Int,Int) -> Command
-toPathCommand (0,y) = V True (fromIntegral y)
-toPathCommand (x,0) = H True (fromIntegral x)
-toPathCommand (x,y) = L True (fromIntegral x) (fromIntegral y)
-
-fromRight :: Show l => Either l r -> r
-fromRight (Left e) = error $ show e
-fromRight (Right x) = x
-
 
 -- Core
 hilbert :: Int -> [Point]
@@ -67,17 +54,6 @@ hilbert n =  map (\(x,y)->(y,m-x)) (reverseList $ hilbert (n-1))
           ++ map (\(x,y)->(2*m+1-y,x)) (reverseList $ hilbert (n-1))
    where m = 2^(n-1)-1
 
-reverseList :: [a] -> [a]
-reverseList  [] = []
-reverseList  xs = last xs : reverseList (init xs)
-
-
-
-
-diffPoints :: [Point]->[(Int,Int)]
-diffPoints [] = []
-diffPoints [_] = []
-diffPoints ((x1,y1):(x2,y2):ps) = (x2-x1,y2-y1):diffPoints ((x2,y2):ps)
 
 
 optimizePath :: [Command] -> [Command]
