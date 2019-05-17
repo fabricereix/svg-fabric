@@ -34,7 +34,7 @@ diagramPath n = fromRight $ Right Default.svg
                         >>= Path.strokewidth 0.05
                         >>= Path.stroke "black"
                         >>= Path.fill "black"
-                        >>= Path.d (M False 0 0:sierpenskiPath n)
+                        >>= Path.d (optimizePath (M False 0 0:sierpenskiPath n))
                    ]
 
 sierpenskiPath :: Int -> [Command]
