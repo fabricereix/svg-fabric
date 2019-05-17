@@ -13,8 +13,8 @@ import Prelude hiding (id)
 
 
 diagrams :: [(String,Element)]
-diagrams = map (\n->("sierpinski-symbol-" ++ show n ++ ".svg", diagram n)) [1,3,5,8]
-        ++ map (\n->("sierpinski-path-" ++ show n ++ ".svg", diagramPath n)) [1,2,3,5,8]
+diagrams = map (\n->("sierpinski-symbol-" ++ show n ++ ".svg", diagram n)) [1,3,5,8,10]
+        ++ map (\n->("sierpinski-path-" ++ show n ++ ".svg", diagramPath n)) [1,2,3,5,8,10]
 
 diagram :: Int -> Element
 diagram n = fromRight $ Right Default.svg
