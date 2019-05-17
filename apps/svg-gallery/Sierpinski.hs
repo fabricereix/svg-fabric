@@ -24,6 +24,7 @@ diagram = fromRight $ Right Default.svg
                 >>= addChildren [
                       symbol1
                     , symbol2
+                    , symbol3
                     , use
                     ]
 
@@ -31,7 +32,7 @@ use :: Element
 use = fromRight $ Right Default.use
   >>= Use.x 0
   >>= Use.y 0
-  >>= Use.href "#symbol2"
+  >>= Use.href "#symbol3"
 
 
 triangle :: Element
