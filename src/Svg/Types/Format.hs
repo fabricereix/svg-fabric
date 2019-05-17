@@ -24,7 +24,7 @@ formatRemovefreeze FREEZE = "freeze"
 formatDouble :: Int -> Double -> String
 formatDouble n x = show integer ++ if decimal == "0" then "" else "." ++ stripSuffix '0' (replicate (n-length decimal) '0' ++ decimal)
    where (integer,dec) = properFraction x :: (Int,Double)
-         decimal = show ((round $ fromIntegral((10::Int)^n) * dec) :: Int)
+         decimal = show ((round $ fromIntegral((10::Int)^n) * abs dec) :: Int)
 
 stripSuffix :: Char -> String -> String
 stripSuffix _ [] = []
