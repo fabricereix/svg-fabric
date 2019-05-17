@@ -13,34 +13,45 @@ import Helper
 
 diagrams :: [(String,Element)]
 diagrams = [
-             ("sierpinsky-5.svg", diagram)
+             ("sierpinsky-3.svg", diagram 3)
+           , ("sierpinsky-5.svg", diagram 5)
            ]
 
-diagram :: Element
-diagram = fromRight $ Right Default.svg
+diagram :: Int -> Element
+diagram n = fromRight $ Right Default.svg
                 >>= Svg.width 500
                 >>= Svg.height 500
-                >>= Svg.viewBox (-1) (-1) 8 8
-                >>= addChildren [
-                      symbol1
-                    , symbol2
-                    , symbol3
-                    , use
-                    ]
+                >>= Svg.viewBox (-1) (-1) (2^(n-1)+2) (2^(n-1)+2)
+                >>= addChildren (map symbol [1..n] ++ [fromRight $ Right Default.use >>= Use.href ("#symbol" ++ show n)])
 
-use :: Element
-use = fromRight $ Right Default.use
-  >>= Use.x 0
-  >>= Use.y 0
-  >>= Use.href "#symbol3"
 
 
 triangle :: Element
 triangle = fromRight $ Right Default.path
-  >>= Path.strokewidth 0.1
+  >>= Path.strokewidth 0.05
   >>= Path.stroke "black"
-  >>= Path.fill "black"
+  >>= Path.fill "none"
   >>= Path.d [M False 0 0, L False 0.5 (sqrt 3/2),L False 1 0, Z False]
+
+
+symbol :: Int -> Element
+symbol 1 = fromRight $ Right Default.symbol
+               >>= Symbol.id "symbol1"
+               -- >>= Symbol.width 1
+               -- >>= Symbol.height 1
+               >>= addChildren [
+                      triangle
+                   ]
+symbol n = fromRight $ Right Default.symbol
+    >>= Symbol.id ("symbol" ++ show n)
+    -- >>= Symbol.width 1
+   -- >>= Symbol.height 1
+    >>= addChildren [
+         fromRight $ Right Default.use >>= Use.x 0 >>= Use.y 0 >>= Use.href ("#symbol" ++ show (n-1))
+       , fromRight $ Right Default.use >>= Use.x (fromIntegral l / 2) >>= Use.y 0 >>= Use.href ("#symbol" ++ show (n-1))
+       , fromRight $ Right Default.use >>= Use.x (fromIntegral l / 4) >>= Use.y (sqrt 3/4*fromIntegral l) >>= Use.href ("#symbol" ++ show (n-1))
+    ]
+    where l = 2^(n-1) :: Int
 
 
 symbol1 :: Element
