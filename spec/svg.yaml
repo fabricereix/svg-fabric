@@ -27,6 +27,7 @@ elements:
       - {name: x, type: length, default:0}
       - {name: y, type: length, default:0}
 
+
 element-groups:
   basic-shape: [circle, ellipse, line, polygon, polyline, rect]
   graphics: [circle, ellipse, image, line, mesh, path, polygon, polyline, rect, text, use]
