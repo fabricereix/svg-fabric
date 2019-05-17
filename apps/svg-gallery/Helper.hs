@@ -43,3 +43,16 @@ mergeCommands c1@(V True x1) c2@(V True x2) = if signum x1 == signum x2
 
 mergeCommands (M True x1 y1) (M True x2 y2) = [M True (x1+x2) (y1+y2)]
 mergeCommands c1 c2 = [c1, c2]
+
+
+roundPath :: Int -> [Command] -> [Command]
+roundPath n = map (roundCommand n)
+
+roundCommand :: Int -> Command -> Command
+roundCommand n (L True x y) = L True (roundDouble n x) (roundDouble n y)
+roundCommand n (M True x y) = M True (roundDouble n x) (roundDouble n y)
+roundCommand _ c = c
+
+roundDouble :: Int -> Double -> Double
+roundDouble n d = fromInteger (round $ d * (10^n)) / (10.0^^n)
+
