@@ -13,7 +13,8 @@ import Prelude hiding (id)
 
 
 diagrams :: [(String,Element)]
-diagrams = map (\n->("sierpinski-" ++ show n ++ ".svg", diagram n)) [1,3,5,8]
+diagrams = map (\n->("sierpinski-symbol-" ++ show n ++ ".svg", diagram n)) [1,3,5,8]
+        ++ map (\n->("sierpinski-path-" ++ show n ++ ".svg", diagramPath n)) [1,2,3,5,8]
 
 diagram :: Int -> Element
 diagram n = fromRight $ Right Default.svg
@@ -22,6 +23,27 @@ diagram n = fromRight $ Right Default.svg
                 >>= Svg.viewBox (-1) (-1) (2^n+2) (2^n+2)
                 >>= addChildren (map symbol [1..n] ++ [fromRight $ Right Default.use >>= Use.href ("#symbol" ++ show n)])
 
+
+diagramPath :: Int -> Element
+diagramPath n = fromRight $ Right Default.svg
+                >>= Svg.width 500
+                >>= Svg.height 500
+                >>= Svg.viewBox (-1) (-1) (2^n+2) (2^n+2)
+                >>= addChildren [
+                      fromRight $ Right Default.path
+                        >>= Path.strokewidth 0.05
+                        >>= Path.stroke "black"
+                        >>= Path.fill "black"
+                        >>= Path.d (M False 0 0:sierpenskiPath n)
+                   ]
+
+sierpenskiPath :: Int -> [Command]
+sierpenskiPath 1 = [L True 1 (sqrt 3),L True 1 (-sqrt 3), H True (-2)]
+sierpenskiPath n = sierpenskiPath (n - 1)
+                ++ M True l 0 :sierpenskiPath (n - 1)
+                ++ M True (-l/2) (sqrt 3/2*l) :sierpenskiPath (n - 1)
+                ++ [M True (-l/2) (-sqrt 3/2*l)]
+    where l = fromIntegral (2^(n-1)::Int) :: Double
 
 triangle :: Element
 triangle = fromRight $ Right Default.path
