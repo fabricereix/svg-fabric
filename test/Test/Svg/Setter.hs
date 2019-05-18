@@ -54,9 +54,9 @@ test_1 = do
                       >>= Circle.fill "yellow"
       ]
 
-test_sample_use = do
-   let s = renderXMLElement Sample.heartWithShade
-   writeFile "/tmp/heart.svg" $ cs s
+test_sample_use = --do
+   --let s = renderXMLElement Sample.heartWithShade
+   --writeFile "/tmp/heart.svg" $ cs s
    --writeFile "/tmp/heart2.svg" $ cs $ renderXMLElement $
    assertEqual Sample.heartWithShade $
     fromRight $ Right Default.svg
