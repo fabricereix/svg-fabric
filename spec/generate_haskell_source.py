@@ -35,7 +35,8 @@ def type_arguments(t):
       'auto': ['AUTO'],
       'removeFreeze': ['REMOVE', 'FREEZE'],
       'path': ['Path [Command]'],
-      'id': ['Id String']
+      'id': ['Id String'],
+      'transform': ['Transform [BasicTransform]']
     }
     if t not in arguments:
         raise Exception('type %s not defined' % t)

@@ -18,6 +18,13 @@ circle = Element {
     , elementNodes=[]
     }
 
+g :: Element
+g = Element {
+      elementName=Name { nameLocalName="g", nameNamespace = Nothing, namePrefix = Nothing}
+    , elementAttributes=Map.fromList []
+    , elementNodes=[]
+    }
+
 path :: Element
 path = Element {
       elementName=Name { nameLocalName="path", nameNamespace = Nothing, namePrefix = Nothing}

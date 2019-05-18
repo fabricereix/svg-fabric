@@ -4,6 +4,8 @@ elements:
       - {name: fill, type: removeFreeze, default: remove}
   circle:
       attributes: [cx, cy, r, pathLength]
+  g:
+      attributes: []
   polyline:
       attributes: [points]
   path:
@@ -36,12 +38,13 @@ element-groups:
 attributes:
   cx:           {type: [length,percentage],      default: 0}
   cy:           {type: [length,percentage],      default: 0}
-  fill:         {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text,
+  fill:         {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text, g,
                                       textPath, tref, tspan]}
   stroke:       {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text,
                                       textPath, tref, tspan]}
   stroke-width: {type: [length,percentage],      default: 1, elements:[altGlyph, circle, ellipse, path,
                                    polygon, polyline, rect, text, textPath, tref, tspan]}
+  transform:    {type: transform, elements:[g]}
   height:       {type: [length,percentage,auto], default: auto}
   id:           {type: id, elements:[symbol]}
   opacity:      {type: opacity, elements:[_graphics]}

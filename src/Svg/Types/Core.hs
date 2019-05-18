@@ -17,7 +17,7 @@ data RemoveFreeze = REMOVE | FREEZE deriving (Show, Eq)
 newtype Points = Points [(Double,Double)] deriving (Show,Eq)
 
 newtype Path = Path [Command]
-
+newtype Transform = Transform [BasicTransform]
 
 data Command
   = M Bool Double Double
@@ -31,5 +31,12 @@ data Command
   | T Bool Double Double
   | A Bool Double Double Double Double Double Double Double
   deriving (Show,Eq)
+
+data BasicTransform
+  = Rotate Double Double Double
+  | Translate Double Double
+  | Skew Double Double
+  | Scale Double Double
+
 
 

@@ -7,6 +7,7 @@ import Svg.Validator.Core
 
 import qualified Svg.Validator.Animate as Animate
 import qualified Svg.Validator.Circle as Circle
+import qualified Svg.Validator.G as G
 import qualified Svg.Validator.Path as Path
 import qualified Svg.Validator.Polyline as Polyline
 import qualified Svg.Validator.Rect as Rect
@@ -32,6 +33,14 @@ validate Element {
   , elementAttributes=attributes
   , elementNodes=children
   } = Circle.validateAttributes attributes ++ validateChildren children
+
+validate Element {
+    elementName=Name {
+        nameLocalName="g"
+    }
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = G.validateAttributes attributes ++ validateChildren children
 
 validate Element {
     elementName=Name {

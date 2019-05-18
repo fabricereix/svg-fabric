@@ -78,6 +78,9 @@ lengthParser = do
 path :: String -> Either String Path
 path = undefined
 
+transform :: String -> Either String Transform
+transform = undefined
+
 id :: String -> Either String Id
 id = undefined
 
