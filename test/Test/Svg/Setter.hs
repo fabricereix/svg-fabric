@@ -55,6 +55,12 @@ test_1 = do
 test_sample_use = do
    let s = renderXMLElement Sample.heartWithShade
    writeFile "/tmp/heart.svg" $ cs s
+   writeFile "/tmp/heart2.svg" $ cs $ renderXMLElement $ fromRight $ Right Default.svg
+      >>= Svg.width 100
+      >>= Svg.height 100
+      >>= addChildren []
+
+
 
 printXMLElement :: Element -> IO()
 printXMLElement element = putStrLn $ cs $ renderXMLElement element
