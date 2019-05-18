@@ -7,7 +7,7 @@ import Test.Framework
 -- import Svg.Combinator.Rect
 -- import Svg.Types.Core
 import           Data.String.Conversions
-import           Text.XML
+import           Text.XML hiding (writeFile)
 import qualified Svg.DefaultElements as Default
 import           Svg.Setter
 import qualified Svg.Setter.Svg as Svg
@@ -16,6 +16,8 @@ import qualified Svg.Setter.Circle as Circle
 import qualified Svg.Setter.Path as Path
 import qualified Test.Svg.Sample as Sample
 import           Svg.Types.Core
+import qualified Data.Text as T
+import qualified Data.Map as Map
 
 -- default prevent explicit failure
 fromRight :: Show l => Either l r -> r
@@ -50,9 +52,15 @@ test_1 = do
                       >>= Circle.fill "yellow"
       ]
 
+test_sample_use = do
+   let s = renderXMLElement Sample.heartWithShade
+   writeFile "/tmp/heart.svg" $ cs s
 
 printXMLElement :: Element -> IO()
-printXMLElement element = putStrLn $ cs $ renderText def
+printXMLElement element = putStrLn $ cs $ renderXMLElement element
+
+renderXMLElement :: Element -> T.Text
+renderXMLElement element = cs $ renderText def
   -- def { rsAttrOrder= const (toOrderedList ["x", "fill"])}
    $ doc element
     where doc root = Document {
@@ -61,7 +69,7 @@ printXMLElement element = putStrLn $ cs $ renderText def
                   , prologueDoctype = Nothing
                   , prologueAfter = []
                   }
-              , documentRoot = root
+              , documentRoot = addAttribute root ("xmlns","http://www.w3.org/2000/svg")
               , documentEpilogue = []
               }
 
@@ -84,5 +92,11 @@ test_heart = assertEqual Sample.heart $ fromRight $
                             ]
         ]
 
-test_heartWithShade = printXMLElement  Sample.heartWithShade
+addAttribute :: Element -> (String,T.Text) -> Element
+addAttribute element (attributeName,v) = element {
+          elementAttributes=Map.fromList $
+             Map.toList (elementAttributes element)
+            ++ [(Name {nameLocalName=cs attributeName, nameNamespace=Nothing, namePrefix=Nothing}, v)]
+      }
+
 
