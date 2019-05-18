@@ -16,6 +16,7 @@ validateAttributes attributes = concatMap validateAttribute $ Map.toList attribu
 validateAttribute :: (Name, Text.Text) -> [Error]
 validateAttribute (Name { nameLocalName="d" }, value) = d value
 validateAttribute (Name { nameLocalName="fill" }, value) = fill value
+validateAttribute (Name { nameLocalName="id" }, value) = id value
 validateAttribute (Name { nameLocalName="stroke" }, value) = stroke value
 validateAttribute (Name { nameLocalName="stroke-width" }, value) = strokewidth value
 validateAttribute (name, _) = [InvalidAttribute "path" name]
@@ -32,6 +33,12 @@ fill v =
   case Parser.paint (cs v) of
       Right parsed -> if formatPaint parsed == (cs v) then [] else [AttributeFormat "path" "fill" v]
       Left _ -> [InvalidAttributeValue "path" "fill" v]
+
+id :: Text.Text -> [Error]
+id v =
+  case Parser.id (cs v) of
+      Right parsed -> if formatId parsed == (cs v) then [] else [AttributeFormat "path" "id" v]
+      Left _ -> [InvalidAttributeValue "path" "id" v]
 
 stroke :: Text.Text -> [Error]
 stroke v =

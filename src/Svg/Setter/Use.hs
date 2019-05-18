@@ -45,6 +45,28 @@ y _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a use instead of " ++ cs name
 
+fill ::  String -> Element -> Either String Element
+fill a0 element@Element {
+    elementName=Name { nameLocalName="use" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="fill", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute fill already set"
+      else Right $ addAttribute element ("fill",cs $ formatPaint (Color a0))
+fill _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a use instead of " ++ cs name
+
+stroke ::  String -> Element -> Either String Element
+stroke a0 element@Element {
+    elementName=Name { nameLocalName="use" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke already set"
+      else Right $ addAttribute element ("stroke",cs $ formatPaint (Color a0))
+stroke _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a use instead of " ++ cs name
+
 
 hasAttribute :: Map.Map Name Text.Text -> Name -> Bool
 hasAttribute attrs name  = not $ null $ filter (\n->n==name) $ Map.keys attrs

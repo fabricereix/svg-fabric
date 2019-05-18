@@ -73,6 +73,46 @@ y _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a use element"
 
+fill :: Text.Text -> Element -> Either String Element
+fill v element@Element {
+    elementName=Name { nameLocalName="use" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="fill", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute fill already set"
+      else case Parser.paint (cs v) of
+          Right parsed -> if formatPaint parsed == (cs v)
+                          then Right (addAttribute element ("fill",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPaint parsed)))
+          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute fill")
+
+
+--Right element {
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("fill", "1")]
+--      }
+fill _ Element {
+    elementName=Name { nameLocalName=name }
+  } = Left $ (cs name) ++ " element - should be a use element"
+
+stroke :: Text.Text -> Element -> Either String Element
+stroke v element@Element {
+    elementName=Name { nameLocalName="use" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke already set"
+      else case Parser.paint (cs v) of
+          Right parsed -> if formatPaint parsed == (cs v)
+                          then Right (addAttribute element ("stroke",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPaint parsed)))
+          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute stroke")
+
+
+--Right element {
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("stroke", "1")]
+--      }
+stroke _ Element {
+    elementName=Name { nameLocalName=name }
+  } = Left $ (cs name) ++ " element - should be a use element"
+
 
 
 hasAttribute :: Map.Map Name Text.Text -> Name -> Bool

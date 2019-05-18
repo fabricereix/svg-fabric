@@ -34,6 +34,17 @@ fill _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a path instead of " ++ cs name
 
+id ::  String -> Element -> Either String Element
+id a0 element@Element {
+    elementName=Name { nameLocalName="path" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="id", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute id already set"
+      else Right $ addAttribute element ("id",cs $ formatId (Id a0))
+id _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a path instead of " ++ cs name
+
 stroke ::  String -> Element -> Either String Element
 stroke a0 element@Element {
     elementName=Name { nameLocalName="path" }

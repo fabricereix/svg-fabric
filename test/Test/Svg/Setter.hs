@@ -15,6 +15,7 @@ import qualified Svg.Setter.Rect as Rect
 import qualified Svg.Setter.Circle as Circle
 import qualified Svg.Setter.Path as Path
 import qualified Svg.Setter.G as G
+import qualified Svg.Setter.Use as Use
 import qualified Test.Svg.Sample as Sample
 import           Svg.Types.Core
 import qualified Data.Text as T
@@ -57,12 +58,29 @@ test_sample_use = do
    let s = renderXMLElement Sample.heartWithShade
    writeFile "/tmp/heart.svg" $ cs s
    writeFile "/tmp/heart2.svg" $ cs $ renderXMLElement $ fromRight $ Right Default.svg
-      >>= Svg.viewBox 40 0 150 100
+      >>= Svg.viewBox (-40) 0 150 100
       >>= addChildren [
-       fromRight $ Right Default.g
-          >>= G.fill "grey"
-          >>= G.transform [Rotate (-10) 50 100, Translate (-36) 45.5, Skew 40 0, Scale 1 0.5]
+            fromRight $ Right Default.g
+               >>= G.fill "grey"
+               >>= G.transform [Rotate (-10) 50 100, Translate (-36) 45.5, Skew 40 0, Scale 1 0.5]
+               >>= addChildren [
+                   fromRight $ Right Default.path
+                      >>= Path.id "heart"
+                      >>= Path.d [
+                              M False 10 30
+                            , A False 20 20 0 0 1 50 30
+                            , A False 20 20 0 0 1 90 30
+                            , Q False 90 60 50 90
+                            , Q False 10 60 10 30
+                            , Z True
+                            ]
+                    ]
+          , fromRight $ Right Default.use
+               >>= Use.href "#heart"
+               >>= Use.fill "none"
+               >>= Use.stroke "red"
        ]
+
 
 
 

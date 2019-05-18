@@ -38,15 +38,15 @@ element-groups:
 attributes:
   cx:           {type: [length,percentage],      default: 0}
   cy:           {type: [length,percentage],      default: 0}
-  fill:         {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text, g,
+  fill:         {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text, g, use,
                                       textPath, tref, tspan]}
-  stroke:       {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text,
+  stroke:       {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text, use,
                                       textPath, tref, tspan]}
   stroke-width: {type: [length,percentage],      default: 1, elements:[altGlyph, circle, ellipse, path,
                                    polygon, polyline, rect, text, textPath, tref, tspan]}
   transform:    {type: transform, elements:[g]}
   height:       {type: [length,percentage,auto], default: auto}
-  id:           {type: id, elements:[symbol]}
+  id:           {type: id, elements:[symbol,path]}
   opacity:      {type: opacity, elements:[_graphics]}
   pathLength:   {type: number}
   points:       {type: points}
