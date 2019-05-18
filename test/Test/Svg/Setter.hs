@@ -57,7 +57,9 @@ test_1 = do
 test_sample_use = do
    let s = renderXMLElement Sample.heartWithShade
    writeFile "/tmp/heart.svg" $ cs s
-   writeFile "/tmp/heart2.svg" $ cs $ renderXMLElement $ fromRight $ Right Default.svg
+   --writeFile "/tmp/heart2.svg" $ cs $ renderXMLElement $
+   assertEqual Sample.heartWithShade $
+    fromRight $ Right Default.svg
       >>= Svg.viewBox (-40) 0 150 100
       >>= addChildren [
             fromRight $ Right Default.g

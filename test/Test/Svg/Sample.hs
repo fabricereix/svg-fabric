@@ -94,7 +94,7 @@ heartWithShade = Element {
           NodeElement (Element {
               elementName = simpleName "path"
             , elementAttributes = Map.fromList [
-               (simpleName "d", "M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z")
+               (simpleName "d", "M10,30 A20,20 0,0,1 50,30 A20,20 0,0,1 90,30 Q90,60 50,90 Q10,60 10,30 z")
              , (simpleName "id", "heart")
             ]
             , elementNodes = []
