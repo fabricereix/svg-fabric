@@ -23,15 +23,14 @@ diagram = fromRight $ Right Default.svg
                 >>= Svg.stroke "black"
                 >>= Svg.strokewidth 0.05
                 >>= addChildren [
-                      hanoi
+                           stacks 10 (stack1,stack2,[])
+                         , stacks 20 ([],stack2,[])
                     ]
 
-hanoi :: Element
-hanoi = fromRight $ Right Default.g
-        >>= addChildren (stack (5,2) stack1
-                      ++ stack (5,12) []
-                      ++ stack (25,12) stack2
-            )
+--hanoi :: Element
+--hanoi = fromRight $ Right Default.g
+--        >>= addChildren (stacks 10 (stack1,stack2,[]))
+
 
 stack1,stack2 :: [Disk]
 stack1 = [Disk 9 "white", Disk 7 "orange", Disk 5 "blue", Disk 3 "red"]
@@ -43,6 +42,16 @@ data Disk = Disk {
     size :: Double
   , color :: String
   }
+
+
+
+stacks :: Double -> ([Disk],[Disk],[Disk]) -> Element
+stacks y (d1,d2,d3) = fromRight $ Right Default.g
+        >>= addChildren (
+                   stack (8,y) d1
+                   ++ stack (20,y) d2
+                   ++ stack (30,y) d3
+        )
 
 stack :: Pos -> [Disk] -> [Element]
 stack (x,y) disks =
@@ -66,10 +75,7 @@ stack (x,y) disks =
 
 
 -- Core
-type Stack = [Int]
-type Hanoi = [Stack]
-
-hanoiSequence :: [Hanoi]
+hanoiSequence :: [[[Int]]] -- Stacks of Disks
 hanoiSequence =  [[[0,1,2,3],[],[]],[[1,2,3],[0],[]],[[2,3],[0],[1]],[[2,3],[],[0,1]],[[3],[2],[0,1]],[[0,3],[2],[1]],[[0,3],[1,2],[]],[[3],[0,1,2],[]],[[],[0,1,2],[3]],[[],[1,2],[0,3]],[[1],[2],[0,3]],[[0,1],[2],[3]],[[0,1],[],[2,3]],[[1],[0],[2,3]],[[],[0],[1,2,3]],[[],[],[0,1,2,3]]]
 
 
