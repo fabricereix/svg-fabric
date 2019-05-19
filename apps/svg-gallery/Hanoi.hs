@@ -19,7 +19,7 @@ diagram :: Element
 diagram = fromRight $ Right Default.svg
                 >>= Svg.width 500
                 >>= Svg.height 500
-                >>= Svg.viewBox 0 0 20 30
+                >>= Svg.viewBox 0 0 40 40
                 >>= Svg.stroke "black"
                 >>= Svg.strokewidth 0.05
                 >>= addChildren [
@@ -28,43 +28,36 @@ diagram = fromRight $ Right Default.svg
 
 hanoi :: Element
 hanoi = fromRight $ Right Default.g
-        >>= addChildren  (stack (5,2))
+        >>= addChildren (stack (5,2) stack1
+                      ++ stack (5,12) []
+                      ++ stack (25,12) stack2
+            )
 
+stack1,stack2 :: [Disk]
+stack1 = [Disk 9 "white", Disk 7 "orange", Disk 5 "blue", Disk 3 "red"]
+stack2 = [Disk 9 "white", Disk 7 "orange", Disk 5 "blue"]
 
 type Pos = (Double,Double)
 
-stack :: Pos -> [Element]
-stack (x,y) = [
-    fromRight $ Right Default.rect
+data Disk = Disk {
+    size :: Double
+  , color :: String
+  }
+
+stack :: Pos -> [Disk] -> [Element]
+stack (x,y) disks =
+    fromRight (Right Default.rect
              >>= Rect.x x
              >>= Rect.y y
              >>= Rect.width diskThickness
              >>= Rect.height pegHeight
-  , fromRight $ Right Default.rect
-             >>= Rect.x (x-4)
-             >>= Rect.y (y+pegHeight-1)
-             >>= Rect.width 9
-             >>= Rect.height diskThickness
-             >>= Rect.fill "white"
-  , fromRight $ Right Default.rect
-             >>= Rect.x (x-3)
-             >>= Rect.y (y+pegHeight-2)
-             >>= Rect.width 7
-             >>= Rect.height diskThickness
-             >>= Rect.fill "orange"
-  , fromRight $ Right Default.rect
-             >>= Rect.x (x-2)
-             >>= Rect.y (y+pegHeight-3)
-             >>= Rect.width 5
-             >>= Rect.height diskThickness
-             >>= Rect.fill "blue"
-  , fromRight $ Right Default.rect
-             >>= Rect.x (x-1)
-             >>= Rect.y (y+pegHeight-4)
-             >>= Rect.width 3
-             >>= Rect.height diskThickness
-             >>= Rect.fill "red"
-  ]
+  ):map (\(i,Disk s c)->fromRight $ Right Default.rect
+          >>= Rect.x (x-(s-1)/2)
+          >>= Rect.y (y+pegHeight-i)
+          >>= Rect.width s
+          >>= Rect.height diskThickness
+          >>= Rect.fill c
+          ) (zip [1..] disks)
    where pegHeight = 8
          diskThickness = 1
 
@@ -73,8 +66,7 @@ stack (x,y) = [
 
 
 -- Core
-type Disk  = Int
-type Stack = [Disk]
+type Stack = [Int]
 type Hanoi = [Stack]
 
 hanoiSequence :: [Hanoi]
