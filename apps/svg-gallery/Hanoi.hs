@@ -28,42 +28,45 @@ diagram = fromRight $ Right Default.svg
 
 hanoi :: Element
 hanoi = fromRight $ Right Default.g
-        >>= addChildren stack
+        >>= addChildren  (stack (5,2))
 
-stack :: [Element]
-stack = [
+
+type Pos = (Double,Double)
+
+stack :: Pos -> [Element]
+stack (x,y) = [
     fromRight $ Right Default.rect
-             >>= Rect.x 5
-             >>= Rect.y 2
-             >>= Rect.width 1
-             >>= Rect.height 8
+             >>= Rect.x x
+             >>= Rect.y y
+             >>= Rect.width diskThickness
+             >>= Rect.height pegHeight
   , fromRight $ Right Default.rect
-             >>= Rect.x 1
-             >>= Rect.y 9
+             >>= Rect.x (x-4)
+             >>= Rect.y (y+pegHeight-1)
              >>= Rect.width 9
-             >>= Rect.height 1
+             >>= Rect.height diskThickness
              >>= Rect.fill "white"
   , fromRight $ Right Default.rect
-             >>= Rect.x 2
-             >>= Rect.y 8
+             >>= Rect.x (x-3)
+             >>= Rect.y (y+pegHeight-2)
              >>= Rect.width 7
-             >>= Rect.height 1
+             >>= Rect.height diskThickness
              >>= Rect.fill "orange"
   , fromRight $ Right Default.rect
-             >>= Rect.x 3
-             >>= Rect.y 7
+             >>= Rect.x (x-2)
+             >>= Rect.y (y+pegHeight-3)
              >>= Rect.width 5
-             >>= Rect.height 1
+             >>= Rect.height diskThickness
              >>= Rect.fill "blue"
   , fromRight $ Right Default.rect
-             >>= Rect.x 4
-             >>= Rect.y 6
+             >>= Rect.x (x-1)
+             >>= Rect.y (y+pegHeight-4)
              >>= Rect.width 3
-             >>= Rect.height 1
+             >>= Rect.height diskThickness
              >>= Rect.fill "red"
   ]
-
-
+   where pegHeight = 8
+         diskThickness = 1
 
 
 
