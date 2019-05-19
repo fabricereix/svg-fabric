@@ -33,10 +33,12 @@ data Command
   deriving (Show,Eq)
 
 data BasicTransform
-  = Rotate Double Double Double
+  = Matrix Double Double Double Double Double Double
   | Translate Double Double
-  | Skew Double Double
   | Scale Double Double
+  | Rotate Double Double Double
+  | SkewX Double
+  | SkewY Double
 
 
 

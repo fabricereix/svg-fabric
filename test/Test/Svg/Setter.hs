@@ -64,7 +64,7 @@ test_sample_use = --do
       >>= addChildren [
             fromRight $ Right Default.g
                >>= G.fill "grey"
-               >>= G.transform [Rotate (-10) 50 100, Translate (-36) 45.5, Skew 40 0, Scale 1 0.5]
+               >>= G.transform [Rotate (-10) 50 100, Translate (-36) 45.5, SkewX 40, Scale 1 0.5]
                >>= addChildren [
                    fromRight $ Right Default.path
                       >>= Path.id "heart"

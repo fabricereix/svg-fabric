@@ -56,10 +56,29 @@ formatTransform :: Transform -> String
 formatTransform (Transform ts) = unwords $ map formatBasicTransform ts
 
 formatBasicTransform :: BasicTransform -> String
-formatBasicTransform Rotate {} = "rotate(-10 50 100)"
-formatBasicTransform Translate {} = "translate(-36 45.5)"
-formatBasicTransform Skew {} = "skewX(40)"
-formatBasicTransform Scale {} = "scale(1 0.5)"
+formatBasicTransform (Matrix a b c d e f) = "matrix("
+                                          ++ formatDouble 6 a ++ " "
+                                          ++ formatDouble 6 b ++ " "
+                                          ++ formatDouble 6 c ++ " "
+                                          ++ formatDouble 6 d ++ " "
+                                          ++ formatDouble 6 e ++ " "
+                                          ++ formatDouble 6 f ++ ")"
+formatBasicTransform (Translate x y) = "translate("
+                                     ++ formatDouble 6 x ++ " "
+                                     ++ formatDouble 6 y ++ ")"
+formatBasicTransform (Scale x y)     =  "scale("
+                                     ++ formatDouble 6 x ++ " "
+                                     ++ formatDouble 6 y ++ ")"
+formatBasicTransform (Rotate a x y)  = "rotate("
+                                          ++ formatDouble 6 a ++ " "
+                                          ++ formatDouble 6 x ++ " "
+                                          ++ formatDouble 6 y ++ ")"
+formatBasicTransform (SkewX a) = "skewX(" ++ formatDouble 6 a ++ ")"
+formatBasicTransform (SkewY a) = "skewY(" ++ formatDouble 6 a ++ ")"
+
+
+
+
 
 formatCommand :: Command -> String
 formatCommand (M relative x y) = let command = if relative then "m" else "M"
