@@ -34,9 +34,9 @@ test_formatTransform = do
   assertEqual "translate(50)"           $ format $ Translate 50 0
   assertEqual "translate(0 50)"         $ format $ Translate 0 50
   assertEqual "scale(4)"                $ format $ Scale 4 4
-  assertEqual "scale(1,4)"              $ format $ Scale 1 4
+  assertEqual "scale(1 4)"              $ format $ Scale 1 4
   assertEqual "rotate(100)"             $ format $ Rotate 100 0 0
-  assertEqual "rotate(100,10,10)"       $ format $ Rotate 100 10 0
+  assertEqual "rotate(100 10 10)"       $ format $ Rotate 100 10 10
   assertEqual "skewX(30)"               $ format $ SkewX 30
   assertEqual "skewY(30)"               $ format $ SkewY 30
     where format = formatBasicTransform

@@ -63,16 +63,18 @@ formatBasicTransform (Matrix a b c d e f) = "matrix("
                                           ++ formatDouble 6 d ++ " "
                                           ++ formatDouble 6 e ++ " "
                                           ++ formatDouble 6 f ++ ")"
+formatBasicTransform (Translate x 0) = "translate(" ++ formatDouble 6 x ++ ")"
 formatBasicTransform (Translate x y) = "translate("
                                      ++ formatDouble 6 x ++ " "
                                      ++ formatDouble 6 y ++ ")"
-formatBasicTransform (Scale x y)     =  "scale("
-                                     ++ formatDouble 6 x ++ " "
-                                     ++ formatDouble 6 y ++ ")"
+formatBasicTransform (Scale x y) =  "scale("
+                                 ++ formatDouble 6 x
+                                 ++ (if x == y then "" else " " ++ formatDouble 6 y)
+                                 ++ ")"
 formatBasicTransform (Rotate a x y)  = "rotate("
-                                          ++ formatDouble 6 a ++ " "
-                                          ++ formatDouble 6 x ++ " "
-                                          ++ formatDouble 6 y ++ ")"
+    ++ formatDouble 6 a
+    ++ (if x == 0 && y == 0 then "" else " " ++ formatDouble 6 x ++ " " ++ formatDouble 6 y)
+    ++ ")"
 formatBasicTransform (SkewX a) = "skewX(" ++ formatDouble 6 a ++ ")"
 formatBasicTransform (SkewY a) = "skewY(" ++ formatDouble 6 a ++ ")"
 
