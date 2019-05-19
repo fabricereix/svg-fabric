@@ -23,6 +23,39 @@ fill _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a g instead of " ++ cs name
 
+stroke ::  String -> Element -> Either String Element
+stroke a0 element@Element {
+    elementName=Name { nameLocalName="g" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke already set"
+      else Right $ addAttribute element ("stroke",cs $ formatPaint (Color a0))
+stroke _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a g instead of " ++ cs name
+
+strokewidth ::  Double -> Element -> Either String Element
+strokewidth a0 element@Element {
+    elementName=Name { nameLocalName="g" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke-width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke-width already set"
+      else Right $ addAttribute element ("stroke-width",cs $ formatLength (Length a0))
+strokewidth _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a g instead of " ++ cs name
+
+strokewidthPercentage ::  Double -> Element -> Either String Element
+strokewidthPercentage a0 element@Element {
+    elementName=Name { nameLocalName="g" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="stroke-width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute stroke-width already set"
+      else Right $ addAttribute element ("stroke-width",cs $ formatPercentage (Percentage a0))
+strokewidthPercentage _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a g instead of " ++ cs name
+
 transform ::  [BasicTransform] -> Element -> Either String Element
 transform a0 element@Element {
     elementName=Name { nameLocalName="g" }

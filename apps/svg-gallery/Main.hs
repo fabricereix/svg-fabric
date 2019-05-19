@@ -7,6 +7,7 @@ import Text.XML hiding (writeFile)
 import Hilbert
 import KnightTour
 import Sierpinski
+import Hanoi
 import Data.String.Conversions
 
 
@@ -16,6 +17,7 @@ main = do
   mapM_ writeDiagram Hilbert.diagrams
   mapM_ writeDiagram KnightTour.diagrams
   mapM_ writeDiagram Sierpinski.diagrams
+  mapM_ writeDiagram Hanoi.diagrams
 
 
 writeDiagram :: (String, Element) -> IO()
