@@ -31,10 +31,16 @@ diagram = fromRight $ Right Default.svg
 --hanoi = fromRight $ Right Default.g
 --        >>= addChildren (stacks 10 (stack1,stack2,[]))
 
+createDisk :: Int -> Disk
+createDisk 0 = Disk 9 "white"
+createDisk 1 = Disk 7 "red"
+createDisk 2 = Disk 5 "blue"
+createDisk 3 = Disk 3 "green"
+createDisk _ = error "invalid disk number"
 
 stack1,stack2 :: [Disk]
-stack1 = [Disk 9 "white", Disk 7 "orange", Disk 5 "blue", Disk 3 "red"]
-stack2 = [Disk 9 "white", Disk 7 "orange", Disk 5 "blue"]
+stack1 = map createDisk [0,1,2,3]
+stack2 = map createDisk [0,3]
 
 type Pos = (Double,Double)
 
