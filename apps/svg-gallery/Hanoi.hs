@@ -19,28 +19,31 @@ diagram :: Element
 diagram = fromRight $ Right Default.svg
                 >>= Svg.width 500
                 >>= Svg.height 500
-                >>= Svg.viewBox 0 0 40 40
+                >>= Svg.viewBox 0 0 40 (fromIntegral (10 * (1+length hanoiSequence)))
                 >>= Svg.stroke "black"
                 >>= Svg.strokewidth 0.05
-                >>= addChildren [
-                           stacks 10 (stack1,stack2,[])
-                         , stacks 20 ([],stack2,[])
-                    ]
+                >>= addChildren (map (\(i,xs)->stateElement (i*10) (map createStack xs)) $ zip [1..] hanoiSequence)
+                -- >>= addChildren (map (\(i,xs)->stacks (i*10) (map createDisk s1, map createDisk s2, map createDisk s3)) $ zip [1..] hanoiSequence)
+                      --     stacks 10 (stack1,stack2,[])
+                      --   , stacks 20 ([],stack2,[])
 
 --hanoi :: Element
 --hanoi = fromRight $ Right Default.g
 --        >>= addChildren (stacks 10 (stack1,stack2,[]))
 
 createDisk :: Int -> Disk
-createDisk 0 = Disk 9 "white"
-createDisk 1 = Disk 7 "red"
-createDisk 2 = Disk 5 "blue"
-createDisk 3 = Disk 3 "green"
+createDisk 0 = Disk 3 "white"
+createDisk 1 = Disk 5 "red"
+createDisk 2 = Disk 7 "blue"
+createDisk 3 = Disk 9 "green"
 createDisk _ = error "invalid disk number"
 
-stack1,stack2 :: [Disk]
-stack1 = map createDisk [0,1,2,3]
-stack2 = map createDisk [0,3]
+stack1,stack2 :: Stack
+stack1 = createStack [0,1,2,3]
+stack2 = createStack [0,3]
+
+createStack :: [Int] -> Stack
+createStack = map createDisk
 
 type Pos = (Double,Double)
 
@@ -48,19 +51,16 @@ data Disk = Disk {
     size :: Double
   , color :: String
   }
+type Stack = [Disk]
+type State = [Stack]
 
 
+stateElement :: Double -> State -> Element
+stateElement y xs = fromRight $ Right Default.g
+        >>= addChildren (concatMap (\(i,s)->stackElements (i*10,y) s) $ zip [1..] xs)
 
-stacks :: Double -> ([Disk],[Disk],[Disk]) -> Element
-stacks y (d1,d2,d3) = fromRight $ Right Default.g
-        >>= addChildren (
-                   stack (8,y) d1
-                   ++ stack (20,y) d2
-                   ++ stack (30,y) d3
-        )
-
-stack :: Pos -> [Disk] -> [Element]
-stack (x,y) disks =
+stackElements :: Pos -> Stack -> [Element]
+stackElements (x,y) disks =
     fromRight (Right Default.rect
              >>= Rect.x x
              >>= Rect.y y
@@ -68,7 +68,7 @@ stack (x,y) disks =
              >>= Rect.height pegHeight
   ):map (\(i,Disk s c)->fromRight $ Right Default.rect
           >>= Rect.x (x-(s-1)/2)
-          >>= Rect.y (y+pegHeight-i)
+          >>= Rect.y (y+pegHeight+i-fromIntegral (length disks) -1)
           >>= Rect.width s
           >>= Rect.height diskThickness
           >>= Rect.fill c
