@@ -117,6 +117,26 @@ strokewidth _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a path element"
 
+transform :: Text.Text -> Element -> Either String Element
+transform v element@Element {
+    elementName=Name { nameLocalName="path" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="transform", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute transform already set"
+      else case Parser.transform (cs v) of
+          Right parsed -> if formatTransform parsed == (cs v)
+                          then Right (addAttribute element ("transform",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatTransform parsed)))
+          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute transform")
+
+
+--Right element {
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("transform", "1")]
+--      }
+transform _ Element {
+    elementName=Name { nameLocalName=name }
+  } = Left $ (cs name) ++ " element - should be a path element"
+
 
 
 hasAttribute :: Map.Map Name Text.Text -> Name -> Bool

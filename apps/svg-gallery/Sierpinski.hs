@@ -36,15 +36,19 @@ diagramPath n dec = fromRight $ Right Default.svg
                         >>= Path.strokewidth 0.05
                         >>= Path.stroke "black"
                         >>= Path.fill "black"
+                        >>= Path.transform [Scale 1 (sqrt 3 / 2)]
                         >>= Path.d (roundPath dec $ optimizePath (M False 0 0:sierpenskiPath n))
                    ]
 
 sierpenskiPath :: Int -> [Command]
-sierpenskiPath 1 = [L True 1 (sqrt 3),L True 1 (-sqrt 3), H True (-2)]
+--sierpenskiPath 1 = [L True 1 (sqrt 3),L True 1 (-sqrt 3), H True (-2)]
+sierpenskiPath 1 = [L True 1 2,L True 1 (-2), H True (-2)]
 sierpenskiPath n = sierpenskiPath (n - 1)
                 ++ M True l 0 :sierpenskiPath (n - 1)
-                ++ M True (-l/2) (sqrt 3/2*l) :sierpenskiPath (n - 1)
-                ++ [M True (-l/2) (-sqrt 3/2*l)]
+                -- ++ M True (-l/2) (sqrt 3/2*l) :sierpenskiPath (n - 1)
+                -- ++ M True (-l/2) (sqrt 3/2*l) :sierpenskiPath (n - 1)
+                ++ M True (-l/2) l :sierpenskiPath (n - 1)
+                ++ [M True (-l/2) (-l)]
     where l = fromIntegral (2^(n-1)::Int) :: Double
 
 triangle :: Element

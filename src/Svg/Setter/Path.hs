@@ -78,6 +78,17 @@ strokewidthPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a path instead of " ++ cs name
 
+transform ::  [BasicTransform] -> Element -> Either String Element
+transform a0 element@Element {
+    elementName=Name { nameLocalName="path" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="transform", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute transform already set"
+      else Right $ addAttribute element ("transform",cs $ formatTransform (Transform a0))
+transform _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a path instead of " ++ cs name
+
 
 hasAttribute :: Map.Map Name Text.Text -> Name -> Bool
 hasAttribute attrs name  = not $ null $ filter (\n->n==name) $ Map.keys attrs

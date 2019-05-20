@@ -19,6 +19,7 @@ validateAttribute (Name { nameLocalName="fill" }, value) = fill value
 validateAttribute (Name { nameLocalName="id" }, value) = id value
 validateAttribute (Name { nameLocalName="stroke" }, value) = stroke value
 validateAttribute (Name { nameLocalName="stroke-width" }, value) = strokewidth value
+validateAttribute (Name { nameLocalName="transform" }, value) = transform value
 validateAttribute (name, _) = [InvalidAttribute "path" name]
 
 
@@ -54,6 +55,12 @@ strokewidth v =
       Left _ -> case Parser.percentage (cs v) of
           Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "path" "stroke-width" v]
           Left _ -> [InvalidAttributeValue "path" "stroke-width" v]
+
+transform :: Text.Text -> [Error]
+transform v =
+  case Parser.transform (cs v) of
+      Right parsed -> if formatTransform parsed == (cs v) then [] else [AttributeFormat "path" "transform" v]
+      Left _ -> [InvalidAttributeValue "path" "transform" v]
 
 
 
