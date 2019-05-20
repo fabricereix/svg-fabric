@@ -1,15 +1,15 @@
 module Svg.Gallery.Sierpinski where
 
+import           Prelude             hiding (id)
+import qualified Svg.DefaultElements as Default
+import           Svg.Gallery.Helper
 import           Svg.Setter
-import qualified Svg.Setter.Svg as Svg
-import qualified Svg.Setter.Path as Path
-import qualified Svg.Setter.Symbol as Symbol
-import qualified Svg.Setter.Use as Use
+import qualified Svg.Setter.Path     as Path
+import qualified Svg.Setter.Svg      as Svg
+import qualified Svg.Setter.Symbol   as Symbol
+import qualified Svg.Setter.Use      as Use
 import           Svg.Types.Core
 import           Text.XML
-import qualified Svg.DefaultElements as Default
-import Svg.Gallery.Helper
-import Prelude hiding (id)
 
 
 diagrams :: [(String,Element)]

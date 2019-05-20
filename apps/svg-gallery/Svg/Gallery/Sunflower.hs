@@ -1,12 +1,12 @@
 module Svg.Gallery.Sunflower where
-import Text.XML
 import qualified Svg.DefaultElements as Default
-import qualified Svg.Setter.Svg as Svg
+import qualified Svg.Setter.Svg      as Svg
+import           Text.XML
 -- import qualified Svg.Setter.Rect as Rect
 -- import qualified Svg.Setter.G as G
 import           Svg.Setter
 -- import           Svg.Types.Core
-import Svg.Gallery.Helper
+import           Svg.Gallery.Helper
 
 
 -- diagram

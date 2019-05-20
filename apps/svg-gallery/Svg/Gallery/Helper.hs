@@ -3,7 +3,7 @@ module Svg.Gallery.Helper where
 import           Svg.Types.Core
 
 fromRight :: Show l => Either l r -> r
-fromRight (Left e) = error $ show e
+fromRight (Left e)  = error $ show e
 fromRight (Right x) = x
 
 reverseList :: [a] -> [a]
@@ -13,8 +13,8 @@ reverseList  xs = last xs : reverseList (init xs)
 type Point = (Int,Int)
 
 diffPoints :: [Point]->[(Int,Int)]
-diffPoints [] = []
-diffPoints [_] = []
+diffPoints []                   = []
+diffPoints [_]                  = []
 diffPoints ((x1,y1):(x2,y2):ps) = (x2-x1,y2-y1):diffPoints ((x2,y2):ps)
 
 toPathCommand :: (Int,Int) -> Command
@@ -30,7 +30,7 @@ optimizePath [] = []
 optimizePath [c] = [c]
 optimizePath (c1:c2:cs) = case mergeCommands c1 c2 of
    [_,_] -> c1:optimizePath (c2:cs)
-   c  -> optimizePath (c ++ cs)
+   c     -> optimizePath (c ++ cs)
 
 
 mergeCommands :: Command -> Command -> [Command]
@@ -51,7 +51,7 @@ roundPath n = map (roundCommand n)
 roundCommand :: Int -> Command -> Command
 roundCommand n (L True x y) = L True (roundDouble n x) (roundDouble n y)
 roundCommand n (M True x y) = M True (roundDouble n x) (roundDouble n y)
-roundCommand _ c = c
+roundCommand _ c            = c
 
 roundDouble :: Int -> Double -> Double
 roundDouble n d = fromInteger (round $ d * (10^n)) / (10.0^^n)
