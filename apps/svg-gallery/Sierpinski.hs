@@ -14,7 +14,9 @@ import Prelude hiding (id)
 
 diagrams :: [(String,Element)]
 diagrams = map (\n->("sierpinski-symbol-" ++ show n ++ ".svg", diagram n)) [1,3,5,8,10]
-        ++ map (\n->("sierpinski-path-" ++ show n ++ ".svg", diagramPath n)) [1,2,3,5,8,10]
+        ++ map (\n->("sierpinski-path6-" ++ show n ++ ".svg", diagramPath n 6)) [1,2,3,5,8,10]
+        ++ map (\n->("sierpinski-path3-" ++ show n ++ ".svg", diagramPath n 3)) [1,2,3,5,8,10]
+        ++ map (\n->("sierpinski-path2-" ++ show n ++ ".svg", diagramPath n 2)) [1,2,3,5,8,10]
 
 diagram :: Int -> Element
 diagram n = fromRight $ Right Default.svg
@@ -24,8 +26,8 @@ diagram n = fromRight $ Right Default.svg
                 >>= addChildren (map symbol [1..n] ++ [fromRight $ Right Default.use >>= Use.href ("#symbol" ++ show n)])
 
 
-diagramPath :: Int -> Element
-diagramPath n = fromRight $ Right Default.svg
+diagramPath :: Int -> Int-> Element
+diagramPath n dec = fromRight $ Right Default.svg
                 >>= Svg.width 500
                 >>= Svg.height 500
                 >>= Svg.viewBox (-1) (-1) (2^n+2) (2^n+2)
@@ -34,7 +36,7 @@ diagramPath n = fromRight $ Right Default.svg
                         >>= Path.strokewidth 0.05
                         >>= Path.stroke "black"
                         >>= Path.fill "black"
-                        >>= Path.d (roundPath 2 $ optimizePath (M False 0 0:sierpenskiPath n))
+                        >>= Path.d (roundPath dec $ optimizePath (M False 0 0:sierpenskiPath n))
                    ]
 
 sierpenskiPath :: Int -> [Command]
