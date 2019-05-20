@@ -8,6 +8,7 @@ import Hilbert
 import KnightTour
 import Sierpinski
 import Hanoi
+import qualified Svg.Gallery.Sunflower as Sunflower
 import Data.String.Conversions
 
 
@@ -18,6 +19,7 @@ main = do
   mapM_ writeDiagram KnightTour.diagrams
   mapM_ writeDiagram Sierpinski.diagrams
   mapM_ writeDiagram Hanoi.diagrams
+  mapM_ writeDiagram Sunflower.diagrams
 
 
 writeDiagram :: (String, Element) -> IO()
