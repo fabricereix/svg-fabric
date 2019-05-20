@@ -1,4 +1,4 @@
-module Sierpinski where
+module Svg.Gallery.Sierpinski where
 
 import           Svg.Setter
 import qualified Svg.Setter.Svg as Svg
@@ -8,7 +8,7 @@ import qualified Svg.Setter.Use as Use
 import           Svg.Types.Core
 import           Text.XML
 import qualified Svg.DefaultElements as Default
-import Helper
+import Svg.Gallery.Helper
 import Prelude hiding (id)
 
 

@@ -1,4 +1,4 @@
-module KnightTour where
+module Svg.Gallery.KnightTour where
 
 import           Svg.Setter
 import qualified Svg.Setter.Svg as Svg
@@ -8,7 +8,7 @@ import qualified Svg.Setter.Path as Path
 import           Svg.Types.Core
 import           Text.XML
 import qualified Svg.DefaultElements as Default
-import Helper
+import Svg.Gallery.Helper
 --import           Data.List                      (minimumBy, (\\))
 --import           Data.Ord                       (comparing)
 

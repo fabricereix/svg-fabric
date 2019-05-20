@@ -1,4 +1,4 @@
-module Helper where
+module Svg.Gallery.Helper where
 
 import           Svg.Types.Core
 

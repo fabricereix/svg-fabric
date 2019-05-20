@@ -1,4 +1,4 @@
-module Hilbert where
+module Svg.Gallery.Hilbert where
 import Text.XML
 import qualified Svg.DefaultElements as Default
 import qualified Svg.Setter.Svg as Svg
@@ -6,7 +6,7 @@ import qualified Svg.Setter.Polyline as Polyline
 import qualified Svg.Setter.Path as Path
 import           Svg.Setter
 import           Svg.Types.Core
-import Helper
+import Svg.Gallery.Helper
 
 
 -- diagram

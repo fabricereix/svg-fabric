@@ -6,7 +6,7 @@ import qualified Svg.Setter.Svg as Svg
 -- import qualified Svg.Setter.G as G
 import           Svg.Setter
 -- import           Svg.Types.Core
-import Helper
+import Svg.Gallery.Helper
 
 
 -- diagram

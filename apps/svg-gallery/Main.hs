@@ -4,10 +4,10 @@ module Main where
 import qualified Data.Map as Map
 import qualified Data.Text as Text
 import Text.XML hiding (writeFile)
-import Hilbert
-import KnightTour
-import Sierpinski
-import Hanoi
+import qualified Svg.Gallery.Hilbert as Hilbert
+import qualified Svg.Gallery.KnightTour as KnightTour
+import qualified Svg.Gallery.Sierpinski as Sierpinski
+import qualified Svg.Gallery.Hanoi as Hanoi
 import qualified Svg.Gallery.Sunflower as Sunflower
 import Data.String.Conversions
 

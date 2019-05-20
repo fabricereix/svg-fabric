@@ -1,4 +1,4 @@
-module Hanoi where
+module Svg.Gallery.Hanoi where
 import Text.XML
 import qualified Svg.DefaultElements as Default
 import qualified Svg.Setter.Svg as Svg
@@ -6,7 +6,7 @@ import qualified Svg.Setter.Rect as Rect
 -- import qualified Svg.Setter.G as G
 import           Svg.Setter
 -- import           Svg.Types.Core
-import Helper
+import Svg.Gallery.Helper
 
 
 -- diagram
