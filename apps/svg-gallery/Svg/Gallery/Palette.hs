@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings     #-}
 module Svg.Gallery.Palette where
 import qualified Svg.DefaultElements as Default
 import qualified Svg.Setter.Svg      as Svg
@@ -26,16 +27,20 @@ brewerset = fromRight $ Right Default.svg
             >>= Svg.stroke "none"
             >>= Svg.strokewidth 0.05
             >>= addChildren [
-                  fromRight $ Right Default.g
-                    >>= addChildren (
-                     map (\(i, color)->
-                      fromRight $ Right Default.rect
+                  rectangularPalette
+                ]
+
+rectangularPalette :: Element
+rectangularPalette = fromRight $ Right Default.g
+           >>= addChildren (label:palette)
+    where label = fromRight (Right Default.text >>= addText "Oranges")
+          palette =map (\(i, color)->
+                      fromRight (Right Default.rect
                          >>= Rect.x (fromIntegral i)
                          >>= Rect.width 1
                          >>= Rect.height 5
                          >>= Rect.fill color
-                      ) $ zip [0::Int ..] brewerOranges)
-                ]
+                  )) $ zip [0::Int ..] brewerOranges
 
 type Color = String
 brewerOranges :: [Color]

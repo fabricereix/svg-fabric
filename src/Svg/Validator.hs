@@ -13,6 +13,7 @@ import qualified Svg.Validator.Polyline as Polyline
 import qualified Svg.Validator.Rect as Rect
 import qualified Svg.Validator.Svg as Svg
 import qualified Svg.Validator.Symbol as Symbol
+import qualified Svg.Validator.Text as Text
 import qualified Svg.Validator.Use as Use
 
 
@@ -81,6 +82,14 @@ validate Element {
   , elementAttributes=attributes
   , elementNodes=children
   } = Symbol.validateAttributes attributes ++ validateChildren children
+
+validate Element {
+    elementName=Name {
+        nameLocalName="text"
+    }
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = Text.validateAttributes attributes ++ validateChildren children
 
 validate Element {
     elementName=Name {

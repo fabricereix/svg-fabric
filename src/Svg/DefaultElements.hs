@@ -60,6 +60,13 @@ symbol = Element {
     , elementNodes=[]
     }
 
+text :: Element
+text = Element {
+      elementName=Name { nameLocalName="text", nameNamespace = Nothing, namePrefix = Nothing}
+    , elementAttributes=Map.fromList []
+    , elementNodes=[]
+    }
+
 use :: Element
 use = Element {
       elementName=Name { nameLocalName="use", nameNamespace = Nothing, namePrefix = Nothing}

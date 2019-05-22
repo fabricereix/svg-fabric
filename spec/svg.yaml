@@ -23,6 +23,9 @@ elements:
       - {name: width, type: length, default:0}
       - {name: height, type: length, default:0}
       - {name: viewBox, type: viewbox}
+  text:
+      attributes: [x,y, dx,dy]
+
   use:
       attributes:
       - {name: href, type: id}
@@ -38,6 +41,8 @@ element-groups:
 attributes:
   cx:           {type: [length,percentage],      default: 0}
   cy:           {type: [length,percentage],      default: 0}
+  dx:           {type: [length,percentage]}
+  dy:           {type: [length,percentage]}
   fill:         {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text, g, use,
                                       textPath, tref, tspan]}
   stroke:       {type: paint, elements:[altGlyph, circle, ellipse, path, polygon, polyline, rect, text, use,svg,g,
