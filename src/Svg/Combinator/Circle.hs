@@ -125,6 +125,26 @@ fill _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a circle element"
 
+id :: Text.Text -> Element -> Either String Element
+id v element@Element {
+    elementName=Name { nameLocalName="circle" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="id", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute id already set"
+      else case Parser.id (cs v) of
+          Right parsed -> if formatId parsed == (cs v)
+                          then Right (addAttribute element ("id",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatId parsed)))
+          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute id")
+
+
+--Right element {
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("id", "1")]
+--      }
+id _ Element {
+    elementName=Name { nameLocalName=name }
+  } = Left $ (cs name) ++ " element - should be a circle element"
+
 stroke :: Text.Text -> Element -> Either String Element
 stroke v element@Element {
     elementName=Name { nameLocalName="circle" }

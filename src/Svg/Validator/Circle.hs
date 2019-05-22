@@ -19,6 +19,7 @@ validateAttribute (Name { nameLocalName="cy" }, value) = cy value
 validateAttribute (Name { nameLocalName="r" }, value) = r value
 validateAttribute (Name { nameLocalName="pathLength" }, value) = pathLength value
 validateAttribute (Name { nameLocalName="fill" }, value) = fill value
+validateAttribute (Name { nameLocalName="id" }, value) = id value
 validateAttribute (Name { nameLocalName="stroke" }, value) = stroke value
 validateAttribute (Name { nameLocalName="stroke-width" }, value) = strokewidth value
 validateAttribute (name, _) = [InvalidAttribute "circle" name]
@@ -62,6 +63,12 @@ fill v =
   case Parser.paint (cs v) of
       Right parsed -> if formatPaint parsed == (cs v) then [] else [AttributeFormat "circle" "fill" v]
       Left _ -> [InvalidAttributeValue "circle" "fill" v]
+
+id :: Text.Text -> [Error]
+id v =
+  case Parser.id (cs v) of
+      Right parsed -> if formatId parsed == (cs v) then [] else [AttributeFormat "circle" "id" v]
+      Left _ -> [InvalidAttributeValue "circle" "id" v]
 
 stroke :: Text.Text -> [Error]
 stroke v =

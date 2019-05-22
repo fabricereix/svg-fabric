@@ -22,9 +22,12 @@ formatRemovefreeze REMOVE = "remove"
 formatRemovefreeze FREEZE = "freeze"
 
 formatDouble :: Int -> Double -> String
-formatDouble n x = show integer ++ if decimal == "0" then "" else "." ++ stripSuffix '0' (replicate (n-length decimal) '0' ++ decimal)
-   where (integer,dec) = properFraction x :: (Int,Double)
-         decimal = show ((round $ fromIntegral((10::Int)^n) * abs dec) :: Int)
+formatDouble n x = sign ++ int ++ dec
+   where (integral,frac) = properFraction x :: (Int,Double)
+         decimal = show ((round $ fromIntegral((10::Int)^n) * abs frac) :: Int)
+         int = show (abs integral)
+         sign = if signum x < 0 then "-" else ""
+         dec = if decimal == "0" then "" else "." ++ stripSuffix '0' (replicate (n-length decimal) '0' ++ decimal)
 
 stripSuffix :: Char -> String -> String
 stripSuffix _ [] = []

@@ -9,6 +9,7 @@ import qualified Svg.Gallery.KnightTour as KnightTour
 import qualified Svg.Gallery.Sierpinski as Sierpinski
 import qualified Svg.Gallery.Hanoi as Hanoi
 import qualified Svg.Gallery.Sunflower as Sunflower
+import qualified Svg.Gallery.Palette as Palette
 import Data.String.Conversions
 
 
@@ -20,6 +21,7 @@ main = do
   mapM_ writeDiagram Sierpinski.diagrams
   mapM_ writeDiagram Hanoi.diagrams
   mapM_ writeDiagram Sunflower.diagrams
+  mapM_ writeDiagram Palette.diagrams
 
 
 writeDiagram :: (String, Element) -> IO()

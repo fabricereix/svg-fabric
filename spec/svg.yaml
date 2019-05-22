@@ -46,7 +46,7 @@ attributes:
                                    polygon, polyline, rect, text, textPath, tref, tspan]}
   transform:    {type: transform, elements:[g,path]}
   height:       {type: [length,percentage,auto], default: auto}
-  id:           {type: id, elements:[symbol,path]}
+  id:           {type: id, elements:[circle,symbol,path]}
   opacity:      {type: opacity, elements:[_graphics]}
   pathLength:   {type: number}
   points:       {type: points}

@@ -16,6 +16,7 @@ test_formatLength = do
   assertEqual "0.666667" $ formatLength (Length (2/3))
   assertEqual "-1"       $ formatLength (Length (-1))
   assertEqual "-1.1"     $ formatLength (Length (-1.1))
+  assertEqual "-0.1"     $ formatLength (Length (-0.1))
 
 
 test_formatSegment = do

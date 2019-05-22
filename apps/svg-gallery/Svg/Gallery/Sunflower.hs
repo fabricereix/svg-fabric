@@ -23,24 +23,23 @@ diagram n = fromRight $ Right Default.svg
             >>= Svg.viewBox (-size) (-size) (2*size) (2*size)
             >>= Svg.stroke "black"
             >>= Svg.strokewidth 0.05
-            >>= addChildren (
-                 fromRight ( Right (floret (0,0)) >>= Circle.fill "red")
-                 :map (\i-> floret (sqrt (fromIntegral i), fromIntegral i*goldenAngle)) [1..n]
-                )
+            >>= addChildren (map floret coords)
      where size = 1 + fromIntegral (ceiling (sqrt $ fromIntegral n :: Double) :: Int)
+           coords = map (\i-> (sqrt (fromIntegral i), fromIntegral i*goldenAngle)) [1..n]
 
 goldenAngle :: Double
 goldenAngle = pi * (3 - sqrt 5) -- 2.4
 
 
-fromPolar :: Double -> Double -> (Double,Double)
-fromPolar r theta = (r * cos theta, r * sin theta)
+fromPolar :: (Double, Double) -> (Double,Double)
+fromPolar (r,theta) = (r * cos theta, r * sin theta)
 
 
 floret :: (Double, Double) -> Element
 floret (r,theta) = fromRight $ Right Default.circle
                      >>= Circle.cx x
-                     >>= Circle.cy (-y)
+                     >>= Circle.cy y
                      >>= Circle.r 0.6
-    where (x,y) = fromPolar r theta
+                     >>= Circle.id (show x)
+    where (x,y) = fromPolar (r,theta)
 
