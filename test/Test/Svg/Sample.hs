@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Test.Svg.Sample where
 
-import qualified Data.Map as Map
+import           Data.Map as Map (fromList)
 import           Text.XML
 import qualified Data.Text as T
 
@@ -112,4 +112,79 @@ heartWithShade = Element {
         ]
         }
 
+
+grumpy = Element {
+          elementName = simpleName "svg"
+        , elementAttributes = fromList
+            [
+                (simpleName "viewBox", "0 0 240 80")
+            ]
+        , elementNodes =
+            [ NodeElement
+                ( Element
+                    { elementName=simpleName "style"
+                    , elementAttributes = fromList []
+                    , elementNodes = [
+                      NodeContent ""
+-- "
+--          .small { font: italic 13px sans-serif; }
+--          .heavy { font: bold 30px sans-serif; }
+--
+--          /* Note that the color of the text is set with the    *
+--           * fill property, the color property is for HTML only */
+--          .Rrrrr { font: italic 40px serif; fill: red; }
+--        "
+                     ]
+                   }
+                )
+            , NodeElement
+                ( Element
+                    { elementName = simpleName "text"
+                    , elementAttributes = fromList
+                        [
+                          (simpleName "class", "small")
+                        , (simpleName "x", "20")
+                        , (simpleName "y", "35")
+                        ]
+                    , elementNodes = [ NodeContent "My" ]
+                    }
+                )
+            , NodeElement
+                ( Element
+                    { elementName = simpleName "text"
+                    , elementAttributes = fromList
+                        [
+                          (simpleName "class",  "heavy")
+                        , (simpleName "x", "40")
+                        , (simpleName "y", "35")
+                        ]
+                    , elementNodes = [ NodeContent "cat" ]
+                    }
+                )
+            , NodeElement
+                ( Element
+                    { elementName = simpleName "text"
+                    , elementAttributes = fromList
+                        [
+                          (simpleName "class", "small")
+                        , (simpleName "x", "55")
+                        , (simpleName "y", "55")
+                        ]
+                    , elementNodes = [ NodeContent "is" ]
+                    }
+                )
+            , NodeElement
+                ( Element
+                    { elementName = simpleName "text"
+                    , elementAttributes = fromList
+                        [
+                            (simpleName "class",  "Rrrrr") ,
+                            (simpleName "x", "65")
+                        ,   (simpleName "y", "55")
+                        ]
+                    , elementNodes = [ NodeContent "Grumpy!" ]
+                    }
+                )
+            ]
+        }
 
