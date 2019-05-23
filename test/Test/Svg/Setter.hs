@@ -105,17 +105,17 @@ renderXMLElement element = cs $ renderText def
               }
 
 
-test_text = do
-   let s = renderXMLElement Sample.grumpy
-   writeFile "/tmp/grumpy.svg" $ cs s
-   writeFile "/tmp/grumpy2.svg" $ cs $ renderXMLElement $ fromRight $ Right Default.svg
+test_text =
+   --let s = renderXMLElement Sample.grumpy
+   --writeFile "/tmp/grumpy.svg" $ cs s
+   assertEqual Sample.grumpy $ fromRight $ Right Default.svg
       >>= Svg.viewBox 0 0 240 80
       >>= addChildren [
           fromRight $ Right Default.style >>= addText style
         , text "small" 20 35 "My"
         , text "heavy" 40 35 "cat"
         , text "small" 55 55 "is"
-        , text "Rrrrr" 65 55 "Grumpy"
+        , text "Rrrrr" 65 55 "Grumpy!"
         ]
       where text c x y t = fromRight $ Right Default.text
                       >>= Text.class' [c]
