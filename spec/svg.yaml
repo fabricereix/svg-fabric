@@ -18,6 +18,10 @@ elements:
       - {name: width, type: length, default:0}
       - {name: height, type: length, default:0}
       - {name: viewBox, type: viewbox}
+  style:
+      attributes:
+      - {name: type', type: contenttype}
+
   symbol:
       attributes:
       - {name: width, type: length, default:0}
@@ -39,6 +43,7 @@ element-groups:
   group1: [altGlyph, circle, ellipse, path, polygon, polyline, rect, text]
 
 attributes:
+  class:        {type: classes, elements:[text]}
   cx:           {type: [length,percentage],      default: 0}
   cy:           {type: [length,percentage],      default: 0}
   dx:           {type: [length,percentage]}

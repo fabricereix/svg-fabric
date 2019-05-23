@@ -11,6 +11,7 @@ import qualified Svg.Validator.G as G
 import qualified Svg.Validator.Path as Path
 import qualified Svg.Validator.Polyline as Polyline
 import qualified Svg.Validator.Rect as Rect
+import qualified Svg.Validator.Style as Style
 import qualified Svg.Validator.Svg as Svg
 import qualified Svg.Validator.Symbol as Symbol
 import qualified Svg.Validator.Text as Text
@@ -66,6 +67,14 @@ validate Element {
   , elementAttributes=attributes
   , elementNodes=children
   } = Rect.validateAttributes attributes ++ validateChildren children
+
+validate Element {
+    elementName=Name {
+        nameLocalName="style"
+    }
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = Style.validateAttributes attributes ++ validateChildren children
 
 validate Element {
     elementName=Name {

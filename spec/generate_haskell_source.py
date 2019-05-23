@@ -36,6 +36,8 @@ def type_arguments(t):
       'removeFreeze': ['REMOVE', 'FREEZE'],
       'path': ['Path [Command]'],
       'id': ['Id String'],
+      'contenttype': ['ContentType String'],
+      'classes': ['Classes [String]'],
       'transform': ['Transform [BasicTransform]']
     }
     if t not in arguments:

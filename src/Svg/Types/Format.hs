@@ -55,6 +55,9 @@ formatId (Id s) = s
 formatPath :: Path -> String
 formatPath (Path cs) = unwords $ map formatCommand cs
 
+formatClasses :: Classes -> String
+formatClasses (Classes cs) = unwords cs
+
 formatTransform :: Transform -> String
 formatTransform (Transform ts) = unwords $ map formatBasicTransform ts
 
@@ -114,4 +117,8 @@ formatCommand (A relative rx ry xAxisRotation largeArcFlag sweepFlag x y) =
                                          ++ "," ++ formatDouble 6 largeArcFlag
                                          ++ "," ++ formatDouble 6 sweepFlag
                                          ++ " " ++ formatDouble 6 x ++ "," ++ formatDouble 6 y
+
+
+formatContenttype :: ContentType -> String
+formatContenttype (ContentType s) = s
 

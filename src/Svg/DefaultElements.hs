@@ -46,6 +46,13 @@ rect = Element {
     , elementNodes=[]
     }
 
+style :: Element
+style = Element {
+      elementName=Name { nameLocalName="style", nameNamespace = Nothing, namePrefix = Nothing}
+    , elementAttributes=Map.fromList []
+    , elementNodes=[]
+    }
+
 svg :: Element
 svg = Element {
       elementName=Name { nameLocalName="svg", nameNamespace = Nothing, namePrefix = Nothing}

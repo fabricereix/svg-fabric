@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings     #-}
-module Svg.Validator.Animate where
+module Svg.Validator.Style where
 
 import           Data.String.Conversions
 import qualified Data.Text as T
@@ -15,17 +15,16 @@ validateAttributes attributes = concatMap validateAttribute $ Map.toList attribu
 
 validateAttribute :: (Name, T.Text) -> [Error]
 
-validateAttribute (Name { nameLocalName="fill" }, value) = fill value
-validateAttribute (name, _) = [InvalidAttribute "animate" name]
+validateAttribute (Name { nameLocalName="type'" }, value) = type' value
+validateAttribute (name, _) = [InvalidAttribute "style" name]
 
 
 
-fill :: T.Text -> [Error]
-fill "remove" = [AttributeDefault "animate" "fill"]
-fill v =
-  case Parser.removeFreeze (cs v) of
-      Right parsed -> if formatRemovefreeze parsed == (cs v) then [] else [AttributeFormat "animate" "fill" v]
-      Left _ -> [InvalidAttributeValue "animate" "fill" v]
+type' :: T.Text -> [Error]
+type' v =
+  case Parser.contenttype (cs v) of
+      Right parsed -> if formatContenttype parsed == (cs v) then [] else [AttributeFormat "style" "type'" v]
+      Left _ -> [InvalidAttributeValue "style" "type'" v]
 
 
 

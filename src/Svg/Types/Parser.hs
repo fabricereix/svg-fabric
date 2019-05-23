@@ -78,11 +78,18 @@ lengthParser = do
 path :: String -> Either String Path
 path = undefined
 
+classes :: String -> Either String Classes
+classes = undefined
+
+
 transform :: String -> Either String Transform
 transform = undefined
 
 id :: String -> Either String Id
 id = undefined
+
+contenttype :: String -> Either String ContentType
+contenttype = undefined
 
 number :: String -> Either Error Number
 number _ = Left "TODO"

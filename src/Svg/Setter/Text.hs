@@ -100,6 +100,17 @@ dyPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a text instead of " ++ cs name
 
+class' ::  [String] -> Element -> Either String Element
+class' a0 element@Element {
+    elementName=Name { nameLocalName="text" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="class", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute class already set"
+      else Right $ addAttribute element ("class",cs $ formatClasses (Classes a0))
+class' _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a text instead of " ++ cs name
+
 fill ::  String -> Element -> Either String Element
 fill a0 element@Element {
     elementName=Name { nameLocalName="text" }
