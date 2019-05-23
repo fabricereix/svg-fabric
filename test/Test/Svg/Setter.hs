@@ -111,14 +111,27 @@ test_text = do
    writeFile "/tmp/grumpy2.svg" $ cs $ renderXMLElement $ fromRight $ Right Default.svg
       >>= Svg.viewBox 0 0 240 80
       >>= addChildren [
-         fromRight $ Right Default.style
-                      >>= addText ""
-      ,  fromRight $ Right Default.text
-                      >>= Text.class' ["small"]
-                      >>= Text.x 20
-                      >>= Text.y 35
-                      >>= addText "My"
+          fromRight $ Right Default.style >>= addText style
+        , text "small" 20 35 "My"
+        , text "heavy" 40 35 "cat"
+        , text "small" 55 55 "is"
+        , text "Rrrrr" 65 55 "Grumpy"
         ]
+      where text c x y t = fromRight $ Right Default.text
+                      >>= Text.class' [c]
+                      >>= Text.x x
+                      >>= Text.y y
+                      >>= addText t
+
+            style = "\
+\          .small { font: italic 13px sans-serif; }\
+\          .heavy { font: bold 30px sans-serif; }\
+\\
+\          /* Note that the color of the text is set with the    *\
+\           * fill property, the color property is for HTML only */\
+\          .Rrrrr { font: italic 40px serif; fill: red; }\
+\        "
+
 
 test_heart = assertEqual Sample.heart $ fromRight $
     Right Default.svg
