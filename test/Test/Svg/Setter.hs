@@ -15,6 +15,7 @@ import qualified Svg.Setter.Rect as Rect
 import qualified Svg.Setter.Circle as Circle
 import qualified Svg.Setter.Path as Path
 import qualified Svg.Setter.G as G
+import qualified Svg.Setter.Text as Text
 import qualified Svg.Setter.Use as Use
 import qualified Test.Svg.Sample as Sample
 import           Svg.Types.Core
@@ -104,6 +105,20 @@ renderXMLElement element = cs $ renderText def
               }
 
 
+test_text = do
+   let s = renderXMLElement Sample.grumpy
+   writeFile "/tmp/grumpy.svg" $ cs s
+   writeFile "/tmp/grumpy2.svg" $ cs $ renderXMLElement $ fromRight $ Right Default.svg
+      >>= Svg.viewBox 0 0 240 80
+      >>= addChildren [
+         fromRight $ Right Default.style
+                      >>= addText ""
+      ,  fromRight $ Right Default.text
+                      >>= Text.class' ["small"]
+                      >>= Text.x 20
+                      >>= Text.y 35
+                      >>= addText "My"
+        ]
 
 test_heart = assertEqual Sample.heart $ fromRight $
     Right Default.svg
@@ -121,6 +136,8 @@ test_heart = assertEqual Sample.heart $ fromRight $
                             , Z True
                             ]
         ]
+
+
 
 addAttribute :: Element -> (String,T.Text) -> Element
 addAttribute element (attributeName,v) = element {

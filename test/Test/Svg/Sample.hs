@@ -18,14 +18,14 @@ svgName s = Name {nameLocalName = s, nameNamespace = Nothing, namePrefix = Nothi
 -- </svg>
 w3c = Element {
     elementName = Name {nameLocalName = "svg", nameNamespace = Nothing, namePrefix = Nothing}
-  , elementAttributes = Map.fromList [
+  , elementAttributes = fromList [
       (Name {nameLocalName = "width", nameNamespace = Nothing, namePrefix = Nothing},"100")
     , (Name {nameLocalName = "height", nameNamespace = Nothing, namePrefix = Nothing},"100")
     ]
   , elementNodes = [
       NodeElement $ Element {
         elementName = Name {nameLocalName = "circle", nameNamespace = Nothing, namePrefix = Nothing}
-      , elementAttributes = Map.fromList [
+      , elementAttributes = fromList [
           (Name {nameLocalName = "cx", nameNamespace = Nothing, namePrefix = Nothing},"50")
         , (Name {nameLocalName = "cy", nameNamespace = Nothing, namePrefix = Nothing},"50")
         , (Name {nameLocalName = "stroke", nameNamespace = Nothing, namePrefix = Nothing},"green")
@@ -48,13 +48,13 @@ w3c = Element {
 -- </svg>
 heart = Element {
     elementName = Name {nameLocalName = "svg", nameNamespace = Nothing, namePrefix = Nothing}
-  , elementAttributes = Map.fromList [
+  , elementAttributes = fromList [
       (Name {nameLocalName = "viewBox", nameNamespace = Nothing, namePrefix = Nothing},"0 0 100 100")
     ]
   , elementNodes = [
       NodeElement $ Element {
         elementName = Name {nameLocalName = "path", nameNamespace = Nothing, namePrefix = Nothing}
-      , elementAttributes = Map.fromList [
+      , elementAttributes = fromList [
           (Name {nameLocalName = "fill", nameNamespace = Nothing, namePrefix = Nothing},"none")
         , (Name {nameLocalName = "stroke", nameNamespace = Nothing, namePrefix = Nothing},"red")
         , (Name {nameLocalName = "d", nameNamespace = Nothing, namePrefix = Nothing}
@@ -78,14 +78,14 @@ heart = Element {
 -- </svg>
 heartWithShade = Element {
     elementName = simpleName "svg"
-    , elementAttributes = Map.fromList [
+    , elementAttributes = fromList [
        (Name { nameLocalName = "viewBox" , nameNamespace = Nothing , namePrefix = Nothing }
        , "-40 0 150 100")
     ]
     , elementNodes = [
         NodeElement (Element {
           elementName = simpleName "g"
-        , elementAttributes = Map.fromList [
+        , elementAttributes = fromList [
             (simpleName "fill", "grey")
           , (simpleName "transform",
             "rotate(-10 50 100) translate(-36 45.5) skewX(40) scale(1 0.5)")
@@ -93,7 +93,7 @@ heartWithShade = Element {
         , elementNodes = [
           NodeElement (Element {
               elementName = simpleName "path"
-            , elementAttributes = Map.fromList [
+            , elementAttributes = fromList [
                (simpleName "d", "M10,30 A20,20 0,0,1 50,30 A20,20 0,0,1 90,30 Q90,60 50,90 Q10,60 10,30 z")
              , (simpleName "id", "heart")
             ]
@@ -102,7 +102,7 @@ heartWithShade = Element {
         })
         , NodeElement (Element {
              elementName = simpleName "use"
-           , elementAttributes = Map.fromList [
+           , elementAttributes = fromList [
                 (simpleName "fill", "none")
               , (simpleName "href", "#heart")
               , (simpleName "stroke", "red")
@@ -125,15 +125,14 @@ grumpy = Element {
                     { elementName=simpleName "style"
                     , elementAttributes = fromList []
                     , elementNodes = [
-                      NodeContent ""
--- "
---          .small { font: italic 13px sans-serif; }
---          .heavy { font: bold 30px sans-serif; }
---
---          /* Note that the color of the text is set with the    *
---           * fill property, the color property is for HTML only */
---          .Rrrrr { font: italic 40px serif; fill: red; }
---        "
+                      NodeContent "\
+\          .small { font: italic 13px sans-serif; }\
+\          .heavy { font: bold 30px sans-serif; }\
+\\
+\          /* Note that the color of the text is set with the    *\
+\           * fill property, the color property is for HTML only */\
+\          .Rrrrr { font: italic 40px serif; fill: red; }\
+\        "
                      ]
                    }
                 )
