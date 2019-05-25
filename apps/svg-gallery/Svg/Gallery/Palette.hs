@@ -78,13 +78,13 @@ circularPoints n = map (fromPolar . (\i->(1, 2*pi*fromIntegral i/fromIntegral n)
 
 
 arcs :: Int -> [Element]
-arcs n = map (\((x1,y1),(x2,y2))->arc (x1,y1) (x2-x1,y2-y1)) $ zip (tail $ circularPoints n) (circularPoints n)
+arcs n = map (\((x1,y1),(x2,y2))->arc (x1,y1) (x2,y2)) $ zip (tail $ circularPoints n) (circularPoints n)
 
 
 arc :: (Double,Double) -> (Double,Double) -> Element
 arc (x,y) (dx,dy) = fromRight $ Right Default.path
    >>= Path.fill "yellow"
-   >>= Path.d [ M False 0 0, L False x y, A True 1 1 0 0 0 dx dy]
+   >>= Path.d [ M False 0 0, L False x y, A False 1 1 0 0 0 dx dy, Z False]
 
 
 
