@@ -20,31 +20,25 @@ diagrams = [
     ("palettes.svg", palettes)
   ]
 
-
-
 palettes  :: Element
 palettes = fromRight $ Right Default.svg
-            >>= Svg.width 500
-            >>= Svg.height 500
-            >>= Svg.viewBox 0 0 30 30
-            >>= Svg.stroke "none"
-            >>= Svg.strokewidth 0.05
-            >>= addChildren [
-                  style
-                , label (1,1) "Brewer Oranges"
-                , addTransform [Translate 0.5 0.5] $ rectangularPalette brewerOranges
-                , label (11,1) "Brewer Blues"
-                , addTransform [Translate 11 0.5] $ rectangularPalette brewerBlues
-                , label (1,9) "RYB Color Wheel"
-                , addTransform [Translate 5 14, Scale 4 4] $ wheel rybColors
-                , label (11,9) "10 constrasting color from d3"
-                , addTransform [Translate 15 14, Scale 4 4] $ wheel d3_10
-                ]
+     >>= Svg.width 500
+     >>= Svg.height 500
+     >>= Svg.viewBox 0 0 30 30
+     >>= addChildren [
+           fromRight $ Right Default.style >>= addText style
+         , label (1,1) "Brewer Oranges"
+         , addTransform [Translate 0.5 0.5] $ rectangularPalette brewerOranges
+         , label (11,1) "Brewer Blues"
+         , addTransform [Translate 11 0.5] $ rectangularPalette brewerBlues
+         , label (1,9) "RYB Color Wheel"
+         , addTransform [Translate 5 14, Scale 4 4] $ wheel rybColors
+         , label (11,9) "10 constrasting color from d3"
+         , addTransform [Translate 15 14, Scale 4 4] $ wheel d3_10
+         ]
 
-style :: Element
-style = fromRight $ Right Default.style
-   >>= addText ".label {font-size: 1px}"
-
+style :: T.Text
+style = ".label {font-size: 1px}"
 
 label :: (Double,Double) -> T.Text -> Element
 label (x,y) t = fromRight $ Right Default.text
@@ -54,11 +48,10 @@ label (x,y) t = fromRight $ Right Default.text
    >>= addText t
 
 
+-- Palettes
+
 rectangularPalette :: [Color] -> Element
-rectangularPalette cs = fromRight $ Right Default.g
-           >>= addChildren slices
-    --where label = fromRight (Right Default.text >>= Text.y 0.5 >>= Text.class' ["label"] >>= addText name)
-    where slices = map (\(i, color)->
+rectangularPalette cs = group $ map (\(i, color)->
                       fromRight (Right Default.rect
                          >>= Rect.x (fromIntegral i)
                          >>= Rect.y 1
@@ -67,13 +60,26 @@ rectangularPalette cs = fromRight $ Right Default.g
                          >>= Rect.fill color
                   )) $ zip [0::Int ..] cs
 
+wheel :: [Color] -> Element
+wheel cs = group $ map (slice (length cs)) $ zip [1..] cs
+
+slice :: Int -> (Int, Color) -> Element
+slice n (i, color) = fromRight $ Right Default.path
+   >>= Path.fill color
+   >>= Path.d [ M False 0 0, L False x y, A False 1 1 0 0 0 dx dy, Z False]
+   where (x,y) = fromPolar (1, 2*pi*fromIntegral i/fromIntegral n)
+         (dx,dy) = fromPolar (1, 2*pi*fromIntegral (i-1)/fromIntegral n)
+
+
+
+-- Color Data
+-- human generated
+
 type Color = String
+
 brewerOranges, brewerBlues :: [Color]
 brewerOranges = ["#fff5eb","#fee6ce","#fdd0a2","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704"]
 brewerBlues =  ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b"]
-
-colors :: [Color]
-colors = ["red", "blue", "green"]
 
 rybColors :: [Color]
 rybColors = [
@@ -90,23 +96,4 @@ d3_10 = [
     "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"
   , "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
   ]
-
-wheel :: [Color] -> Element
-wheel cs = fromRight $ Right Default.g
-             >>= addChildren slices
-   --where label = fromRight $ Right Default.text >>= Text.class' ["label"] >>= addText t
-  where  slices = map (slice (length cs)) $ zip [1..] cs
-
-
-slice :: Int -> (Int, Color) -> Element
-slice n (i, color) = fromRight $ Right Default.path
-   >>= Path.fill color
-   >>= Path.d [ M False 0 0, L False x y, A False 1 1 0 0 0 dx dy, Z False]
-   where (x,y) = fromPolar (1, 2*pi*fromIntegral i/fromIntegral n)
-         (dx,dy) = fromPolar (1, 2*pi*fromIntegral (i-1)/fromIntegral n)
-
-
-
-
-
 

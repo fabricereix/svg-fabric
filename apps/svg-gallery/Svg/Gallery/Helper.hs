@@ -1,6 +1,9 @@
 module Svg.Gallery.Helper where
 
 import           Svg.Types.Core
+import qualified Svg.DefaultElements as Default
+import Text.XML
+import Svg.Setter
 
 fromRight :: Show l => Either l r -> r
 fromRight (Left e)  = error $ show e
@@ -60,6 +63,8 @@ roundDouble n d = fromInteger (round $ d * (10^n)) / (10.0^^n)
 fromPolar :: (Double, Double) -> (Double,Double)
 fromPolar (r,theta) = (r * cos theta, r * sin theta)
 
+group :: [Element] -> Element
+group elements = fromRight $ Right Default.g >>= addChildren elements
 
 
 
