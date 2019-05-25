@@ -31,9 +31,6 @@ goldenAngle :: Double
 goldenAngle = pi * (3 - sqrt 5) -- 2.4
 
 
-fromPolar :: (Double, Double) -> (Double,Double)
-fromPolar (r,theta) = (r * cos theta, r * sin theta)
-
 
 floret :: (Double, Double) -> Element
 floret (r,theta) = fromRight $ Right Default.circle

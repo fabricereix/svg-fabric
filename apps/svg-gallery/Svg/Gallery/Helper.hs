@@ -56,3 +56,11 @@ roundCommand _ c            = c
 roundDouble :: Int -> Double -> Double
 roundDouble n d = fromInteger (round $ d * (10^n)) / (10.0^^n)
 
+
+fromPolar :: (Double, Double) -> (Double,Double)
+fromPolar (r,theta) = (r * cos theta, r * sin theta)
+
+
+
+
+
