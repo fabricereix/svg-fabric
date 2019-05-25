@@ -40,11 +40,14 @@ addTransform transforms Element {
   , elementAttributes=attributes
   , elementNodes=children
   } = Element {
-            elementName=name
-          , elementAttributes=Map.fromList $
-             Map.toList attributes
-             ++ [(Name {nameLocalName="transform", nameNamespace=Nothing, namePrefix=Nothing}, cs $ formatTransform (Transform transforms))]
-          , elementNodes=children
-          }
+       elementName=name
+     , elementAttributes=Map.fromList $
+        Map.toList attributes
+        ++ [(
+             Name {nameLocalName="transform", nameNamespace=Nothing, namePrefix=Nothing}
+           , cs $ formatTransform (Transform transforms)
+           )]
+    , elementNodes=children
+    }
 
 
