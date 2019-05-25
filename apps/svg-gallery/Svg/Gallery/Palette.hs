@@ -32,22 +32,22 @@ brewerset = fromRight $ Right Default.svg
             >>= Svg.strokewidth 0.05
             >>= addChildren [
                   style
-                , rectangularPalette 0 ("Oranges",brewerOranges)
-                , rectangularPalette 6 ("Blues",brewerBlues)
+                , addTransform [Translate 0.5 0.5] $ rectangularPalette "Oranges" brewerOranges
+                , addTransform [Translate 0.5 8] $ rectangularPalette "Blues" brewerBlues
                 ]
 
 style :: Element
 style = fromRight $ Right Default.style
    >>= addText ".label {font-size: 1px}"
 
-rectangularPalette :: Double -> (T.Text, [Color]) -> Element
-rectangularPalette y (name,cs) = fromRight $ Right Default.g
+rectangularPalette :: T.Text -> [Color] -> Element
+rectangularPalette name cs = fromRight $ Right Default.g
            >>= addChildren (label:palette)
-    where label = fromRight (Right Default.text >>= Text.y (y+2) >>= Text.class' ["label"] >>= addText name)
+    where label = fromRight (Right Default.text >>= Text.y 0.5 >>= Text.class' ["label"] >>= addText name)
           palette =map (\(i, color)->
                       fromRight (Right Default.rect
-                         >>= Rect.x (6+fromIntegral i)
-                         >>= Rect.y y
+                         >>= Rect.x (fromIntegral i)
+                         >>= Rect.y 1
                          >>= Rect.width 1
                          >>= Rect.height 5
                          >>= Rect.fill color
