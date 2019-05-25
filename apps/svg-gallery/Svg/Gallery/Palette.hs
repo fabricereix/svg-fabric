@@ -42,7 +42,7 @@ style = fromRight $ Right Default.style
    >>= addText ".label {font-size: 1px}"
 
 rectangularPalette :: Double -> (T.Text, [Color]) -> Element
-rectangularPalette y (name,colors) = fromRight $ Right Default.g
+rectangularPalette y (name,cs) = fromRight $ Right Default.g
            >>= addChildren (label:palette)
     where label = fromRight (Right Default.text >>= Text.y (y+2) >>= Text.class' ["label"] >>= addText name)
           palette =map (\(i, color)->
@@ -52,7 +52,7 @@ rectangularPalette y (name,colors) = fromRight $ Right Default.g
                          >>= Rect.width 1
                          >>= Rect.height 5
                          >>= Rect.fill color
-                  )) $ zip [0::Int ..] colors
+                  )) $ zip [0::Int ..] cs
 
 type Color = String
 brewerOranges, brewerBlues :: [Color]
@@ -68,23 +68,26 @@ colorwheel = fromRight $ Right Default.svg
             >>= Svg.viewBox (-2) (-2) 4 4
             >>= Svg.stroke "black"
             >>= Svg.strokewidth 0.05
-            >>= addChildren (arcs 5)
-
-circularPoints :: Int -> [(Double,Double)]
-circularPoints n = map (fromPolar . (\i->(1, 2*pi*fromIntegral i/fromIntegral n))) [0..n]
-
---arcs :: Int -> [(Point,(Double,Double))]
---arcs n = map (\((x1,y1),(x2,y2))->((x1,y1),(x2-x1,y2-y1))) $ zip (circularPoints n) (tail $ circularPoints n)
+            >>= addChildren [wheel colors]
 
 
-arcs :: Int -> [Element]
-arcs n = map (\((x1,y1),(x2,y2))->arc (x1,y1) (x2,y2)) $ zip (tail $ circularPoints n) (circularPoints n)
+colors :: [Color]
+colors = ["red", "blue", "green"]
 
 
-arc :: (Double,Double) -> (Double,Double) -> Element
-arc (x,y) (dx,dy) = fromRight $ Right Default.path
-   >>= Path.fill "yellow"
+wheel :: [Color] -> Element
+wheel cs = fromRight $ Right Default.g
+             >>= addChildren (map (slice (length cs)) $ zip [1..] cs)
+
+
+slice :: Int -> (Int, Color) -> Element
+slice n (i, color) = fromRight $ Right Default.path
+   >>= Path.fill color
    >>= Path.d [ M False 0 0, L False x y, A False 1 1 0 0 0 dx dy, Z False]
+   where (x,y) = fromPolar (1, 2*pi*fromIntegral i/fromIntegral n)
+         (dx,dy) = fromPolar (1, 2*pi*fromIntegral (i-1)/fromIntegral n)
+
+
 
 
 
