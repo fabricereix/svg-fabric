@@ -6,7 +6,7 @@ import           Text.XML
 import qualified Svg.Setter.Rect as Rect
 import qualified Svg.Setter.Text as Text
 import qualified Svg.Setter.Path as Path
--- import qualified Svg.Setter.G as G
+import qualified Svg.Setter.G as G
 import           Svg.Setter
 -- import           Svg.Types.Core
 import           Svg.Gallery.Helper
@@ -64,11 +64,18 @@ brewerBlues =  ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#21
 colorwheel :: Element
 colorwheel = fromRight $ Right Default.svg
             >>= Svg.width 500
-            >>= Svg.height 500
-            >>= Svg.viewBox (-2) (-2) 4 4
+            >>= Svg.height 1000
+            >>= Svg.viewBox (-2) (-2) 4 8
             >>= Svg.stroke "black"
             >>= Svg.strokewidth 0.05
-            >>= addChildren [wheel colors]
+            >>= addChildren [
+                  addTransform [Translate 0.5 0] $ wheel colors
+                , translate (0,3) (wheel colors)
+                ]
+
+-- Helper
+translate :: (Double, Double) -> Element -> Element
+translate (x,y) element = fromRight $ Right element >>= G.transform [Translate     x y]
 
 
 colors :: [Color]
