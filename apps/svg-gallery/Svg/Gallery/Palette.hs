@@ -17,14 +17,13 @@ import           Svg.Types.Core
 type Filename = String
 diagrams :: [(Filename, Element)]
 diagrams = [
-    ("palette-brewerset.svg", brewerset)
-  , ("colorwheel.svg", colorwheel)
+    ("palettes.svg", palettes)
   ]
 
 
 
-brewerset  :: Element
-brewerset = fromRight $ Right Default.svg
+palettes  :: Element
+palettes = fromRight $ Right Default.svg
             >>= Svg.width 500
             >>= Svg.height 500
             >>= Svg.viewBox 0 0 30 30
@@ -33,7 +32,9 @@ brewerset = fromRight $ Right Default.svg
             >>= addChildren [
                   style
                 , addTransform [Translate 0.5 0.5] $ rectangularPalette "Oranges" brewerOranges
-                , addTransform [Translate 0.5 8] $ rectangularPalette "Blues" brewerBlues
+                , addTransform [Translate 10 0.5] $ rectangularPalette "Blues" brewerBlues
+                , addTransform [Translate 5 12, Scale 4 4] $ wheel colors
+                , addTransform [Translate 14 12, Scale 4 4] $ wheel colors
                 ]
 
 style :: Element
@@ -57,20 +58,6 @@ type Color = String
 brewerOranges, brewerBlues :: [Color]
 brewerOranges = ["#fff5eb","#fee6ce","#fdd0a2","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704"]
 brewerBlues =  ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b"]
-
-
-
-colorwheel :: Element
-colorwheel = fromRight $ Right Default.svg
-            >>= Svg.width 600
-            >>= Svg.height 300
-            >>= Svg.viewBox 0 0 6 3
-            >>= Svg.stroke "black"
-            >>= Svg.strokewidth 0.05
-            >>= addChildren [
-                  addTransform [Translate 1.5 1.5] $ wheel colors
-                , addTransform [Translate 4 1.5] $ wheel colors
-                ]
 
 colors :: [Color]
 colors = ["red", "blue", "green"]
