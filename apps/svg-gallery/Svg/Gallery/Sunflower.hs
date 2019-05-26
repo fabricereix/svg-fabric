@@ -15,7 +15,6 @@ diagrams :: [(Filename, Element)]
 diagrams = map (\n-> ("sunflower-" ++ show n ++ ".svg", diagram n)) [10,100,1000]
 
 
-
 diagram  :: Int -> Element
 diagram n = fromRight $ Right Default.svg
             >>= Svg.width 500
@@ -31,12 +30,10 @@ goldenAngle :: Double
 goldenAngle = pi * (3 - sqrt 5) -- 2.4
 
 
-
 floret :: (Double, Double) -> Element
 floret (r,theta) = fromRight $ Right Default.circle
                      >>= Circle.cx x
                      >>= Circle.cy y
                      >>= Circle.r 0.6
-                     >>= Circle.id (show x)
     where (x,y) = fromPolar (r,theta)
 
