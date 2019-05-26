@@ -3,6 +3,8 @@
 module Svg.Types.Parser where
 import Svg.Types.Core
 import Text.Parsec
+import Data.Char
+import Data.Maybe
 
 
 
@@ -77,6 +79,34 @@ lengthParser = do
 
 path :: String -> Either String Path
 path = undefined
+
+command' :: Stream s m Char => ParsecT s u m Command
+command' = do
+    c <- oneOf "MmLlHhVv"
+    spaces
+    lookup' (toUpper c) commandParsers (isLower c)
+
+commandParsers ::Stream s m Char => [(Char, Bool->ParsecT s u m Command)]
+commandParsers = [
+   ('M', \relative -> do (x,y) <- coords
+                         return $ M relative x y)
+ , ('L', \relative -> do (x,y) <- coords
+                         return $ L relative x y)
+ , ('H', \relative -> H relative <$> double)
+ , ('V', \relative -> V relative <$> double)
+ ]
+
+coords :: Stream s m Char => ParsecT s u m (Double,Double)
+coords = do
+    x <- double
+    oneOf ", "
+    spaces
+    y <- double
+    return (x, y)
+
+
+lookup' :: Eq a => a -> [(a, b)] -> b
+lookup' k m = fromMaybe (error "should not happen") (lookup k m)
 
 classes :: String -> Either String Classes
 classes = undefined
