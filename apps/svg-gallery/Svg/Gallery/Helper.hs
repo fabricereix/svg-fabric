@@ -1,9 +1,16 @@
+{-# LANGUAGE OverloadedStrings     #-}
 module Svg.Gallery.Helper where
 
 import           Svg.Types.Core
 import qualified Svg.DefaultElements as Default
 import Text.XML
 import Svg.Setter
+import Svg.Types.Parser
+import Svg.Types.Format
+import qualified Data.Text as T
+import qualified Data.Map as Map
+import Prelude hiding (length)
+import Data.String.Conversions
 
 fromRight :: Show l => Either l r -> r
 fromRight (Left e)  = error $ show e
@@ -31,9 +38,9 @@ toDoublePoint (x,y) = (0.5+fromIntegral x , 0.5+fromIntegral y )
 optimizePath :: [Command] -> [Command]
 optimizePath [] = []
 optimizePath [c] = [c]
-optimizePath (c1:c2:cs) = case mergeCommands c1 c2 of
-   [_,_] -> c1:optimizePath (c2:cs)
-   c     -> optimizePath (c ++ cs)
+optimizePath (c1:c2:css) = case mergeCommands c1 c2 of
+   [_,_] -> c1:optimizePath (c2:css)
+   c     -> optimizePath (c ++ css)
 
 
 mergeCommands :: Command -> Command -> [Command]
@@ -66,6 +73,41 @@ fromPolar (r,theta) = (r * cos theta, r * sin theta)
 group :: [Element] -> Element
 group elements = fromRight $ Right Default.g >>= addChildren elements
 
+
+
+
+roundCircle :: Int -> Element -> Element
+roundCircle n Element {
+    elementName="circle"
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = Element {
+            elementName="circle"
+          , elementAttributes=Map.fromList $ map (roundAttributeCircle n) $ Map.toList attributes
+          , elementNodes=children
+          }
+roundCircle n Element {
+    elementName=name
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = Element {
+            elementName=name
+          , elementAttributes=attributes
+          , elementNodes=map (roundNodeCircle n) children
+          }
+
+roundNodeCircle :: Int -> Node -> Node
+roundNodeCircle n (NodeElement element) = NodeElement (roundCircle n element)
+roundNodeCircle _ node = node
+
+roundAttributeCircle :: Int -> (Name, T.Text)-> (Name,T.Text)
+roundAttributeCircle n (Name {nameLocalName="cx", nameNamespace=Nothing, namePrefix=Nothing}, v) = case length (cs v) of
+  Left e-> error $ show e
+  Right (Length x) -> ("cx", cs $ formatLength (Length (roundDouble n x)))
+roundAttributeCircle n (Name {nameLocalName="cy", nameNamespace=Nothing, namePrefix=Nothing}, v) = case length (cs v) of
+  Left e-> error $ show e
+  Right (Length x) -> ("cy", cs $ formatLength (Length (roundDouble n x)))
+roundAttributeCircle _ a = a
 
 
 
