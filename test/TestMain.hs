@@ -11,5 +11,6 @@ import {-@ HTF_TESTS @-} Test.Svg.Setter
 --import {-@ HTF_TESTS @-} Test.Svg.Getter
 --import {-@ HTF_TESTS @-} Test.Svg.Attribute
 import {-@ HTF_TESTS @-} Test.Svg.Validator
+import {-@ HTF_TESTS @-} Test.Svg.Xml
 
 main = htfMainWithArgs ["-q"] htf_importedTests
