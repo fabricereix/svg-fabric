@@ -59,7 +59,7 @@ lengthParser = do
 
 command' :: Stream s m Char => ParsecT s u m Command
 command' = do
-    c <- oneOf "MmLlHhVv"
+    c <- oneOf "MmLlHhVvZz"
     spaces
     lookup' (toUpper c) commandParsers (isLower c)
 
@@ -71,7 +71,10 @@ commandParsers = [
                          return $ L relative x y)
  , ('H', \relative -> H relative <$> double)
  , ('V', \relative -> V relative <$> double)
+ , ('Z', return . Z)
  ]
+
+
 
 coords :: Stream s m Char => ParsecT s u m (Double,Double)
 coords = do

@@ -55,9 +55,6 @@ roundCircle n Element {
 roundCircle _ element = element
 
 
-roundNodeCircle :: Int -> Node -> Node
-roundNodeCircle n (NodeElement element) = NodeElement (roundCircle n element)
-roundNodeCircle _ node = node
 
 roundAttributeCircle :: Int -> (Name, T.Text)-> (Name,T.Text)
 roundAttributeCircle n (Name {nameLocalName="cx", nameNamespace=Nothing, namePrefix=Nothing}, v) = case length (cs v) of
