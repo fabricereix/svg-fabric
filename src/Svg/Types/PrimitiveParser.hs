@@ -76,6 +76,29 @@ commandParsers = [
 
 
 
+basicTransform :: Stream s m Char => ParsecT s u m BasicTransform
+basicTransform = do
+    f <- string "matrix"
+         <|> string "translate"
+         <|> string "scale"
+         <|> string "rotate"
+         <|> string "skewx"
+         <|> string  "skewy"
+    spaces
+    char '('
+    t <- lookup' f transformParsers
+    char ')'
+    return t
+
+
+transformParsers ::Stream s m Char => [(String, ParsecT s u m BasicTransform)]
+transformParsers = [
+   ("translate", do x <- double
+                    spaces
+                    Translate x <$> double)
+ ]
+
+
 coords :: Stream s m Char => ParsecT s u m (Double,Double)
 coords = do
     x <- double
