@@ -39,7 +39,7 @@ transform s = case parse (do ts <-many basicTransform
                              spaces
                              eof
                              return ts) "" s of
-  Left e -> Left $ "Invalid transform value - " ++ show e
+  Left e -> Left $ show e
   Right xs -> Right $ Transform xs
 
 

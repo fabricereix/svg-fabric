@@ -103,6 +103,7 @@ basicTransform = do
     spaces
     t <- lookup' f transformParsers
     char ')'
+    spaces
     return t
 
 

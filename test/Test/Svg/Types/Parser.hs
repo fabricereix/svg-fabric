@@ -38,12 +38,12 @@ test_transform = do
   assertEqual (Right (Transform [Translate 1 2]))        $ transform "translate( 1 2 )"
   assertEqual (Right (Transform [Translate 1.1 0]))      $ transform "translate(1.1)"
   assertEqual (Right (Transform [Translate 1.1 0]))      $ transform "translate(1.1) "
-  assertEqual (Left "Invalid transform value - (line 1, column 14):\nunexpected 'x'\nexpecting space or end of input")
+  assertEqual (Left "(line 1, column 14):\nunexpected 'x'\nexpecting \"matrix\", \"translate\", \"scale\", \"rotate\", \"skewx\", \"skewy\", white space or end of input")
                                                          $ transform "translate(1) x"
   assertEqual (Right (Transform [Scale 1 2]))           $ transform "scale(1 2)"
   assertEqual (Right (Transform [Scale 1 1]))           $ transform "scale(1)"
   assertEqual (Right (Transform [Matrix 1 2 3 4 5 6]))   $ transform "matrix(1 2 3 4 5 6)"
 
-
-
+  assertEqual (Left "(line 1, column 1):\nunexpected 'u'\nexpecting \"matrix\", \"translate\", \"scale\", \"rotate\", \"skewx\", \"skewy\", white space or end of input")  $ transform "undefined(0 0)"
+  assertEqual (Left "(line 1, column 16):\nunexpected 'u'\nexpecting \"matrix\", \"translate\", \"scale\", \"rotate\", \"skewx\", \"skewy\", white space or end of input")  $ transform "translate(1 1) undefined(0 0)"
 
