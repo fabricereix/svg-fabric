@@ -17,19 +17,24 @@ import           Text.Parsec.String
 parseWithLeftOver :: Parser a -> String -> Either ParseError (a,String)
 parseWithLeftOver p = parse ((,) <$> p <*> manyTill anyToken eof) ""
 
+--runParserWithLeftOver :: Parser a -> b -> String -> (a,String)
+--runParserWithLeftOver p state s = case runParser p state "" s of
+--    Left e -> error "expect failure"
+--    Right x -> do leftover <- manyTill anyToken eof
+--                  (x,leftover)
+
 expectError p s = case parseWithLeftOver p s of
    Left x  -> show x
    Right x -> "parsing success " ++ show x
 
 
 test_command_parser = do
-  assertEqual (Right (M False 0 0,"")) $ parseWithLeftOver command' "M0,0"
-  assertEqual (Right (M False 0 0,"")) $ parseWithLeftOver command' "M0 0"
-  assertEqual (Right (L False 1 2,"")) $ parseWithLeftOver command' "L1 2"
-  assertEqual (Right (H True 2,"")) $ parseWithLeftOver command' "h 2"
-  assertEqual (Right (H True 1,"v2")) $ parseWithLeftOver command' "h1v2"
-  assertEqual (Right (H True 1,"")) $ parseWithLeftOver command' "h 1"
-  assertEqual (Right (Z True,"")) $ parseWithLeftOver command' "z"
+  assertEqual (Right (M False 0 0))   $ runParser command' Nothing "" "M0,0"
+  assertEqual (Right (L False 1 2))   $ runParser command' Nothing "" "L1,2"
+  assertEqual (Right (L False 1 2))   $ runParser command' Nothing "" "L 1,2"
+  assertEqual (Right (H True 1))      $ runParser command' Nothing "" "h1"
+  assertEqual (Right (H True 1))      $ runParser command' (Just 'h') "" "1"
+
 
 
 test_transform_parser = do

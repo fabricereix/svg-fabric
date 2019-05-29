@@ -57,11 +57,25 @@ lengthParser = do
     return $ Length d
 
 
-command' :: Stream s m Char => ParsecT s u m Command
+
+
+command' :: Stream s m Char => ParsecT s (Maybe Char) m Command
 command' = do
-    c <- oneOf "MmLlHhVvZz"
+    c <- instruction
     spaces
     lookup' (toUpper c) commandParsers (isLower c)
+
+
+instruction :: (Stream s m Char) => ParsecT s (Maybe Char) m Char
+instruction = do c <- oneOf "MmLlHhVvZz"
+                 modifyState $ const (Just c)
+                 return c
+           <|> do s <- getState
+                  case s of
+                    Nothing -> fail "missing instruction"
+                    Just c -> return c
+
+
 
 commandParsers ::Stream s m Char => [(Char, Bool->ParsecT s u m Command)]
 commandParsers = [

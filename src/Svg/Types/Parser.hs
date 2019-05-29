@@ -26,8 +26,9 @@ length s = case parse (do{d<-double;eof;return d}) "" s of
 
 
 path :: String -> Either String Path
-path = undefined
-
+path s = case runParser (many1 command') Nothing "" s of
+  Left e   -> Left (show e)
+  Right xs -> Right $ Path xs
 
 classes :: String -> Either String Classes
 classes = undefined

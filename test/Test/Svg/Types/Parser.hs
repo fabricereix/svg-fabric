@@ -26,9 +26,11 @@ test_viewbox = do
   assertEqual (Left "Can not parse \"x\" to viewport") $ viewbox "x"
 
 
-xtestPath = do
-  assertEqual (Right (Path [])) $ path ""
-  assertEqual (Right (Path [])) $ path ""
+testPath = do
+  assertEqual (Right (Path []))                          $ path ""
+  assertEqual (Right (Path [M True 1 1]))                $ path "m1,1"
+  assertEqual (Right (Path [L True 1 2, L True 3 4]))    $ path "l1 2 3 4"
+
 
 
 
