@@ -26,7 +26,7 @@ length s = case parse (do{d<-double;eof;return d}) "" s of
 
 
 path :: String -> Either String Path
-path s = case runParser (many1 command') Nothing "" s of
+path s = case runParser (many command') Nothing "" s of
   Left e   -> Left (show e)
   Right xs -> Right $ Path xs
 
@@ -35,7 +35,13 @@ classes = undefined
 
 
 transform :: String -> Either String Transform
-transform = undefined
+transform s = case parse (do ts <-many basicTransform
+                             spaces
+                             eof
+                             return ts) "" s of
+  Left e -> Left $ "Invalid transform value - " ++ show e
+  Right xs -> Right $ Transform xs
+
 
 id :: String -> Either String Id
 id = undefined

@@ -100,6 +100,7 @@ basicTransform = do
          <|> string  "skewy"
     spaces
     char '('
+    spaces
     t <- lookup' f transformParsers
     char ')'
     return t
@@ -107,9 +108,21 @@ basicTransform = do
 
 transformParsers ::Stream s m Char => [(String, ParsecT s u m BasicTransform)]
 transformParsers = [
-   ("translate", do x <- double
+   ("translate", do x <- double; spaces
+                    (do y <- double
+                        spaces
+                        return $ Translate x y) <|> return (Translate x 0))
+ , ("scale", do x <- double; spaces
+                (do y <- double
                     spaces
-                    Translate x <$> double)
+                    return $ Scale x y) <|> return (Scale x x))
+ , ("matrix", do a <- double; spaces
+                 b <- double; spaces
+                 c <- double; spaces
+                 d <- double; spaces
+                 e <- double; spaces
+                 f <- double; spaces
+                 return $ Matrix a b c d e f)
  ]
 
 

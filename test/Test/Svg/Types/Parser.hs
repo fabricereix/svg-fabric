@@ -26,10 +26,23 @@ test_viewbox = do
   assertEqual (Left "Can not parse \"x\" to viewport") $ viewbox "x"
 
 
-testPath = do
+test_path = do
   assertEqual (Right (Path []))                          $ path ""
   assertEqual (Right (Path [M True 1 1]))                $ path "m1,1"
   assertEqual (Right (Path [L True 1 2, L True 3 4]))    $ path "l1 2 3 4"
+
+
+test_transform = do
+  assertEqual (Right (Transform []))                     $ transform ""
+  assertEqual (Right (Transform [Translate 1 2]))        $ transform "translate(1 2)"
+  assertEqual (Right (Transform [Translate 1 2]))        $ transform "translate( 1 2 )"
+  assertEqual (Right (Transform [Translate 1.1 0]))      $ transform "translate(1.1)"
+  assertEqual (Right (Transform [Translate 1.1 0]))      $ transform "translate(1.1) "
+  assertEqual (Left "Invalid transform value - (line 1, column 14):\nunexpected 'x'\nexpecting space or end of input")
+                                                         $ transform "translate(1) x"
+  assertEqual (Right (Transform [Scale 1 2]))           $ transform "scale(1 2)"
+  assertEqual (Right (Transform [Scale 1 1]))           $ transform "scale(1)"
+  assertEqual (Right (Transform [Matrix 1 2 3 4 5 6]))   $ transform "matrix(1 2 3 4 5 6)"
 
 
 
