@@ -40,6 +40,8 @@ test_command_parser = do
 test_transform_parser = do
   assertEqual (Right (Translate 1 1,"")) $ parseWithLeftOver basicTransform "translate(1 1)"
   assertEqual (Right (Translate 1 1,"")) $ parseWithLeftOver basicTransform "translate(1 1)"
+  assertEqual (Right (Rotate 30 (1,1),"")) $ parseWithLeftOver basicTransform "rotate(30 1 1)"
+  assertEqual (Right (Rotate 30 (0,0),"")) $ parseWithLeftOver basicTransform "rotate(30)"
 
 
 test_double = do

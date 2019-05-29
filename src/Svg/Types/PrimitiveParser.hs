@@ -110,13 +110,17 @@ basicTransform = do
 transformParsers ::Stream s m Char => [(String, ParsecT s u m BasicTransform)]
 transformParsers = [
    ("translate", do x <- double; spaces
-                    (do y <- double
-                        spaces
+                    (do y <- double; spaces
                         return $ Translate x y) <|> return (Translate x 0))
  , ("scale", do x <- double; spaces
-                (do y <- double
-                    spaces
+                (do y <- double; spaces
                     return $ Scale x y) <|> return (Scale x x))
+ , ("rotate", do a <- double; spaces
+                 (do x <- double; spaces
+                     y <- double; spaces
+                     return $ Rotate a (x,y)) <|> return (Rotate a (0,0)))
+ , ("skewX", do x <- double; spaces; return $ SkewX x)
+ , ("skewX", do y <- double; spaces; return $ SkewY y)
  , ("matrix", do a <- double; spaces
                  b <- double; spaces
                  c <- double; spaces
@@ -124,7 +128,7 @@ transformParsers = [
                  e <- double; spaces
                  f <- double; spaces
                  return $ Matrix a b c d e f)
- ]
+  ]
 
 
 coords :: Stream s m Char => ParsecT s u m (Double,Double)

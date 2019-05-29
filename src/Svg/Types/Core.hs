@@ -38,7 +38,7 @@ data BasicTransform
   = Matrix Double Double Double Double Double Double
   | Translate Double Double
   | Scale Double Double
-  | Rotate Double Double Double
+  | Rotate Double (Double,Double)
   | SkewX Double
   | SkewY Double
   deriving (Show,Eq)

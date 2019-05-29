@@ -77,9 +77,9 @@ formatBasicTransform (Scale x y) =  "scale("
                                  ++ formatDouble 6 x
                                  ++ (if x == y then "" else " " ++ formatDouble 6 y)
                                  ++ ")"
-formatBasicTransform (Rotate a x y)  = "rotate("
+formatBasicTransform (Rotate a (x,y))  = "rotate("
     ++ formatDouble 6 a
-    ++ (if x == 0 && y == 0 then "" else " " ++ formatDouble 6 x ++ " " ++ formatDouble 6 y)
+    ++ (if (x,y) == (0,0) then "" else " " ++ formatDouble 6 x ++ " " ++ formatDouble 6 y)
     ++ ")"
 formatBasicTransform (SkewX a) = "skewX(" ++ formatDouble 6 a ++ ")"
 formatBasicTransform (SkewY a) = "skewY(" ++ formatDouble 6 a ++ ")"
