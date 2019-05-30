@@ -107,10 +107,14 @@ basicTransform = do
     return t
 
 classParser :: Stream s m Char => ParsecT s u m String
-classParser = do s <-many1 $ oneOf "abcdefghijklmnopqrstuvwxyz0123456789"
+classParser = do s <-many1 $ oneOf "-abcdefghijklmnopqrstuvwxyz0123456789"
                  spaces
                  return s
 
+idParser :: Stream s m Char => ParsecT s u m String
+idParser = do s <-many1 $ oneOf "abcdefghijklmnopqrstuvwxyz0123456789"
+              spaces
+              return s
 
 point :: Stream s m Char => ParsecT s u m (Double,Double)
 point = do x <- double

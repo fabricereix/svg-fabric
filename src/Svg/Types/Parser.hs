@@ -48,13 +48,17 @@ transform s = case parse (do ts <-many basicTransform
 
 
 id :: String -> Either String Id
-id = undefined
+id s = case parse idParser "" s of
+  Left e -> Left (show e)
+  Right x -> Right (Id x)
 
 contenttype :: String -> Either String ContentType
 contenttype = undefined
 
 number :: String -> Either Error Number
-number _ = Left "TODO"
+number s = case parse double "" s of
+  Left e -> Left (show e)
+  Right x -> Right (Number x)
 
 percentage :: String -> Either Error Percentage
 percentage s = case parse (do{d<-double;char '%';eof; return d}) "" s of

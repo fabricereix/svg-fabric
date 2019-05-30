@@ -7,6 +7,7 @@ module Test.Svg.Types.Parser where
 import Test.Framework
 import Svg.Types.Parser
 import Svg.Types.Core
+import Prelude hiding(id)
 
 
 test_removeFreeze = do
@@ -54,3 +55,8 @@ test_classes = do
 test_points = do
   assertEqual (Right (Points []))            $ points ""
   assertEqual (Right (Points [(0,0),(1,1)])) $ points "0,0 1,1"
+
+test_id = do
+  assertEqual (Right (Id "id1"))  $ id "id1"
+  assertEqual (Right (Id "id1"))  $ id "id1 "
+
