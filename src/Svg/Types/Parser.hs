@@ -31,7 +31,9 @@ path s = case runParser (many command') Nothing "" s of
   Right xs -> Right $ Path xs
 
 classes :: String -> Either String Classes
-classes = undefined
+classes s = case parse (do {spaces;many classParser;}) "" s of
+  Left e -> Left (show e)
+  Right cs -> Right (Classes cs)
 
 
 transform :: String -> Either String Transform

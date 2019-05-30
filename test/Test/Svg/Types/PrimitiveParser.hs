@@ -43,6 +43,9 @@ test_transform_parser = do
   assertEqual (Right (Rotate 30 (1,1),"")) $ parseWithLeftOver basicTransform "rotate(30 1 1)"
   assertEqual (Right (Rotate 30 (0,0),"")) $ parseWithLeftOver basicTransform "rotate(30)"
 
+test_class = do
+  assertEqual (Right ("class1", "")) $ parseWithLeftOver classParser "class1"
+  assertEqual (Right ("class1", "")) $ parseWithLeftOver classParser "class1 "
 
 test_double = do
   assertEqual (Right (0,"")) $ parseWithLeftOver double "0"

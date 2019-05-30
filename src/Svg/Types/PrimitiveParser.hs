@@ -106,6 +106,10 @@ basicTransform = do
     spaces
     return t
 
+classParser :: Stream s m Char => ParsecT s u m String
+classParser = do s <-many1 $ oneOf "abcdefghijklmnopqrstuvwxyz0123456789"
+                 spaces
+                 return s
 
 transformParsers ::Stream s m Char => [(String, ParsecT s u m BasicTransform)]
 transformParsers = [

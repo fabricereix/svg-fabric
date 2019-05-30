@@ -47,3 +47,7 @@ test_transform = do
   assertEqual (Left "(line 1, column 1):\nunexpected 'u'\nexpecting \"matrix\", \"translate\", \"scale\", \"rotate\", \"skewx\", \"skewy\", white space or end of input")  $ transform "undefined(0 0)"
   assertEqual (Left "(line 1, column 16):\nunexpected 'u'\nexpecting \"matrix\", \"translate\", \"scale\", \"rotate\", \"skewx\", \"skewy\", white space or end of input")  $ transform "translate(1 1) undefined(0 0)"
 
+test_classes = do
+  assertEqual (Right (Classes [])) $ classes ""
+  assertEqual (Right (Classes ["class1", "class2"])) $ classes "class1 class2"
+
