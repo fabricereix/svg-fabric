@@ -12,7 +12,9 @@ type Error = String
 
 
 points :: String -> Either Error Points
-points = undefined
+points s = case parse (many point) "" s of
+  Left e -> Left (show e)
+  Right cs -> Right (Points cs)
 
 paint :: String -> Either Error Paint
 paint s =  case parse (many1 anyChar) "" s of

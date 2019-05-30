@@ -111,6 +111,15 @@ classParser = do s <-many1 $ oneOf "abcdefghijklmnopqrstuvwxyz0123456789"
                  spaces
                  return s
 
+
+point :: Stream s m Char => ParsecT s u m (Double,Double)
+point = do x <- double
+           many $ oneOf " ,";
+           y <- double;
+           many $ oneOf " ,";
+           return (x,y)
+
+
 transformParsers ::Stream s m Char => [(String, ParsecT s u m BasicTransform)]
 transformParsers = [
    ("translate", do x <- double; spaces

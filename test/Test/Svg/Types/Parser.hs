@@ -51,3 +51,6 @@ test_classes = do
   assertEqual (Right (Classes [])) $ classes ""
   assertEqual (Right (Classes ["class1", "class2"])) $ classes "class1 class2"
 
+test_points = do
+  assertEqual (Right (Points []))            $ points ""
+  assertEqual (Right (Points [(0,0),(1,1)])) $ points "0,0 1,1"
