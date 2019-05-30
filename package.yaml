@@ -64,6 +64,20 @@ executables:
       - -fno-warn-orphans
       - -Wno-incomplete-record-updates
 
+  svglint:
+    main: Main.hs
+    source-dirs: apps/svglint
+    dependencies:
+      - svg-fabric
+      - string-conversions
+      - text
+      - xml-conduit
+      - template-haskell
+      - time
+    ghc-options:
+      - -fno-warn-orphans
+      - -Wno-incomplete-record-updates
+
   xmldump:
     main: Main.hs
     source-dirs: apps/xml-dump
