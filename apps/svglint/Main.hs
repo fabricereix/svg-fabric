@@ -18,8 +18,10 @@ import Text.XML hiding (readFile)
 
 data Options = Options  {
     optShowVersion      :: Bool
+  , optPretty           :: Bool
   , optNormalizeValues  :: Bool
-  , optRemoveAttributes :: Bool
+  , optRemoveUnknown    :: Bool
+  , optRemoveDefault    :: Bool
   , optOptimizePaths    :: Bool
   , optHelp             :: Bool
   } deriving (Show, Eq)
@@ -28,8 +30,10 @@ data Options = Options  {
 defaultOptions :: Options
 defaultOptions = Options {
     optShowVersion      = False
+  , optPretty           = False
   , optNormalizeValues  = False
-  , optRemoveAttributes = False
+  , optRemoveUnknown    = False
+  , optRemoveDefault    = False
   , optOptimizePaths    = False
   , optHelp             = False
   }
@@ -42,21 +46,27 @@ options = [
   , Option ['h']  ["help"]
       (NoArg (\ opts -> opts { optHelp = True }))
       "print usage"
+  , Option []     ["pretty"]
+      (NoArg (\ opts -> opts { optPretty = True }))
+      "Indent XML"
   , Option []     ["normalize-values"]
       (NoArg (\ opts -> opts { optNormalizeValues = True }))
       "normalize attribute values"
-  , Option []     ["remove-attributes"]
-      (NoArg (\ opts -> opts { optRemoveAttributes = True }))
+  , Option []     ["remove-unknown"]
+      (NoArg (\ opts -> opts { optRemoveUnknown = True }))
       "remove non-svg attributes"
+  , Option []     ["remove-default"]
+      (NoArg (\ opts -> opts { optRemoveDefault = True }))
+      "remove attributes with default value"
   , Option ['c']  ["optimize-paths"]
       (NoArg (\ opts -> opts { optOptimizePaths = True }))
       "Optimize Paths"
   ]
 
 
-svgLint :: Bool -> Bool -> Bool -> Document -> Document
+svgLint :: Bool -> Bool -> Bool -> Bool -> Document -> Document
 --svgLint normalizeValue removeAttributes optimizePath d = d
-svgLint _ _ _  d = d
+svgLint _ _ _ _ d = d
   -- hPutStr stderr $ "normalizeValue = " ++ show normalizeValue ++ "\n"
   --hPutStr stderr $ "removeAttributes = " ++ show removeAttributes ++ "\n"
   --hPutStr stderr $ "optimizePath = " ++ show optimizePath ++ "\n"
@@ -75,9 +85,10 @@ main = do
                  s <- getFileContent (head inputFiles)
                  case parseLBS def (cs s) of
                    Left e -> print e
-                   Right doc -> putStrLn $ cs $ renderText def $ svgLint
+                   Right doc -> putStrLn $ cs $ renderText def{rsPretty=optPretty opts} $ svgLint
                          (optNormalizeValues opts)
-                         (optRemoveAttributes opts)
+                         (optRemoveUnknown opts)
+                         (optRemoveDefault opts)
                          (optOptimizePaths opts)
                          doc
          (_, _, errors) -> print errors
