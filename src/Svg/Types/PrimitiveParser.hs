@@ -79,12 +79,14 @@ instruction = do c <- oneOf "MmLlHhVvZz"
 
 commandParsers ::Stream s m Char => [(Char, Bool->ParsecT s u m Command)]
 commandParsers = [
-   ('M', \relative -> do (x,y) <- coords
+   ('M', \relative -> do (x,y) <- coords; spaces
                          return $ M relative x y)
- , ('L', \relative -> do (x,y) <- coords
+ , ('L', \relative -> do (x,y) <- coords; spaces
                          return $ L relative x y)
- , ('H', \relative -> H relative <$> double)
- , ('V', \relative -> V relative <$> double)
+ , ('H', \relative -> do x <- double; spaces
+                         return $ H relative x)
+ , ('V', \relative -> do y <- double; spaces
+                         return $ V relative y)
  , ('Z', return . Z)
  ]
 

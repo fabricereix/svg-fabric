@@ -32,6 +32,8 @@ test_path = do
   assertEqual (Right (Path [M True 1 1]))                $ path "m1,1"
   assertEqual (Right (Path [L True 1 2, L True 3 4]))    $ path "l1 2 3 4"
 
+  print $ path  "M0,0 h1 h1 v2"
+
 
 test_transform = do
   assertEqual (Right (Transform []))                     $ transform ""

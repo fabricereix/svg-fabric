@@ -29,7 +29,7 @@ length s = case parse (do{d<-double;eof;return d}) "" s of
 
 path :: String -> Either String Path
 path s = case runParser (many command') Nothing "" s of
-  Left e   -> Left (show e)
+  Left _   -> Left ("\"" ++ s ++ "\" can not be parsed as a path\n")
   Right xs -> Right $ Path xs
 
 classes :: String -> Either String Classes
