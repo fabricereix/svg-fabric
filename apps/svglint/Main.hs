@@ -14,6 +14,7 @@ import           System.Console.GetOpt
 import           System.Environment            (getArgs)
 import           System.Exit
 import Text.XML hiding (readFile)
+import qualified Data.Map as Map
 
 
 data Options = Options  {
@@ -64,12 +65,10 @@ options = [
   ]
 
 
-svgLint :: Bool -> Bool -> Bool -> Bool -> Document -> Document
+svgLint :: [Element->Element] -> Document -> Document
 --svgLint normalizeValue removeAttributes optimizePath d = d
-svgLint _ _ _ _ d = d
-  -- hPutStr stderr $ "normalizeValue = " ++ show normalizeValue ++ "\n"
-  --hPutStr stderr $ "removeAttributes = " ++ show removeAttributes ++ "\n"
-  --hPutStr stderr $ "optimizePath = " ++ show optimizePath ++ "\n"
+svgLint transforms doc@Document {documentRoot=root}
+  = doc{documentRoot=foldl (\e t-> t e) root transforms}
 
 
 main :: IO()
@@ -78,6 +77,10 @@ main = do
   case getOpt Permute options args of
          (o, inputFiles, []) -> do
              let opts = foldl (flip id) defaultOptions o
+                 transforms = if optNormalizeValues opts then [normalizeValue] else []
+                  ++ if optRemoveUnknown opts then [removeUnknown] else []
+                  ++ if optRemoveDefault opts then [removeDefault] else []
+                  ++ [optimizePaths | optOptimizePaths opts]
              if optShowVersion opts then printVersion
              else
                if null inputFiles || optHelp opts then printUsage
@@ -85,13 +88,29 @@ main = do
                  s <- getFileContent (head inputFiles)
                  case parseLBS def (cs s) of
                    Left e -> print e
-                   Right doc -> putStrLn $ cs $ renderText def{rsPretty=optPretty opts} $ svgLint
-                         (optNormalizeValues opts)
-                         (optRemoveUnknown opts)
-                         (optRemoveDefault opts)
-                         (optOptimizePaths opts)
-                         doc
+                   Right doc -> putStrLn $ cs $ renderText def{rsPretty=optPretty opts} $ svgLint transforms doc
+
          (_, _, errors) -> print errors
+
+
+
+removeUnknown :: Element -> Element
+removeUnknown = id
+
+
+removeDefault :: Element -> Element
+removeDefault = id
+
+
+normalizeValue :: Element -> Element
+normalizeValue = id
+
+
+optimizePaths :: Element -> Element
+optimizePaths element@Element{elementAttributes=attributes}
+  = element{elementAttributes=Map.fromList $ Map.toList attributes ++[newAttrib]}
+   where newAttrib = (Name {nameLocalName="x", nameNamespace=Nothing, namePrefix=Nothing}, "x")
+
 
 
 getFileContent :: String -> IO String
