@@ -93,10 +93,10 @@ main = do
          (o, inputFiles, []) -> do
              let opts = foldl (flip P.id) defaultOptions o
                  transforms =
-                     if optRemoveDefault opts then [removeDefault] else []
-                  ++ if optRemoveUnknown opts then [removeUnknown] else []
-                  ++ if optNormalizeValues opts then [normalizeValue] else []
-                  ++ [optimizePaths | optOptimizePaths opts]
+                     [removeDefault | optRemoveDefault opts]
+                  ++ [removeUnknown  | optRemoveUnknown opts]
+                  ++ [normalizeValue | optNormalizeValues opts]
+                  ++ [optimizePaths  | optOptimizePaths opts]
              if optShowVersion opts then printVersion
              else
                if null inputFiles || optHelp opts then printUsage
