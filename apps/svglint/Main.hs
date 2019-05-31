@@ -19,8 +19,14 @@ import qualified Data.Map as Map
 import qualified Data.Text as T
 
 -- import qualified Svg.Setter.Svg as SvgSetter
-import Svg.Types.Core
+-- import Svg.Types.Core
 import Svg.Types.Format
+import Svg.Types.Parser
+
+-- import Prelude hiding (id, length) as Prelude
+import qualified Prelude as P
+import Prelude hiding (id, length)
+
 
 
 data Options = Options  {
@@ -82,7 +88,7 @@ main = do
   args <- getArgs
   case getOpt Permute options args of
          (o, inputFiles, []) -> do
-             let opts = foldl (flip id) defaultOptions o
+             let opts = foldl (flip P.id) defaultOptions o
                  transforms = if optNormalizeValues opts then [normalizeValue] else []
                   ++ if optRemoveUnknown opts then [removeUnknown] else []
                   ++ if optRemoveDefault opts then [removeDefault] else []
@@ -145,13 +151,15 @@ defaultAttribute' :: Name -> (Name, T.Text) -> Bool
 defaultAttribute' Name{nameLocalName=elementName} (Name{nameLocalName=attributeName},value) = not $ defaultAttribute (cs elementName) (cs attributeName) (cs value)
 
 normalizeValue' :: Name -> (Name, T.Text) -> (Name, T.Text)
-normalizeValue' Name{nameLocalName=elementName} (name@Name{nameLocalName=attributeName}, attributeValue) = (name, cs value)
-     where value = normalizeAttributeValue (cs elementName) (cs  attributeName) (cs attributeValue)
+normalizeValue' Name{nameLocalName=elementName} (name@Name{nameLocalName=attributeName}, attributeValue) = case normalizeAttributeValue (cs elementName) (cs  attributeName) (cs attributeValue) of
+  Left e -> error e
+  Right value -> (name, cs value)
 
 
 exists :: String -> String -> Bool
 exists "svg" "viewBox" = True
 exists "circle" attributeName = circleExists attributeName
+exists "path" attributeName = pathExists attributeName
 exists _ _ = False
 
 circleExists :: String -> Bool
@@ -159,6 +167,11 @@ circleExists "cx" = True
 circleExists "cy" = True
 circleExists _ = False
 
+pathExists :: String -> Bool
+pathExists "d" = True
+pathExists "stroke" = True
+pathExists "stroke-width" = True
+pathExists _ = False
 
 circleDefault :: String -> Maybe String
 circleDefault "cx" = Just "0"
@@ -175,16 +188,20 @@ defaultAttribute "circle" name value = case circleDefault name of
   Just s -> value == s
 defaultAttribute _ _ _ = False
 
-svgNormalizeValue :: String -> String -> String
-svgNormalizeValue "viewBox" _ = formatViewbox $ Viewbox 0 0 0 0
+svgNormalizeValue :: String -> String -> Either String String
+svgNormalizeValue "viewBox" s = case viewbox s of
+  Left e -> Left e
+  Right v -> Right $ formatViewbox v
 svgNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist"
 
 
-circleNormalizeValue :: String -> String -> String
-circleNormalizeValue "cx" _ = formatLength $ Length 10
+circleNormalizeValue :: String -> String -> Either String String
+circleNormalizeValue "cx" s = case length s of
+         Left e -> Left e
+         Right v -> Right $ formatLength v
 circleNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist"
 
-normalizeAttributeValue :: String -> String -> String -> String
+normalizeAttributeValue :: String -> String -> String -> Either String String
 normalizeAttributeValue "svg" name value = svgNormalizeValue name value
 normalizeAttributeValue "circle" name value = circleNormalizeValue name value
 normalizeAttributeValue name _ _ = error $ "invalid element " ++ name

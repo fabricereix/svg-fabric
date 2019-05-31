@@ -163,13 +163,10 @@ lookup' k m = fromMaybe (error "should not happen") (lookup k m)
 
 viewboxParser :: Stream s m Char => ParsecT s u m Viewbox
 viewboxParser = do
-      minx <- double
-      spaces
-      miny <- double
-      spaces
-      w <- double
-      spaces
-      h <- double
+      minx <- double; spaces
+      miny <- double; spaces
+      w <- double; spaces
+      h <- double; spaces
       eof
       return $ Viewbox minx miny w h
 
