@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 {-# LANGUAGE TemplateHaskell   #-}
+{-# LANGUAGE LambdaCase   #-}
 module Main where
 
 -- import qualified Data.ByteString.Char8         as B
@@ -15,6 +16,7 @@ import           System.Environment            (getArgs)
 import           System.Exit
 import Text.XML hiding (readFile)
 import qualified Data.Map as Map
+import qualified Data.Text as T
 
 
 data Options = Options  {
@@ -95,11 +97,66 @@ main = do
 
 
 removeUnknown :: Element -> Element
-removeUnknown = id
-
+removeUnknown element@Element {
+    elementName=elementName
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = element {
+     elementName=elementName
+   , elementAttributes=Map.fromList $ filter (attributeExist elementName) $ Map.toList  attributes
+   , elementNodes=map (\case NodeElement element2 -> NodeElement $ removeUnknown element2
+                             x -> x) children
+   }
 
 removeDefault :: Element -> Element
-removeDefault = id
+removeDefault element@Element {
+    elementName=elementName
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = element {
+     elementName=elementName
+   , elementAttributes=Map.fromList $ filter (defaultAttribute' elementName) $ Map.toList  attributes
+   , elementNodes=map (\case NodeElement element2 -> NodeElement $ removeDefault element2
+                             x -> x) children
+   }
+
+
+attributeExist :: Name -> (Name, T.Text) -> Bool
+attributeExist Name{nameLocalName=elementName} (Name{nameLocalName=attributeName},_) = exists (cs elementName) (cs attributeName)
+
+defaultAttribute' :: Name -> (Name, T.Text) -> Bool
+defaultAttribute' Name{nameLocalName=elementName} (Name{nameLocalName=attributeName},value) = not $ defaultAttribute (cs elementName) (cs attributeName) (cs value)
+
+exists :: String -> String -> Bool
+exists "svg" "viewBox" = True
+exists "circle" attributeName = circleExists attributeName
+exists _ _ = False
+
+circleExists :: String -> Bool
+circleExists "cx" = True
+circleExists "cy" = True
+circleExists _ = False
+
+
+circleDefault :: String -> Maybe String
+circleDefault "cx" = Just "0"
+circleDefault "cy" = Just "0"
+circleDefault "r" = Nothing
+circleDefault "fill" = Nothing
+circleDefault name = error $ "invalid attribute " ++ name
+
+
+defaultAttribute :: String -> String -> String -> Bool
+defaultAttribute "svg" _ _ = False
+defaultAttribute "circle" name value = case circleDefault name of
+  Nothing -> False
+  Just s -> value == s
+defaultAttribute _ _ _ = False
+
+
+
+
+
 
 
 normalizeValue :: Element -> Element
