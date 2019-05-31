@@ -18,6 +18,10 @@ import Text.XML hiding (readFile)
 import qualified Data.Map as Map
 import qualified Data.Text as T
 
+-- import qualified Svg.Setter.Svg as SvgSetter
+import Svg.Types.Core
+import Svg.Types.Format
+
 
 data Options = Options  {
     optShowVersion      :: Bool
@@ -121,11 +125,29 @@ removeDefault element@Element {
    }
 
 
+normalizeValue :: Element -> Element
+normalizeValue element@Element {
+    elementName=elementName
+  , elementAttributes=attributes
+  , elementNodes=children
+  } = element {
+     elementName=elementName
+   , elementAttributes=Map.fromList $ map (normalizeValue' elementName) $ Map.toList attributes
+   , elementNodes=map (\case NodeElement element2 -> NodeElement $ removeDefault element2
+                             x -> x) children
+   }
+
+
 attributeExist :: Name -> (Name, T.Text) -> Bool
 attributeExist Name{nameLocalName=elementName} (Name{nameLocalName=attributeName},_) = exists (cs elementName) (cs attributeName)
 
 defaultAttribute' :: Name -> (Name, T.Text) -> Bool
 defaultAttribute' Name{nameLocalName=elementName} (Name{nameLocalName=attributeName},value) = not $ defaultAttribute (cs elementName) (cs attributeName) (cs value)
+
+normalizeValue' :: Name -> (Name, T.Text) -> (Name, T.Text)
+normalizeValue' Name{nameLocalName=elementName} (name@Name{nameLocalName=attributeName}, attributeValue) = (name, cs value)
+     where value = normalizeAttributeValue (cs elementName) (cs  attributeName) (cs attributeValue)
+
 
 exists :: String -> String -> Bool
 exists "svg" "viewBox" = True
@@ -153,14 +175,21 @@ defaultAttribute "circle" name value = case circleDefault name of
   Just s -> value == s
 defaultAttribute _ _ _ = False
 
+svgNormalizeValue :: String -> String -> String
+svgNormalizeValue "viewBox" _ = formatViewbox $ Viewbox 0 0 0 0
+svgNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist"
 
 
+circleNormalizeValue :: String -> String -> String
+circleNormalizeValue "cx" _ = formatLength $ Length 10
+circleNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist"
+
+normalizeAttributeValue :: String -> String -> String -> String
+normalizeAttributeValue "svg" name value = svgNormalizeValue name value
+normalizeAttributeValue "circle" name value = circleNormalizeValue name value
+normalizeAttributeValue name _ _ = error $ "invalid element " ++ name
 
 
-
-
-normalizeValue :: Element -> Element
-normalizeValue = id
 
 
 optimizePaths :: Element -> Element
