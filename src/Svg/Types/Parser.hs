@@ -17,7 +17,7 @@ points s = case parse (many point) "" s of
   Right cs -> Right (Points cs)
 
 paint :: String -> Either Error Paint
-paint s =  case parse (many1 anyChar) "" s of
+paint s =  case parse (do {spaces;many1 (noneOf " \n")}) "" s of
               Left e -> Left (show e)
               Right d -> Right $ Color d
 
