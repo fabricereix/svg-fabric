@@ -4,6 +4,10 @@
 {-# LANGUAGE LambdaCase   #-}
 module Main where
 
+{-
+TODO: make sure that your transforms are commutatives
+
+-}
 -- import qualified Data.ByteString.Char8         as B
 import           Data.String.Conversions
 ---import           Data.Text.Encoding
@@ -89,9 +93,10 @@ main = do
   case getOpt Permute options args of
          (o, inputFiles, []) -> do
              let opts = foldl (flip P.id) defaultOptions o
-                 transforms = if optNormalizeValues opts then [normalizeValue] else []
+                 transforms =
+                     if optRemoveDefault opts then [removeDefault] else []
                   ++ if optRemoveUnknown opts then [removeUnknown] else []
-                  ++ if optRemoveDefault opts then [removeDefault] else []
+                  ++ if optNormalizeValues opts then [normalizeValue] else []
                   ++ [optimizePaths | optOptimizePaths opts]
              if optShowVersion opts then printVersion
              else
@@ -157,6 +162,7 @@ normalizeValue' Name{nameLocalName=elementName} (name@Name{nameLocalName=attribu
 
 
 exists :: String -> String -> Bool
+exists _ "unknown" = error "got unknown!!"
 exists "svg" "viewBox" = True
 exists "circle" attributeName = circleExists attributeName
 exists "path" attributeName = pathExists attributeName
@@ -171,6 +177,7 @@ pathExists :: String -> Bool
 pathExists "d" = True
 pathExists "stroke" = True
 pathExists "stroke-width" = True
+pathExists "unknown" = error "got unknown!!"
 pathExists _ = False
 
 circleDefault :: String -> Maybe String
@@ -201,9 +208,17 @@ circleNormalizeValue "cx" s = case length s of
          Right v -> Right $ formatLength v
 circleNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist"
 
+pathNormalizeValue :: String -> String -> Either String String
+pathNormalizeValue "d" s = case path s of
+         Left e -> Left e
+         Right v -> Right $ formatPath v
+pathNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist"
+
+
 normalizeAttributeValue :: String -> String -> String -> Either String String
 normalizeAttributeValue "svg" name value = svgNormalizeValue name value
 normalizeAttributeValue "circle" name value = circleNormalizeValue name value
+normalizeAttributeValue "path" name value = pathNormalizeValue name value
 normalizeAttributeValue name _ _ = error $ "invalid element " ++ name
 
 
