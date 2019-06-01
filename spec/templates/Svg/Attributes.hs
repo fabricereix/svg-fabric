@@ -8,4 +8,8 @@ all :: String -> [String]
 {% for element in elements %}all "{{element.name}}" =  {{element.name| capitalize}}.all
 {% endfor %}all name = error $ "element " ++ name ++ " not found"
 
+defaultValue :: String -> String -> Maybe String
+{% for element in elements %}defaultValue "{{element.name}}" name =  {{element.name| capitalize}}.defaultValue name
+{% endfor %}defaultValue name _ = error $ "element " ++ name ++ " not found"
+
 

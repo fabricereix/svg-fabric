@@ -7,3 +7,9 @@ all = [
 {% endfor %}  ]
 
 
+defaultValue :: String -> Maybe String
+{% for attribute in element.attributes %}defaultValue "{{attribute.name}}" = {% if attribute.default %} Nothing{% else %}Just "{{attribute.default}}"{% endif %}
+{% endfor %}defaultValue name = error $ "invalid attribute " ++ name ++ " for element {{element.name}}"
+
+
+

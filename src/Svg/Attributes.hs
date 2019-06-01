@@ -28,3 +28,17 @@ all "text" =  Text.all
 all "use" =  Use.all
 all name = error $ "element " ++ name ++ " not found"
 
+defaultValue :: String -> String -> Maybe String
+defaultValue "animate" name =  Animate.defaultValue name
+defaultValue "circle" name =  Circle.defaultValue name
+defaultValue "g" name =  G.defaultValue name
+defaultValue "path" name =  Path.defaultValue name
+defaultValue "polyline" name =  Polyline.defaultValue name
+defaultValue "rect" name =  Rect.defaultValue name
+defaultValue "style" name =  Style.defaultValue name
+defaultValue "svg" name =  Svg.defaultValue name
+defaultValue "symbol" name =  Symbol.defaultValue name
+defaultValue "text" name =  Text.defaultValue name
+defaultValue "use" name =  Use.defaultValue name
+defaultValue name _ = error $ "element " ++ name ++ " not found"
+

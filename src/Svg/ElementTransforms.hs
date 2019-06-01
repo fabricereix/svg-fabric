@@ -1,27 +1,16 @@
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE LambdaCase   #-}
 module Svg.ElementTransforms where
 
--- import qualified Data.ByteString.Char8         as B
+import qualified Data.Map                as Map
 import           Data.String.Conversions
----import           Data.Text.Encoding
-import Text.XML hiding (readFile)
-import qualified Data.Map as Map
-import qualified Data.Text as T
-
--- import qualified Svg.Setter.Svg as SvgSetter
-import Svg.Types.Core
-import Svg.Types.Format
-import Svg.Types.Parser
-
-import Prelude hiding (id, length)
-
---import qualified Prelude as P
---import Prelude()
--- hiding (id, length)
-import qualified Svg.Attributes as Attributes
-
-
+import qualified Data.Text               as T
+import           Prelude                 hiding (id, length)
+import qualified Svg.Attributes          as Attributes
+import           Svg.Types.Core
+import           Svg.Types.Format
+import           Svg.Types.Parser
+import           Text.XML                hiding (readFile)
 
 
 
@@ -62,10 +51,13 @@ normalizeValue = mapAttributes normalizeValue'
 
 
 attributeExist :: Name -> (Name, T.Text) -> Bool
-attributeExist Name{nameLocalName=element} (Name{nameLocalName=attributeName},_) = cs attributeName `elem` Attributes.all (cs element)
+attributeExist element (name,_) = cs (nameLocalName name) `elem` Attributes.all (cs $ nameLocalName element)
 
 defaultAttribute' :: Name -> (Name, T.Text) -> Bool
-defaultAttribute' Name{nameLocalName=element} (Name{nameLocalName=attributeName},value) = not $ defaultAttribute (cs element) (cs attributeName) (cs value)
+defaultAttribute' element attribute@(name, value) =
+     attributeExist element attribute
+  && not (defaultAttribute (cs $ nameLocalName element) (cs $ nameLocalName name) (cs value))
+
 
 normalizeValue' :: Name -> (Name, T.Text) -> (Name, T.Text)
 normalizeValue' element attribute@(
@@ -73,58 +65,49 @@ normalizeValue' element attribute@(
   , attributeValue
   ) = if attributeExist element attribute
       then case normalizeAttributeValue (cs (nameLocalName element)) (cs  attributeName) (cs attributeValue) of
-  Left e -> error e
+  Left e      -> error e
   Right value -> (name, cs value)
       else attribute
 
 
 
-circleDefault :: String -> Maybe String
-circleDefault "cx" = Just "0"
-circleDefault "cy" = Just "0"
-circleDefault "r" = Nothing
-circleDefault "fill" = Nothing
-circleDefault name = error $ "invalid attribute " ++ name
-
 
 defaultAttribute :: String -> String -> String -> Bool
-defaultAttribute "svg" _ _ = False
-defaultAttribute "circle" name value = case circleDefault name of
+defaultAttribute element attribute value = case Attributes.defaultValue element attribute of
   Nothing -> False
-  Just s -> value == s
-defaultAttribute _ _ _ = False
+  Just s  -> value == s
 
 svgNormalizeValue :: String -> String -> Either String String
 svgNormalizeValue "viewBox" s = case viewbox s of
-  Left e -> Left e
+  Left e  -> Left e
   Right v -> Right $ formatViewbox v
 svgNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist for svg"
 
 
 circleNormalizeValue :: String -> String -> Either String String
 circleNormalizeValue "cx" s = case length s of
-         Left e -> Left e
+         Left e  -> Left e
          Right v -> Right $ formatLength v
 circleNormalizeValue "cy" s = case length s of
-         Left e -> Left e
+         Left e  -> Left e
          Right v -> Right $ formatLength v
 circleNormalizeValue "r" s = case length s of
-         Left e -> Left e
+         Left e  -> Left e
          Right v -> Right $ formatLength v
 circleNormalizeValue "fill" s = case paint s of
-         Left e -> Left e
+         Left e  -> Left e
          Right v -> Right $ formatPaint v
 circleNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist for circle"
 
 pathNormalizeValue :: String -> String -> Either String String
 pathNormalizeValue "d" s = case path s of
-         Left e -> Left e
+         Left e  -> Left e
          Right v -> Right $ formatPath v
 pathNormalizeValue "stroke" s = case paint s of
-         Left e -> Left e
+         Left e  -> Left e
          Right v -> Right $ formatPaint v
 pathNormalizeValue "stroke-width" s = case length s of
-         Left e -> Left e
+         Left e  -> Left e
          Right v -> Right $ formatLength v
 pathNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist for path"
 
@@ -145,7 +128,7 @@ optimizePathD ::  Name -> (Name, T.Text) -> (Name, T.Text)
 optimizePathD _ (name@Name {nameLocalName="d"}, s) = (
     name
   , case path (cs s) of
-      Left e -> error e
+      Left e  -> error e
       Right v -> cs $ formatPath $ optimizePath' v
   )
 optimizePathD _ attribute = attribute
