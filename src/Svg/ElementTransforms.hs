@@ -7,6 +7,7 @@ import           Data.String.Conversions
 import qualified Data.Text               as T
 import           Prelude                 hiding (id, length)
 import qualified Svg.Attributes          as Attributes
+import           Svg.Normalize
 import           Svg.Types.Core
 import           Svg.Types.Format
 import           Svg.Types.Parser
@@ -64,7 +65,7 @@ normalizeValue' element attribute@(
     name@Name{nameLocalName=attributeName}
   , attributeValue
   ) = if attributeExist element attribute
-      then case normalizeAttributeValue (cs (nameLocalName element)) (cs  attributeName) (cs attributeValue) of
+      then case normalize (cs (nameLocalName element)) (cs attributeName) (cs attributeValue) of
   Left e      -> error e
   Right value -> (name, cs value)
       else attribute
@@ -76,48 +77,6 @@ defaultAttribute :: String -> String -> String -> Bool
 defaultAttribute element attribute value = case Attributes.defaultValue element attribute of
   Nothing -> False
   Just s  -> value == s
-
-svgNormalizeValue :: String -> String -> Either String String
-svgNormalizeValue "viewBox" s = case viewbox s of
-  Left e  -> Left e
-  Right v -> Right $ formatViewbox v
-svgNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist for svg"
-
-
-circleNormalizeValue :: String -> String -> Either String String
-circleNormalizeValue "cx" s = case length s of
-         Left e  -> Left e
-         Right v -> Right $ formatLength v
-circleNormalizeValue "cy" s = case length s of
-         Left e  -> Left e
-         Right v -> Right $ formatLength v
-circleNormalizeValue "r" s = case length s of
-         Left e  -> Left e
-         Right v -> Right $ formatLength v
-circleNormalizeValue "fill" s = case paint s of
-         Left e  -> Left e
-         Right v -> Right $ formatPaint v
-circleNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist for circle"
-
-pathNormalizeValue :: String -> String -> Either String String
-pathNormalizeValue "d" s = case path s of
-         Left e  -> Left e
-         Right v -> Right $ formatPath v
-pathNormalizeValue "stroke" s = case paint s of
-         Left e  -> Left e
-         Right v -> Right $ formatPaint v
-pathNormalizeValue "stroke-width" s = case length s of
-         Left e  -> Left e
-         Right v -> Right $ formatLength v
-pathNormalizeValue name _ = error $ "attribute " ++ name ++ " does not exist for path"
-
-
-normalizeAttributeValue :: String -> String -> String -> Either String String
-normalizeAttributeValue "svg" name value = svgNormalizeValue name value
-normalizeAttributeValue "circle" name value = circleNormalizeValue name value
-normalizeAttributeValue "path" name value = pathNormalizeValue name value
-normalizeAttributeValue name _ _ = error $ "invalid element " ++ name
-
 
 
 
