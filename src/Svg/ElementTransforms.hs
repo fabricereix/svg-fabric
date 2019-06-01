@@ -19,6 +19,7 @@ import Prelude hiding (id, length)
 --import qualified Prelude as P
 --import Prelude()
 -- hiding (id, length)
+import qualified Svg.Attributes as Attributes
 
 
 
@@ -61,39 +62,22 @@ normalizeValue = mapAttributes normalizeValue'
 
 
 attributeExist :: Name -> (Name, T.Text) -> Bool
-attributeExist Name{nameLocalName=element} (Name{nameLocalName=attributeName},_) = exists (cs element) (cs attributeName)
+attributeExist Name{nameLocalName=element} (Name{nameLocalName=attributeName},_) = cs attributeName `elem` Attributes.all (cs element)
 
 defaultAttribute' :: Name -> (Name, T.Text) -> Bool
 defaultAttribute' Name{nameLocalName=element} (Name{nameLocalName=attributeName},value) = not $ defaultAttribute (cs element) (cs attributeName) (cs value)
 
 normalizeValue' :: Name -> (Name, T.Text) -> (Name, T.Text)
-normalizeValue' Name{nameLocalName=element} attribute@(name@Name{nameLocalName=attributeName}, attributeValue) = if exists (cs element) (cs attributeName)
-                          then case normalizeAttributeValue (cs element) (cs  attributeName) (cs attributeValue) of
+normalizeValue' element attribute@(
+    name@Name{nameLocalName=attributeName}
+  , attributeValue
+  ) = if attributeExist element attribute
+      then case normalizeAttributeValue (cs (nameLocalName element)) (cs  attributeName) (cs attributeValue) of
   Left e -> error e
   Right value -> (name, cs value)
-                          else attribute
+      else attribute
 
 
-exists :: String -> String -> Bool
-exists _ "unknown" = error "got unknown!!"
-exists "svg" "viewBox" = True
-exists "circle" attributeName = circleExists attributeName
-exists "path" attributeName = pathExists attributeName
-exists _ _ = False
-
-circleExists :: String -> Bool
-circleExists "cx" = True
-circleExists "cy" = True
-circleExists "fill" = True
-circleExists "r" = True
-circleExists _ = False
-
-pathExists :: String -> Bool
-pathExists "d" = True
-pathExists "stroke" = True
-pathExists "stroke-width" = True
-pathExists "unknown" = error "got unknown!!"
-pathExists _ = False
 
 circleDefault :: String -> Maybe String
 circleDefault "cx" = Just "0"
