@@ -17,6 +17,10 @@ normalize "d" v =
   case Parser.path (cs v) of
       Right parsed -> Right $ formatPath parsed
       Left _ ->  Left $ "Parsing error for attribute d in element path"
+normalize "class" v =
+  case Parser.classes (cs v) of
+      Right parsed -> Right $ formatClasses parsed
+      Left _ ->  Left $ "Parsing error for attribute class in element path"
 normalize "fill" v =
   case Parser.paint (cs v) of
       Right parsed -> Right $ formatPaint parsed

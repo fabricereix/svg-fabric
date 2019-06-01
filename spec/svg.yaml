@@ -43,7 +43,7 @@ element-groups:
   group1: [altGlyph, circle, ellipse, path, polygon, polyline, rect, text]
 
 attributes:
-  class:        {type: classes, elements:[text]}
+  class:        {type: classes, elements:[text,path]}
   cx:           {type: [length,percentage],      default: 0}
   cy:           {type: [length,percentage],      default: 0}
   dx:           {type: [length,percentage]}

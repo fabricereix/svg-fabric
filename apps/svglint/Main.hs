@@ -35,6 +35,7 @@ import Prelude hiding (id, length)
 data Options = Options  {
     optShowVersion      :: Bool
   , optPretty           :: Bool
+  , optRemoveEmpty      :: Bool
   , optNormalizeValues  :: Bool
   , optRemoveUnknown    :: Bool
   , optRemoveDefault    :: Bool
@@ -47,6 +48,7 @@ defaultOptions :: Options
 defaultOptions = Options {
     optShowVersion      = False
   , optPretty           = False
+  , optRemoveEmpty      = False
   , optNormalizeValues  = False
   , optRemoveUnknown    = False
   , optRemoveDefault    = False
@@ -68,6 +70,9 @@ options = [
   , Option []     ["normalize-values"]
       (NoArg (\ opts -> opts { optNormalizeValues = True }))
       "normalize attribute values"
+  , Option []     ["remove-empty"]
+      (NoArg (\ opts -> opts { optRemoveEmpty = True }))
+      "remove empty attributes"
   , Option []     ["remove-unknown"]
       (NoArg (\ opts -> opts { optRemoveUnknown = True }))
       "remove non-svg attributes"
@@ -93,8 +98,9 @@ main = do
          (o, inputFiles, []) -> do
              let opts = foldl (flip P.id) defaultOptions o
                  transforms =
-                     [removeDefault | optRemoveDefault opts]
+                     [removeDefault  | optRemoveDefault opts]
                   ++ [removeUnknown  | optRemoveUnknown opts]
+                  ++ [removeEmpty    | optRemoveEmpty opts]
                   ++ [normalizeValue | optNormalizeValues opts]
                   ++ [optimizePaths  | optOptimizePaths opts]
              if optShowVersion opts then printVersion

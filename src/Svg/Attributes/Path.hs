@@ -4,6 +4,7 @@ module Svg.Attributes.Path where
 all :: [String]
 all = [
     "d"
+  , "class"
   , "fill"
   , "id"
   , "stroke"
@@ -14,6 +15,7 @@ all = [
 
 defaultValue :: String -> Maybe String
 defaultValue "d" = Just "None"
+defaultValue "class" = Just "None"
 defaultValue "fill" = Just "None"
 defaultValue "id" = Just "None"
 defaultValue "stroke" = Just "None"

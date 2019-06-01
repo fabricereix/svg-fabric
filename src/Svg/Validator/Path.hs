@@ -17,6 +17,8 @@ validateAttribute :: (Name, T.Text) -> [Error]
 
 validateAttribute (Name { nameLocalName="d" }, value) = d value
 
+validateAttribute (Name { nameLocalName="class" }, value) = class' value
+
 validateAttribute (Name { nameLocalName="fill" }, value) = fill value
 
 validateAttribute (Name { nameLocalName="id" }, value) = id value
@@ -35,6 +37,13 @@ d v =
   case Parser.path (cs v) of
       Right parsed -> if formatPath parsed == (cs v) then [] else [AttributeFormat "path" "d" v]
       Left _ -> [InvalidAttributeValue "path" "d" v]
+
+
+class' :: T.Text -> [Error]
+class' v =
+  case Parser.classes (cs v) of
+      Right parsed -> if formatClasses parsed == (cs v) then [] else [AttributeFormat "path" "class" v]
+      Left _ -> [InvalidAttributeValue "path" "class" v]
 
 
 fill :: T.Text -> [Error]

@@ -12,7 +12,7 @@ import           Svg.Types.Core
 import           Svg.Types.Format
 import           Svg.Types.Parser
 import           Text.XML                hiding (readFile)
-
+import Data.Char
 
 
 mapAttributes :: (Name -> (Name,T.Text)->(Name,T.Text))-> (Element->Element)
@@ -46,9 +46,16 @@ removeDefault = filterAttributes defaultAttribute'
 removeUnknown :: Element -> Element
 removeUnknown = filterAttributes attributeExist
 
+removeEmpty :: Element -> Element
+removeEmpty = filterAttributes nonEmptyAttribute
+
 normalizeValue :: Element -> Element
 normalizeValue = mapAttributes normalizeValue'
 
+
+
+nonEmptyAttribute :: Name -> (Name, T.Text) -> Bool
+nonEmptyAttribute _ (_,v) = not $ all isSpace (cs v :: String)
 
 
 attributeExist :: Name -> (Name, T.Text) -> Bool

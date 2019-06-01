@@ -33,6 +33,26 @@ d _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a path element"
 
+class' :: Text.Text -> Element -> Either String Element
+class' v element@Element {
+    elementName=Name { nameLocalName="path" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="class", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute class already set"
+      else case Parser.classes (cs v) of
+          Right parsed -> if formatClasses parsed == (cs v)
+                          then Right (addAttribute element ("class",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatClasses parsed)))
+          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute class")
+
+
+--Right element {
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("class", "1")]
+--      }
+class' _ Element {
+    elementName=Name { nameLocalName=name }
+  } = Left $ (cs name) ++ " element - should be a path element"
+
 fill :: Text.Text -> Element -> Either String Element
 fill v element@Element {
     elementName=Name { nameLocalName="path" }
