@@ -23,7 +23,11 @@ width v element@Element {
           Right parsed -> if formatLength parsed == (cs v)
                           then Right (addAttribute element ("width",v))
                           else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatLength parsed)))
-          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute width")
+          Left _ -> case Parser.pixel (cs v) of
+              Right parsed -> if formatPixel parsed == (cs v)
+                              then Right (addAttribute element ("width",v))
+                              else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPixel parsed)))
+              Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute width")
 
 
 --Right element {
@@ -43,7 +47,11 @@ height v element@Element {
           Right parsed -> if formatLength parsed == (cs v)
                           then Right (addAttribute element ("height",v))
                           else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatLength parsed)))
-          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute height")
+          Left _ -> case Parser.pixel (cs v) of
+              Right parsed -> if formatPixel parsed == (cs v)
+                              then Right (addAttribute element ("height",v))
+                              else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPixel parsed)))
+              Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute height")
 
 
 --Right element {

@@ -26,6 +26,10 @@ length s = case parse (do{d<-double;eof;return d}) "" s of
   Left _ -> Left "xx"
   Right l -> Right $ Length l
 
+pixel :: String -> Either String Pixel
+pixel s = case parse (do{spaces;d <-double;spaces; string "px";spaces;eof;return d}) "" s of
+  Left _ -> Left "xx"
+  Right l -> Right $ Pixel l
 
 path :: String -> Either String Path
 path s = case runParser (many command') Nothing "" s of

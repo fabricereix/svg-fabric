@@ -67,6 +67,17 @@ width _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a rect instead of " ++ cs name
 
+widthPixel ::  Double -> Element -> Either String Element
+widthPixel a0 element@Element {
+    elementName=Name { nameLocalName="rect" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute width already set"
+      else Right $ addAttribute element ("width",cs $ formatPixel (Pixel a0))
+widthPixel _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a rect instead of " ++ cs name
+
 widthPercentage ::  Double -> Element -> Either String Element
 widthPercentage a0 element@Element {
     elementName=Name { nameLocalName="rect" }

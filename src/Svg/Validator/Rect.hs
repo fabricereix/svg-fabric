@@ -57,11 +57,13 @@ width "auto" = [AttributeDefault "rect" "width"]
 width v =
   case Parser.length (cs v) of
       Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
-      Left _ -> case Parser.percentage (cs v) of
-          Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
-          Left _ -> case Parser.auto (cs v) of
-              Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
-              Left _ -> [InvalidAttributeValue "rect" "width" v]
+      Left _ -> case Parser.pixel (cs v) of
+          Right parsed -> if formatPixel parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+          Left _ -> case Parser.percentage (cs v) of
+              Right parsed -> if formatPercentage parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+              Left _ -> case Parser.auto (cs v) of
+                  Right parsed -> if formatAuto parsed == (cs v) then [] else [AttributeFormat "rect" "width" v]
+                  Left _ -> [InvalidAttributeValue "rect" "width" v]
 
 
 height :: T.Text -> [Error]

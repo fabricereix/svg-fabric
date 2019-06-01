@@ -7,6 +7,9 @@ import Svg.Types.Core
 formatLength :: Length -> String
 formatLength (Length x) = formatDouble 6 x
 
+formatPixel :: Pixel -> String
+formatPixel (Pixel x) = formatDouble 6 x ++ "px"
+
 formatPercentage :: Percentage -> String
 formatPercentage (Percentage x) = show x
 

@@ -16,6 +16,6 @@ normalize :: String -> String -> Either String String
 {% for attribute in element.attributes %}normalize "{{attribute.name}}" v =
   {% for i,type in enumerate(attribute.type) %}case Parser.{{type}} (cs v) of
       {{' '*4*i}}Right parsed -> Right $ format{{type | capitalize}} parsed
-      {{' '*4*i}}Left _ -> {% endfor %} Left $ "Parsing error for attribute {{attribute.name}}"
+      {{' '*4*i}}Left _ -> {% endfor %} Left $ "Parsing error for attribute {{attribute.name}} in element {{element.name}}"
 {% endfor %}normalize name _ = Left $ "Attribute " ++ name ++ " does not exist"
 

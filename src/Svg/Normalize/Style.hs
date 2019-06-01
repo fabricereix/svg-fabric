@@ -16,5 +16,5 @@ normalize :: String -> String -> Either String String
 normalize "type'" v =
   case Parser.contenttype (cs v) of
       Right parsed -> Right $ formatContenttype parsed
-      Left _ ->  Left $ "Parsing error for attribute type'"
+      Left _ ->  Left $ "Parsing error for attribute type' in element style"
 normalize name _ = Left $ "Attribute " ++ name ++ " does not exist"

@@ -23,6 +23,17 @@ width _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a svg instead of " ++ cs name
 
+widthPixel ::  Double -> Element -> Either String Element
+widthPixel a0 element@Element {
+    elementName=Name { nameLocalName="svg" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="width", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute width already set"
+      else Right $ addAttribute element ("width",cs $ formatPixel (Pixel a0))
+widthPixel _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a svg instead of " ++ cs name
+
 height ::  Double -> Element -> Either String Element
 height a0 element@Element {
     elementName=Name { nameLocalName="svg" }
@@ -31,6 +42,17 @@ height a0 element@Element {
       then Left "Attribute height already set"
       else Right $ addAttribute element ("height",cs $ formatLength (Length a0))
 height _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a svg instead of " ++ cs name
+
+heightPixel ::  Double -> Element -> Either String Element
+heightPixel a0 element@Element {
+    elementName=Name { nameLocalName="svg" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="height", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute height already set"
+      else Right $ addAttribute element ("height",cs $ formatPixel (Pixel a0))
+heightPixel _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a svg instead of " ++ cs name
 

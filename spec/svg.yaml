@@ -15,8 +15,8 @@ elements:
       attributes: [x, y, width, height]
   svg:
       attributes:
-      - {name: width, type: length, default:0}
-      - {name: height, type: length, default:0}
+      - {name: width, type: [length,pixel], default:0}
+      - {name: height, type: [length,pixel], default:0}
       - {name: viewBox, type: viewbox}
   style:
       attributes:
@@ -61,6 +61,6 @@ attributes:
   pathLength:   {type: number}
   points:       {type: points}
   r:            {type: [length,percentage],      default: 0}
-  width:        {type: [length,percentage,auto], default: auto}
+  width:        {type: [length,pixel,percentage,auto], default: auto}
   x:            {type: [length,percentage],      default: 0}
   y:            {type: [length,percentage],      default: 0}

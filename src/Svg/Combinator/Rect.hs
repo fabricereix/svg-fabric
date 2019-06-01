@@ -71,15 +71,19 @@ width v element@Element {
           Right parsed -> if formatLength parsed == (cs v)
                           then Right (addAttribute element ("width",v))
                           else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatLength parsed)))
-          Left _ -> case Parser.percentage (cs v) of
-              Right parsed -> if formatPercentage parsed == (cs v)
+          Left _ -> case Parser.pixel (cs v) of
+              Right parsed -> if formatPixel parsed == (cs v)
                               then Right (addAttribute element ("width",v))
-                              else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPercentage parsed)))
-              Left _ -> case Parser.auto (cs v) of
-                  Right parsed -> if formatAuto parsed == (cs v)
+                              else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPixel parsed)))
+              Left _ -> case Parser.percentage (cs v) of
+                  Right parsed -> if formatPercentage parsed == (cs v)
                                   then Right (addAttribute element ("width",v))
-                                  else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatAuto parsed)))
-                  Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute width")
+                                  else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatPercentage parsed)))
+                  Left _ -> case Parser.auto (cs v) of
+                      Right parsed -> if formatAuto parsed == (cs v)
+                                      then Right (addAttribute element ("width",v))
+                                      else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatAuto parsed)))
+                      Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute width")
 
 
 --Right element {

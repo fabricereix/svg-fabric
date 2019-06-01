@@ -27,6 +27,7 @@ def capitalize(s):
 def type_arguments(t):
     arguments = {
       'length': ['Length Double'],
+      'pixel': ['Pixel Double'],
       'percentage': ['Percentage Double'],
       'number': ['Number Double'],
       'paint': ['Color String'],

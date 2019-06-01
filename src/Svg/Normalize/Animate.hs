@@ -16,5 +16,5 @@ normalize :: String -> String -> Either String String
 normalize "fill" v =
   case Parser.removeFreeze (cs v) of
       Right parsed -> Right $ formatRemovefreeze parsed
-      Left _ ->  Left $ "Parsing error for attribute fill"
+      Left _ ->  Left $ "Parsing error for attribute fill in element animate"
 normalize name _ = Left $ "Attribute " ++ name ++ " does not exist"

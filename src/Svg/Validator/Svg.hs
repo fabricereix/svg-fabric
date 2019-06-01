@@ -32,14 +32,18 @@ width :: T.Text -> [Error]
 width v =
   case Parser.length (cs v) of
       Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "svg" "width" v]
-      Left _ -> [InvalidAttributeValue "svg" "width" v]
+      Left _ -> case Parser.pixel (cs v) of
+          Right parsed -> if formatPixel parsed == (cs v) then [] else [AttributeFormat "svg" "width" v]
+          Left _ -> [InvalidAttributeValue "svg" "width" v]
 
 
 height :: T.Text -> [Error]
 height v =
   case Parser.length (cs v) of
       Right parsed -> if formatLength parsed == (cs v) then [] else [AttributeFormat "svg" "height" v]
-      Left _ -> [InvalidAttributeValue "svg" "height" v]
+      Left _ -> case Parser.pixel (cs v) of
+          Right parsed -> if formatPixel parsed == (cs v) then [] else [AttributeFormat "svg" "height" v]
+          Left _ -> [InvalidAttributeValue "svg" "height" v]
 
 
 viewBox :: T.Text -> [Error]

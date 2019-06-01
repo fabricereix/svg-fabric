@@ -2,7 +2,7 @@ module Svg.Types.Core where
 
 
 
-
+newtype Pixel = Pixel Double deriving (Show,Eq)
 newtype Length = Length Double deriving (Show, Eq)
 newtype Percentage = Percentage Double deriving (Show, Eq)
 data Viewbox = Viewbox Double Double Double Double deriving (Show, Eq)
