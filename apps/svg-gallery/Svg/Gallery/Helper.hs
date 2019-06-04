@@ -38,9 +38,9 @@ toDoublePoint (x,y) = (0.5+fromIntegral x , 0.5+fromIntegral y )
 optimizePath :: [Command] -> [Command]
 optimizePath [] = []
 optimizePath [c] = [c]
-optimizePath (c1:c2:css) = case mergeCommands c1 c2 of
-   [_,_] -> c1:optimizePath (c2:css)
-   c     -> optimizePath (c ++ css)
+optimizePath (c1:c2:commands) = case mergeCommands c1 c2 of
+   [_,_] -> c1:optimizePath (c2:commands)
+   c     -> optimizePath (c ++ commands)
 
 
 mergeCommands :: Command -> Command -> [Command]

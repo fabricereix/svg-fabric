@@ -16,6 +16,9 @@ formatPercentage (Percentage x) = show x
 formatPaint :: Paint -> String
 formatPaint (Color s) = s
 
+formatCss :: Css -> String
+formatCss (Css s) = s
+
 formatRemoveFreeze :: RemoveFreeze -> String
 formatRemoveFreeze REMOVE = "remove"
 formatRemoveFreeze FREEZE = "freeze"

@@ -20,6 +20,7 @@ newtype Points = Points [(Double,Double)] deriving (Show,Eq)
 newtype Path = Path [Command] deriving (Show,Eq)
 newtype Classes = Classes [String] deriving (Show,Eq)
 newtype Transform = Transform [BasicTransform] deriving (Show,Eq)
+newtype Css = Css String
 
 data Command
   = M Bool Double Double

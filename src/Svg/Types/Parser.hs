@@ -21,6 +21,11 @@ paint s =  case parse (do {spaces;many1 (noneOf " \n")}) "" s of
               Left e -> Left (show e)
               Right d -> Right $ Color d
 
+css :: String -> Either Error Css
+css s =  case parse (do {spaces;many1 anyChar}) "" s of
+              Left e -> Left (show e)
+              Right x -> Right $ Css x
+
 length :: String -> Either String Length
 length s = case parse (do{d<-double;eof;return d}) "" s of
   Left _ -> Left "xx"
