@@ -77,6 +77,7 @@ executables:
     ghc-options:
       - -fno-warn-orphans
       - -Wno-incomplete-record-updates
+  #    - -prof -fprof-auto
 
   xmldump:
     main: Main.hs

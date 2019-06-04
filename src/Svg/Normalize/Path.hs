@@ -39,6 +39,10 @@ normalize "stroke-width" v =
       Left _ -> case Parser.percentage (cs v) of
           Right parsed -> Right $ formatPercentage parsed
           Left _ ->  Left $ "Parsing error for attribute stroke-width in element path"
+normalize "style" v =
+  case Parser.css (cs v) of
+      Right parsed -> Right $ formatCss parsed
+      Left _ ->  Left $ "Parsing error for attribute style in element path"
 normalize "transform" v =
   case Parser.transform (cs v) of
       Right parsed -> Right $ formatTransform parsed

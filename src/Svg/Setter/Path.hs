@@ -89,6 +89,17 @@ strokewidthPercentage _ Element {
   elementName=Name { nameLocalName=name }
   } = Left $ "should be a path instead of " ++ cs name
 
+style ::  String -> Element -> Either String Element
+style a0 element@Element {
+    elementName=Name { nameLocalName="path" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="style", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute style already set"
+      else Right $ addAttribute element ("style",cs $ formatCss (Css a0))
+style _ Element {
+  elementName=Name { nameLocalName=name }
+  } = Left $ "should be a path instead of " ++ cs name
+
 transform ::  [BasicTransform] -> Element -> Either String Element
 transform a0 element@Element {
     elementName=Name { nameLocalName="path" }

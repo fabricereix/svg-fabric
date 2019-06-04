@@ -5,7 +5,7 @@ import Svg.Types.Core
 import Text.Parsec
 import Data.Char
 import Data.Maybe
-
+import Text.Parsec.Combinator()
 
 
 natural :: (Stream s m Char) => ParsecT s u m Int
@@ -60,21 +60,29 @@ lengthParser = do
 
 
 command' :: Stream s m Char => ParsecT s (Maybe Char) m Command
-command' = do
-    c <- instruction
-    spaces
-    lookup' (toUpper c) commandParsers (isLower c)
+command' = do c <- instruction
+              spaces
+              lookup' (toUpper c) commandParsers (isLower c)
 
+
+instruction' :: (Stream s m Char) => ParsecT s (Maybe Char) m Char
+instruction' = do c <- oneOf "MmLlHhVvCcZz"
+                  modifyState $ const (Just c)
+                  return c
+          <|> do s <- getState
+                 case s of
+                    Nothing -> fail "missing instruction"
+                    Just c2 -> return c2
 
 instruction :: (Stream s m Char) => ParsecT s (Maybe Char) m Char
-instruction = do c <- oneOf "MmLlHhVvZz"
-                 modifyState $ const (Just c)
-                 return c
-           <|> do s <- getState
-                  case s of
-                    Nothing -> fail "missing instruction"
-                    Just c -> return c
-
+instruction = do c <- lookAhead (try alphaNum)
+                 if toUpper c `elem` "MLHVCZ" then do modifyState $ const (Just c)
+                                                      alphaNum
+                                                      return c
+                 else do s <- getState
+                         case s of
+                            Nothing -> fail "missing instruction"
+                            Just c2 -> return c2
 
 
 commandParsers ::Stream s m Char => [(Char, Bool->ParsecT s u m Command)]
@@ -87,7 +95,12 @@ commandParsers = [
                          return $ H relative x)
  , ('V', \relative -> do y <- double; spaces
                          return $ V relative y)
- , ('Z', return . Z)
+ , ('C', \relative -> do (x1,y1) <-coords; oneOf " ,"; spaces
+                         (x2,y2) <-coords; oneOf " ,"; spaces
+                         (x,y) <-coords; spaces
+                         return $ C relative x1 y1 x2 y2 x y)
+ , ('Z', \ relative -> do spaces
+                          return $  Z relative)
  ]
 
 

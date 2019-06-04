@@ -26,6 +26,7 @@ def capitalize(s):
 
 def type_arguments(t):
     arguments = {
+      'css': ['Css String'],
       'length': ['Length Double'],
       'pixel': ['Pixel Double'],
       'percentage': ['Percentage Double'],

@@ -9,6 +9,7 @@ all = [
   , "id"
   , "stroke"
   , "stroke-width"
+  , "style"
   , "transform"
   ]
 
@@ -20,6 +21,7 @@ defaultValue "fill" = Just "None"
 defaultValue "id" = Just "None"
 defaultValue "stroke" = Just "None"
 defaultValue "stroke-width" =  Nothing
+defaultValue "style" = Just "None"
 defaultValue "transform" = Just "None"
 defaultValue name = error $ "invalid attribute " ++ name ++ " for element path"
 

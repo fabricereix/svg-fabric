@@ -18,10 +18,17 @@ parseWithLeftOver :: Parser a -> String -> Either ParseError (a,String)
 parseWithLeftOver p = parse ((,) <$> p <*> manyTill anyToken eof) ""
 
 --runParserWithLeftOver :: Parser a -> b -> String -> (a,String)
---runParserWithLeftOver p state s = case runParser p state "" s of
---    Left e -> error "expect failure"
---    Right x -> do leftover <- manyTill anyToken eof
---                  (x,leftover)
+--runParserWithLeftOver p state s = do
+--    let r = case runParser p state "" s  of
+--             Right x -> x
+--             Left e -> error (show e)
+--    leftover <- manyTill anyToken eof
+--    (r,leftover)
+
+
+showError :: Either ParseError a -> String
+showError (Left e) = show e
+showError _ = error "expected an error"
 
 expectError p s = case parseWithLeftOver p s of
    Left x  -> show x
@@ -29,12 +36,17 @@ expectError p s = case parseWithLeftOver p s of
 
 
 test_command_parser = do
-  assertEqual (Right (M False 0 0))   $ runParser command' Nothing "" "M0,0"
-  assertEqual (Right (L False 1 2))   $ runParser command' Nothing "" "L1,2"
-  assertEqual (Right (L False 1 2))   $ runParser command' Nothing "" "L 1,2"
-  assertEqual (Right (H True 1))      $ runParser command' Nothing "" "h1"
-  assertEqual (Right (H True 1))      $ runParser command' (Just 'h') "" "1"
-
+  assertEqual (Right (Z False))                   $ runParser command' Nothing "" "Z"
+  assertEqual (Right (M False 0 0))               $ runParser command' Nothing "" "M0,0"
+  assertEqual (Right (L False 1 2))               $ runParser command' Nothing "" "L1,2"
+  assertEqual (Right (L False 1 2))               $ runParser command' Nothing "" "L 1,2"
+  assertEqual (Right (H True 1))                  $ runParser command' Nothing "" "h1"
+  assertEqual (Right (H True 1))                  $ runParser command' (Just 'h') "" "1"
+  assertEqual (Right (C False 20 20 40 20 50 10)) $ runParser command' Nothing "" "C 20 20, 40 20, 50 10"
+  assertEqual "(line 1, column 1):\nunexpected end of input\nexpecting letter or digit"
+                                          $ showError $ runParser command' Nothing "" ""
+  assertEqual "(line 1, column 1):\nmissing instruction"
+                                          $ showError $ runParser command' Nothing "" "1"
 
 
 test_transform_parser = do

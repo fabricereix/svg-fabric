@@ -32,7 +32,7 @@ pixel s = case parse (do{spaces;d <-double;spaces; string "px";spaces;eof;return
   Right l -> Right $ Pixel l
 
 path :: String -> Either String Path
-path s = case runParser (many command') Nothing "" s of
+path s = case runParser (do {spaces;xs <-many command';eof;return xs}) Nothing "" s of
   Left _   -> Left ("\"" ++ s ++ "\" can not be parsed as a path\n")
   Right xs -> Right $ Path xs
 

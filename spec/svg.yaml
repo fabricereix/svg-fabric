@@ -54,6 +54,7 @@ attributes:
                                       textPath, tref, tspan]}
   stroke-width: {type: [length,percentage],      default: 1, elements:[altGlyph, circle, ellipse, path,svg,g,
                                    polygon, polyline, rect, text, textPath, tref, tspan]}
+  style:        {type: css, elements: [path]}
   transform:    {type: transform, elements:[g,path]}
   height:       {type: [length,percentage,auto], default: auto}
   id:           {type: id, elements:[circle,symbol,path]}

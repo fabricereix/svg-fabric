@@ -137,6 +137,26 @@ strokewidth _ Element {
     elementName=Name { nameLocalName=name }
   } = Left $ (cs name) ++ " element - should be a path element"
 
+style :: Text.Text -> Element -> Either String Element
+style v element@Element {
+    elementName=Name { nameLocalName="path" }
+  , elementAttributes=attributes
+  } = if hasAttribute attributes Name {nameLocalName="style", nameNamespace=Nothing, namePrefix=Nothing}
+      then Left "Attribute style already set"
+      else case Parser.css (cs v) of
+          Right parsed -> if formatCss parsed == (cs v)
+                          then Right (addAttribute element ("style",v))
+                          else Left ("Value \"" ++ (cs v) ++ "\" not properly formatted - should be " ++ (cs (formatCss parsed)))
+          Left _ -> Left ("Invalid value \"" ++ (cs v) ++ "\" for attribute style")
+
+
+--Right element {
+--          elementAttributes=Map.fromList $ Map.toList attributes ++ [("style", "1")]
+--      }
+style _ Element {
+    elementName=Name { nameLocalName=name }
+  } = Left $ (cs name) ++ " element - should be a path element"
+
 transform :: Text.Text -> Element -> Either String Element
 transform v element@Element {
     elementName=Name { nameLocalName="path" }
