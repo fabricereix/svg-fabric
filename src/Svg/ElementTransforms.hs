@@ -81,13 +81,13 @@ normalizeValue' element attribute@(
 
 
 snap' :: Double -> Name -> (Name, T.Text) -> (Name, T.Text)
-snap' _ element attribute@(
+snap' grid element attribute@(
     name@Name{nameLocalName=attributeName}
   , attributeValue
   ) = if nameLocalName element == "path" && (attributeName == "d")
       then (name, cs $ formatPath $ case path (cs attributeValue) of
         Left e -> error e
-        Right value -> value)
+        Right value -> snapPath grid value)
       else attribute
 
 
@@ -95,6 +95,27 @@ defaultAttribute :: String -> String -> String -> Bool
 defaultAttribute element attribute value = case Attributes.defaultValue element attribute of
   Nothing -> False
   Just s  -> value == s
+
+
+
+snapPath :: Double -> Path -> Path
+snapPath grid (Path commands) = Path $ map (snapCommand grid) commands
+
+snapCommand :: Double -> Command -> Command
+snapCommand grid (L relative x y) = L relative x' y'
+   where (x', y') = snapPoint grid (x,y)
+snapCommand grid (C relative x1 y1 x2 y2 x y) = C relative x1' y1' x2' y2' x' y'
+   where (x1', y1') = snapPoint grid (x1,y1)
+         (x2', y2') = snapPoint grid (x2,y2)
+         (x', y') = snapPoint grid (x,y)
+
+snapCommand _ c = c
+
+snapPoint :: Double -> (Double, Double) -> (Double,Double)
+snapPoint grid (x,y) = (snapDouble grid x, snapDouble grid y)
+
+snapDouble :: Double -> Double -> Double
+snapDouble grid d = fromInteger (round $ d / grid) * grid
 
 
 
