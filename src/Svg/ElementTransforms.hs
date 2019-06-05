@@ -83,9 +83,11 @@ normalizeValue' element attribute@(
 snap' :: Double -> Name -> (Name, T.Text) -> (Name, T.Text)
 snap' _ element attribute@(
     name@Name{nameLocalName=attributeName}
-  , _ -- attributeValue
+  , attributeValue
   ) = if nameLocalName element == "path" && (attributeName == "d")
-      then (name, "")
+      then (name, cs $ formatPath $ case path (cs attributeValue) of
+        Left e -> error e
+        Right value -> value)
       else attribute
 
 
