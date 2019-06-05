@@ -52,6 +52,8 @@ removeEmpty = filterAttributes nonEmptyAttribute
 normalizeValue :: Element -> Element
 normalizeValue = mapAttributes normalizeValue'
 
+snap :: Double ->  Element -> Element
+snap g = mapAttributes (snap' g)
 
 
 nonEmptyAttribute :: Name -> (Name, T.Text) -> Bool
@@ -78,6 +80,13 @@ normalizeValue' element attribute@(
       else attribute
 
 
+snap' :: Double -> Name -> (Name, T.Text) -> (Name, T.Text)
+snap' _ element attribute@(
+    name@Name{nameLocalName=attributeName}
+  , _ -- attributeValue
+  ) = if nameLocalName element == "path" && (attributeName == "d")
+      then (name, "")
+      else attribute
 
 
 defaultAttribute :: String -> String -> String -> Bool

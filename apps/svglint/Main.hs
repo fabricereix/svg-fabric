@@ -40,6 +40,7 @@ data Options = Options  {
   , optRemoveUnknown    :: Bool
   , optRemoveDefault    :: Bool
   , optOptimizePaths    :: Bool
+  , optSnap             :: Maybe Double
   , optHelp             :: Bool
   } deriving (Show, Eq)
 
@@ -53,6 +54,7 @@ defaultOptions = Options {
   , optRemoveUnknown    = False
   , optRemoveDefault    = False
   , optOptimizePaths    = False
+  , optSnap             = Nothing
   , optHelp             = False
   }
 
@@ -79,9 +81,12 @@ options = [
   , Option []     ["remove-default"]
       (NoArg (\ opts -> opts { optRemoveDefault = True }))
       "remove attributes with default value"
-  , Option ['c']  ["optimize-paths"]
+  , Option []     ["optimize-paths"]
       (NoArg (\ opts -> opts { optOptimizePaths = True }))
       "Optimize Paths"
+  , Option []     ["snap"]
+      (ReqArg (\g opts -> opts { optSnap = Just (read g :: Double)}) "GRID_SIZE")
+      "Snap to grid"
   ]
 
 
@@ -103,6 +108,9 @@ main = do
                   ++ [removeEmpty    | optRemoveEmpty opts]
                   ++ [normalizeValue | optNormalizeValues opts]
                   ++ [optimizePaths  | optOptimizePaths opts]
+                  ++ case optSnap opts of
+                        Nothing -> []
+                        Just g -> [snap g]
              if optShowVersion opts then printVersion
              else
                if null inputFiles || optHelp opts then printUsage
