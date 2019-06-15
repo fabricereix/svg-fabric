@@ -27,15 +27,17 @@ diagram = fromRight $ Right Default.svg
             >>= Svg.viewBox (-0.5) (-0.5) 3 2
             >>= Svg.stroke "black"
             >>= Svg.strokewidth 0.01
-            >>= addChildren [
-                  fromRight $ Right Default.style >>= addText style
-                , path bezier1 (head d3_10)
-                , label (1.5, 0) (head d3_10) (cs $ show $ flatness bezier1)
+            >>= addChildren (fromRight ( Right Default.style >>= addText style)
+                : [
+                  path bezier1 (head d3_10)
                 , path bezier2 (d3_10 !! 1)
+                ] ++ [
+                  label (1.5, 0) (head d3_10) (cs $ show $ flatness bezier1)
                 , label (1.5, 0.2) (d3_10 !! 1) (cs $ show $ flatness bezier2)
-                ]
+                ])
           where bezier1 = ((0,0), (0,1),(1,1),(1,0))
                 bezier2 = ((0,0), (0,0.5),(1,0.5),(1,0))
+                --beziers = [((0,0), (0,1),(1,1),(1,0)), ((0,0), (0,0.5),(1,0.5),(1,0))]
 
 style :: T.Text
 style = ".label {font-size: 0.1px}"
