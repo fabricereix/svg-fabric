@@ -29,34 +29,54 @@ diagram = fromRight $ Right Default.svg
             >>= Svg.strokewidth 0.01
             >>= addChildren [
                   fromRight $ Right Default.style >>= addText style
-                , path bezier1
-                , label (1.5, 0) (cs $ show $ flatness bezier1)
+                , path bezier1 (head d3_10)
+                , label (1.5, 0) (head d3_10) (cs $ show $ flatness bezier1)
+                , path bezier2 (d3_10 !! 1)
+                , label (1.5, 0.2) (d3_10 !! 1) (cs $ show $ flatness bezier2)
                 ]
           where bezier1 = ((0,0), (0,1),(1,1),(1,0))
+                bezier2 = ((0,0), (0,0.5),(1,0.5),(1,0))
 
 style :: T.Text
-style = ".label {font-size: 0.2px}"
+style = ".label {font-size: 0.1px}"
+
+type Color = String
+
+d3_10 :: [Color]
+d3_10 = [
+    "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"
+  , "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
+  ]
+
 
 
 type CubicBezier = ((Double, Double), (Double, Double), (Double, Double), (Double, Double))
 
 
 
-label :: (Double,Double) -> T.Text -> Element
-label (x,y) t = fromRight $ Right Default.text
+label :: (Double,Double) -> Color -> T.Text -> Element
+label (x,y) color t = fromRight $ Right Default.text
    >>= Text.class' ["label"]
    >>= Text.x x
    >>= Text.y y
+   >>= Text.fill color
+   >>= Text.stroke color
    >>= addText t
 
 
 flatness :: CubicBezier -> Double
-flatness _ = 1
+flatness ((b0_x, b0_y), (b1_x,b1_y),(b2_x,b2_y),(b3_x,b3_y)) =
+   let ux = 3.0 * b1_x - 2.0 * b0_x - b3_x
+       uy = 3.0 * b1_y - 2.0 * b0_y - b3_y
+       vx = 3.0 * b2_x - 2.0 * b3_x - b0_x
+       vy = 3.0 * b2_y - 2.0 * b3_y - b0_y
+   in max (ux*ux) (vx*vx)  + max (uy*uy) (vy*vy)
 
-path :: CubicBezier -> Element
-path ((xa,ya), (x1,y1),(x2,y2), (xb,yb))= fromRight $ Right Default.path
+
+path :: CubicBezier -> Color -> Element
+path ((xa,ya), (x1,y1),(x2,y2), (xb,yb)) color = fromRight $ Right Default.path
             -- >>= Path.strokewidth 0.1
-            >>= Path.stroke "black"
+            >>= Path.stroke color
             >>= Path.fill "none"
             >>= Path.d (M False xa ya:[C False x1 y1 x2 y2 xb yb])
 
