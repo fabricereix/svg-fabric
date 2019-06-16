@@ -4,6 +4,7 @@ import qualified Svg.DefaultElements as Default
 import qualified Svg.Setter.Path     as Path
 import qualified Svg.Setter.Svg      as Svg
 import qualified Svg.Setter.Text     as Text
+import qualified Svg.Setter.Circle   as Circle
 import           Text.XML
 -- import qualified Svg.Setter.G as G
 import           Svg.Setter
@@ -17,7 +18,57 @@ import Data.String.Conversions
 -- diagram
 type Filename = String
 diagrams :: [(Filename, Element)]
-diagrams = [("bezier-flatness.svg", diagram)]
+diagrams = [
+    ("bezier-flatness.svg", diagram)
+  , ("bezier-interpolation.svg", diagramInterpolation)
+  ]
+
+diagramInterpolation :: Element
+diagramInterpolation = fromRight $ Right Default.svg
+            >>= Svg.width 500
+            >>= Svg.height 500
+            >>= Svg.viewBox (-0.5) (-0.5) 3 2
+            >>= Svg.stroke "black"
+            >>= Svg.strokewidth 0.01
+            >>= addChildren ([
+                  fromRight ( Right Default.style >>= addText style)
+                , label (0,-0.2) "black" "Interpolation"
+                , path bezier "black"
+                ] ++ map circle points)
+          where bezier = ((0,0), (0.5,1),(1,1), (1,0))
+                points = map (polynomial bezier) [0, 1/10..1]
+
+
+
+
+type ControlPoint = (Double, Double)
+type Polynomial = (Double, Double, Double, Double)
+
+bezier1 :: (ControlPoint, ControlPoint, ControlPoint, ControlPoint)
+bezier1 = ((0,0), (0.5,1),(1,1), (1,0))
+
+-- polynomial1 :: (Polynomial, Polynomial)
+-- polynomial1 = polynomial bezier1
+
+polynomial :: CubicBezier -> Double -> (Double,Double)
+polynomial ((x0,y0), (x1,y1), (x2,y2), (x3,y3)) t = (
+    sum $ zipWith (*) [1, t, t*t, t*t*t] (polynomialCoefficients (x0,x1,x2,x3))
+  , sum $ zipWith (*) [1, t, t*t, t*t*t] (polynomialCoefficients (y0,y1,y2,y3))
+  )
+
+
+--points :: Int -> [Double]
+--points n = [0,(1/fromIntegral n)..1]
+
+
+polynomialCoefficients :: (Double,Double,Double,Double) -> [Double]
+polynomialCoefficients (x0,x1,x2,x3) = [
+    x0
+  , -3*x0 + 3*x1
+  , 3*x0-6*x1+3*x2
+  , -x0 + 3*x1 -3*x2 + x3
+  ]
+
 
 
 diagram :: Element
@@ -27,17 +78,24 @@ diagram = fromRight $ Right Default.svg
             >>= Svg.viewBox (-0.5) (-0.5) 3 2
             >>= Svg.stroke "black"
             >>= Svg.strokewidth 0.01
-            >>= addChildren (fromRight ( Right Default.style >>= addText style)
-                : [
-                  path bezier1 (head d3_10)
-                , path bezier2 (d3_10 !! 1)
-                ] ++ [
-                  label (1.5, 0) (head d3_10) (cs $ show $ flatness bezier1)
-                , label (1.5, 0.2) (d3_10 !! 1) (cs $ show $ flatness bezier2)
-                ])
-          where bezier1 = ((0,0), (0,1),(1,1),(1,0))
-                bezier2 = ((0,0), (0,0.5),(1,0.5),(1,0))
-                --beziers = [((0,0), (0,1),(1,1),(1,0)), ((0,0), (0,0.5),(1,0.5),(1,0))]
+            >>= addChildren ([
+                  fromRight ( Right Default.style >>= addText style)
+                , label (0,-0.2) "black" "Flatness"
+                ]
+                ++ zipWith path beziers d3_10
+                ++ map (\(f, c, xy)->label xy c (cs $ show f)) (zip3
+                    (map (roundDouble 3 . flatness) beziers)
+                    d3_10
+                    (map (\i->(1.5,0.2*fromIntegral (i::Int))) [0..])
+                   ))
+          where beziers = [
+                    ((0,0), (0.2,0.01), (0.8,0.01), (1,0))
+                  , ((0,0), (0.2,0.05), (0.8,0.05), (1,0))
+                  , ((0,0), (0.2,0.1),  (0.8,0.1),  (1,0))
+                  , ((0,0), (0.2,0.2),  (0.8,0.2),  (1,0))
+                  , ((0,0), (0.2,0.5),  (0.8,0.5),  (1,0))
+                  , ((0,0), (0.2,1),    (0.8,1),    (1,0))
+                  ]
 
 style :: T.Text
 style = ".label {font-size: 0.1px}"
@@ -52,8 +110,14 @@ d3_10 = [
 
 
 
-type CubicBezier = ((Double, Double), (Double, Double), (Double, Double), (Double, Double))
+type CubicBezier = (ControlPoint, ControlPoint, ControlPoint, ControlPoint)
 
+
+circle :: (Double,Double) -> Element
+circle (x,y) = fromRight $ Right Default.circle
+   >>= Circle.cx x
+   >>= Circle.cy y
+   >>= Circle.r 0.02
 
 
 label :: (Double,Double) -> Color -> T.Text -> Element
