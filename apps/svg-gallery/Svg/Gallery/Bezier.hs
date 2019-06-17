@@ -21,6 +21,7 @@ diagrams :: [(Filename, Element)]
 diagrams = [
     ("bezier-flatness.svg", diagram)
   , ("bezier-interpolation.svg", diagramInterpolation)
+  , ("bezier-casteljau.svg", diagramCasteljau)
   ]
 
 diagramInterpolation :: Element
@@ -38,6 +39,60 @@ diagramInterpolation = fromRight $ Right Default.svg
           where bezier = ((0,0), (0.5,1),(1,1), (1,0))
                 points = map (polynomial bezier) [0, 1/10..1]
 
+
+diagramCasteljau :: Element
+diagramCasteljau = fromRight $ Right Default.svg
+            >>= Svg.width 1000
+            >>= Svg.height 1000
+            >>= Svg.viewBox (-0.5) (-0.5) 2 2
+            >>= Svg.stroke "black"
+            >>= Svg.strokewidth 0.01
+            >>= addChildren ([
+                  fromRight ( Right Default.style >>= addText style)
+                , label (0,-0.2) "black" "Casteljau"
+                , path bezier "black"
+                ] ++ concatMap (\(c,t) -> casteljau c bezier t) (zip d3_10 ts)
+                )
+          where bezier = ((0,0), (0.5,1),(1,1), (1,0))
+                ts = [0, 1/4..1]
+                --lines = []
+
+
+casteljau :: Color -> CubicBezier -> Double -> [Element]
+casteljau c ((x0,y0),(x1,y1),(x2,y2),(x3,y3)) t = [
+   fromRight $ Right Default.circle
+      >>= Circle.cx m0x
+      >>= Circle.cy m0y
+      >>= Circle.r 0.01
+      >>= Circle.fill c
+      >>= Circle.stroke c
+ , fromRight $ Right Default.circle
+      >>= Circle.cx m1x
+      >>= Circle.cy m1y
+      >>= Circle.r 0.01
+      >>= Circle.fill c
+      >>= Circle.stroke c
+ , fromRight $ Right Default.circle
+      >>= Circle.cx m2x
+      >>= Circle.cy m2y
+      >>= Circle.r 0.01
+      >>= Circle.fill c
+      >>= Circle.stroke c
+ , fromRight $ Right Default.path
+      >>= Path.stroke c
+      >>= Path.fill "none"
+      >>= Path.d [
+                   M False m0x m0y
+                 , L False m1x m1y
+                 , L False m2x m2y
+                 ]
+ ]
+   where m0x = x0 + (x1-x0)*t
+         m0y = y0 + (y1-y0)*t
+         m1x = x1 + (x2-x1)*t
+         m1y = y1 + (y2-y1)*t
+         m2x = x2 + (x3-x2)*t
+         m2y = y2 + (y3-y2)*t
 
 
 
@@ -89,7 +144,8 @@ diagram = fromRight $ Right Default.svg
                     (map (\i->(1.5,0.2*fromIntegral (i::Int))) [0..])
                    ))
           where beziers = [
-                    ((0,0), (0.2,0.01), (0.8,0.01), (1,0))
+                    ((0,0), (0.2,0.005),(0.8,0.005),(1,0))
+                  , ((0,0), (0.2,0.01), (0.8,0.01), (1,0))
                   , ((0,0), (0.2,0.05), (0.8,0.05), (1,0))
                   , ((0,0), (0.2,0.1),  (0.8,0.1),  (1,0))
                   , ((0,0), (0.2,0.2),  (0.8,0.2),  (1,0))
